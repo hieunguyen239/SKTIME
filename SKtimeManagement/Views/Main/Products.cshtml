@@ -1,0 +1,28 @@
+﻿@model IEnumerable<SKtimeManagement.Popular>
+@{
+    var id = Guid.NewGuid().ToString();
+}
+<div id="products-@id" class="text-center tbl">
+    <table id="logs-table" data="@id">
+        <thead>
+            <tr>
+                <td name="Name"><div>Tên</div></td>
+                <td name="TotalQuantity" text="right"><div>Tống số lượng</div></td>
+                <td name="RevenueString" text="right"><div>Doanh thu (VND)</div></td>
+            </tr>
+        </thead>
+    </table>
+</div>
+@{
+    var scripts = new List<string>();
+    if (Model != null)
+    {
+        var jsonData = Html.JsonSerialize(Model);
+        scripts.Add("_TableFunctions.Data.push({" + String.Format("id: '{0}',data: JSON.parse('{1}', _TableFunctions.JsonParse)", id, jsonData) + "});");
+    }
+}
+@Html.Raw(String.Format("<script>{0}</script>", String.Join("", scripts)))
+<script>
+    _TableFunctions.Init({ e: '#products-@id' });
+    _TableFunctions.RefreshData();
+</script>

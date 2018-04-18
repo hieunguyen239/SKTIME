@@ -1,0 +1,149 @@
+﻿@model SKtimeManagement.ClientList
+@{
+    var id = Guid.NewGuid().ToString();
+}
+<div class="tabs">
+    <div id="heads">
+        <span class="active">Khách hàng</span>
+        <a href="@Url.Action("List", "ClientType")" target="_self" for="main-content" ptitle="Khách hàng">Loại</a>
+    </div>
+</div>
+@if (!String.IsNullOrEmpty(Model.Message))
+{
+    <div class="text-center">
+        <i class="text-info">@Html.Raw(Model.Message)</i>
+    </div>
+}
+<div class="flexible">
+    <div class="w25">
+        <div id="filter" class="group">
+            <h3 class="head-line">Tìm kiếm</h3>
+            <div id="content">
+                <form id="client-filter" action="@Url.Action("List", "Client")" method="post" for="main-content" ptitle="Khách hàng">
+                    <div>
+                        <label>Mã KH:</label><input type="text" class="input" name="Code" value="@Model.Filter.Code" />
+                    </div>
+                    <div>
+                        <label>Họ tên:</label><input type="text" class="input" name="Name" value="@Model.Filter.Name" />
+                    </div>
+                    <div>
+                        <label>Số điện thoại:</label><input type="text" class="input" name="Phone" value="@Model.Filter.Phone" />
+                    </div>
+                    <div>
+                        <label>Địa chỉ:</label><input type="text" class="input" name="Address" value="@Model.Filter.Address" />
+                    </div>
+                    <div>
+                        <label>Email:</label><input type="text" class="input" name="Email" value="@Model.Filter.Email" />
+                    </div>
+                    <div>
+                        <label>Tỉnh/ thành phố:</label>
+                        <select name="City">
+                            <option value="">None</option>
+                            @foreach (var city in Country.VietNam.Cities)
+                            {
+                                <option value="@city.Name" @(Model.Filter.City == city.Name ? "selected=\"selected\"" : "")>@city.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <label>Quận/ huyện:</label>
+                        <select name="District" value="@Model.Filter.District">
+                            <option value="">None</option>
+                            @if (!String.IsNullOrEmpty(Model.Filter.District))
+                            {
+                                <option value="@Model.Filter.District" selected="selected">@Model.Filter.District</option>
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <label>Loại:</label>
+                        <select name="TypeID" data="@Url.Action("KeyList", "ClientType")" value="@Model.Filter.TypeID">
+                            <option value="">None</option>
+                        </select>
+                    </div>
+                    <div class="text-right">
+                        <input type="submit" value="Tìm" url="@Url.Action("List", "Client")" class="search" />
+                        <a href="@Url.Action("Create", "Client" )" target="_self" class="button add" for="pop-up-content" ptitle="Khách hàng">Tạo mới</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="w75">
+        <p>Tổng cộng: <span class="text-info">@Model.Data.Count</span></p>
+        <span id="clients-download" class="button save">Xuất Excel</span>
+        <div id="client" class="tbl">
+            <table id="client-table" data="@id" key="ID" view="@Url.Action("Detail", "Client", new { id = "{ID}" })" update="@Url.Action("Update", "Client", new { id = "{ID}" })" remove="@Url.Action("Remove", "Client", new { id = "{ID}" })" ptitle="Khách hàng">
+                <thead>
+                    <tr>
+                        <td width="110"></td>
+                        <td name="Code"><div>Mã KH</div></td>
+                        <td name="Name"><div>Họ tên</div></td>
+                        <td name="Phone"><div>Số điện thoại</div></td>
+                        <td name="Email"><div>Email</div></td>
+                        <td name="Address"><div>Địa chỉ</div></td>
+                        <td name="City"><div>Tỉnh/ thành phố</div></td>
+                        <td name="District"><div>Quận/ huyện</div></td>
+                        <td name="TypeName"><div>Loại</div></td>
+                        <td name="Point" text="right"><div>Điểm</div></td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+@{
+    var scripts = new List<string>();
+    if (Model.Data != null)
+    {
+        var jsonData = Html.JsonSerialize(Model.Data);
+        scripts.Add("_TableFunctions.Data.push({" + String.Format("id: '{0}',data: JSON.parse('{1}', _TableFunctions.JsonParse)", id, jsonData) + "});");
+    }
+}
+@Html.Raw(String.Format("<script>{0}</script>", String.Join("", scripts)))
+<script>
+    _TableFunctions.Init({ e: '#client' });
+    _TableFunctions.RefreshData();
+</script>
+@{
+    var data = String.Join(",", Country.VietNam.Cities.Select(c => String.Format("{{ name: '{0}', districts: [{1}] }}", c.Name, String.Join(",", c.Districts.Select(d => String.Format("\"{0}\"", d))))));
+}
+<script>
+    var _cities = [@Html.Raw(data)];
+    $('#client-filter select[name="City"]').on('change', function () { ChangeCity(); });
+    function ChangeCity() {
+        var val = $('#client-filter select[name="City"]').val(),
+            selected = $('#client-filter select[name="District"]').attr('value');
+        if (val != '') {
+            var search = _cities.filter(function (value, i) {
+                return value.name == val;
+            });
+            if (search.length > 0) {
+                var html = '<option value="">None</option>';
+                search[0].districts.forEach(function (dist, i) {
+                    html += '<option value="' + dist + '" ' + (dist == selected ? 'selected' : '') + '>' + dist + '</option>';
+                });
+                $('#client-filter select[name="District"]').html(html);
+            }
+        }
+    }
+    ChangeCity();
+    $('#clients-download').on('click', function () {
+        var formData = new FormData();
+        $.each($('#filter form').serializeArray(), function (i, field) {
+            //console.log(field.name + ', ' + field.value);
+            formData.append(field.name, field.value);
+        });
+        AjaxRequest({
+            url: '@Url.Action("Download", "Client")',
+            data: formData,
+            type: 'post',
+            processData: false,
+            success: function (data) {
+                if (data.result) {
+                    window.location = '@Url.Action("Download", "Client")';
+                }
+            }
+        });
+    });
+</script>

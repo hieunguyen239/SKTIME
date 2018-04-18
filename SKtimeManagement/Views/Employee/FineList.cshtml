@@ -1,0 +1,74 @@
+﻿@model SKtimeManagement.EmployeeFineList
+@{
+    var id = Guid.NewGuid().ToString();
+    var tableID = Guid.NewGuid().ToString();
+}
+<div>
+    <form action="@Url.Action("AddFine", "Employee")" method="post" for="employee-fine-list" keep-pop-up="true" ptitle="Nhân viên">
+        <input type="hidden" name="EmployeeID" value="@Model.EmployeeID"/>
+        <div>
+            <label>Ngày phạt:</label>
+            <div class="inline">
+                <div class='input-group date' format="@Constants.DateTimeWebString">
+                    <input type='text' class="form-control input" name="SubmitDate" value="@DateTime.Now.ToString(Constants.DateTimeString)" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <label>Số tiền:</label><input type="number" class="input" name="Amount" />
+        </div>
+        <div>
+            <label>Lý do:</label><input type="text" class="input" name="Reason" />
+        </div>
+        <div>
+            <label></label>
+            <input type="submit" value="Thêm" class="add" />
+        </div>
+    </form>
+    <div class="flexible">
+        <div class="w50">
+            <label>Số lần:</label><span class="info">@Model.Data.Count.GetCurrencyString()</span>
+        </div>
+        <div class="w50">
+            <label>Tổng tiền phạt:</label><span class="info">@Model.Data.Sum(i => i.Amount).GetCurrencyString()</span>
+        </div>
+    </div>
+    <div id="@tableID" class="tbl">
+        <table data="@id" keys="ID,EmployeeID">
+            <thead>
+                <tr>
+                    <td width="50"></td>
+                    <td name="AmountString" text="right"><div>Số tiền</div></td>
+                    <td name="SubmitDate"><div>Ngày phạt</div></td>
+                    <td name="Reason"><div>Lý do</div></td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+@{
+    var scripts = new List<string>();
+    if (Model.Data != null)
+    {
+        var jsonData = Html.JsonSerialize(Model.Data);
+        scripts.Add("_TableFunctions.Data.push({" + String.Format("id: '{0}',data: JSON.parse('{1}', _TableFunctions.JsonParse)", id, jsonData) + "});");
+    }
+}
+@Html.Raw(String.Format("<script>{0}</script>", String.Join("", scripts)))
+<script>
+    _TableFunctions.Init({
+        e: '#@tableID',
+        input: {
+            id: '@id',
+            input: [
+                {
+                    html: '<div><a href="@Url.Action("RemoveFine", "Employee", new { id = "_ID", subID = "_EmployeeID" })" for="employee-fine-list" keeppopup="true" changeurl="false" ptitle="Nhân viên" class="button-icon remove"></a></div>'
+                }
+            ]
+        }
+    });
+    _TableFunctions.RefreshData();
+</script>

@@ -1,0 +1,160 @@
+﻿@model SKtimeManagement.SalaryCalculator
+<div class="flexible">
+    <div class="w50">
+        <table>
+            <tr>
+                <td width="50%" valign="top">
+                    <img src="@Url.Content("~/Content/images/logo.png")" width="100" height="auto" />
+                </td>
+                <td width="50%" valign="top">
+                    <strong style="font-size: 18px">SKTIME SHOP</strong><br />
+                    <span>HCMC, VIETNAM</span><br />
+                    <span>ĐT: 0933 848 858</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="w50">
+        <strong style="font-size: 26px;">BẢNG LƯƠNG THÁNG @Model.From.ToString("MM/yyyy")</strong><br />
+        <div class="flexible">
+            <div class="w50" style="padding-left: 0">
+                <span>Ngày tạo: @DateTime.Now.ToString("dd/MM/yyyy")</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="flexible" style="padding: 20px 0 40px;">
+        <div class="w50">
+            <div>
+                <span class="info">Nhân viên: <strong>@Model.EmployeeInfo.Name</strong></span>
+            </div>
+            <div>
+                <span class="info">Thời gian làm việc: <strong>@Model.EmployeeInfo.WorkTime</strong></span>
+            </div>
+            <div>
+                <span class="info">Số điện thoại: <strong>@Model.EmployeeInfo.Phone</strong></span>
+            </div>
+            <div>
+                <span class="info">Số TK: <strong>@Model.EmployeeInfo.BankNumber</strong></span>
+            </div>
+            <div>
+                <span class="info">Ngân hàng: <strong>@Model.EmployeeInfo.BankName</strong></span>
+            </div>
+            <div>
+                <span class="info">Chi nhánh: <strong>@Model.EmployeeInfo.BankBranch</strong></span>
+            </div>
+            <div>
+                <span class="info">Đơn vị: <strong>@Model.EmployeeInfo.StoreName</strong></span>
+            </div>
+            <div>
+                <span class="info">Chức vụ: <strong>@Model.EmployeeInfo.Position</strong></span>
+            </div>
+            <div>
+                <span class="info">Doanh số cá nhân: <strong>@Model.SaleTotal.GetCurrencyString()</strong></span>
+            </div>
+        </div>
+        <div class="w50">
+            <div>
+                <img src="@Url.Image("Employee", Model.EmployeeInfo.Image)" width="auto" height="130" />
+            </div>
+        </div>
+        <div class="w100">
+            <div>
+                <table width="100%" style="border-collapse: collapse; border: solid 1px #bf3636;">
+                    <tr style="background-color: #fff">
+                        <td align="center" style="border: solid 1px #bf3636">Tiêu chí</td>
+                        <td align="center" style="border: solid 1px #bf3636">Giá trị</td>
+                    </tr>
+                    <tr class="data">
+                        <td><div style="padding: 0 10px">Lương căn bản</div></td>
+                        <td><div style="padding: 0 10px" class="text-right">@Model.BaseSalary.GetCurrencyString()</div></td>
+                    </tr>
+                    @if (Model.EmployeeInfo.Position == EmployeePosition.Sale)
+                    {
+                        <tr class="data">
+                            <td><div style="padding: 0 10px">Thưởng doanh số</div></td>
+                            <td><div style="padding: 0 10px" class="text-right">@Model.SaleSalary.GetCurrencyString()</div></td>
+                        </tr>
+                    }
+                    <tr class="data">
+                        <td><div style="padding: 0 10px">@(Model.OffValue > 0 ? "Thưởng nghỉ" : "Phạt nghỉ")</div></td>
+                        <td><div style="padding: 0 10px" class="text-right">(@Model.OffCount ngày) @Model.OffValue.GetCurrencyString()</div></td>
+                    </tr>
+                    <tr class="data">
+                        <td><div style="padding: 0 10px">Tạm ứng</div></td>
+                        <td><div style="padding: 0 10px" class="text-right">@Model.Paid.GetCurrencyString()</div></td>
+                    </tr>
+                    <tr class="data">
+                        <td><div style="padding: 0 10px">Khác</div></td>
+                        <td><div style="padding: 0 10px" class="text-right">@Model.Other.GetCurrencyString()</div></td>
+                    </tr>
+                    <tr class="data">
+                        <td><div style="padding: 0 10px">Phạt vi phạm nội quy</div></td>
+                        <td><div style="padding: 0 10px" class="text-right">@Model.FineTotal.GetCurrencyString()</div></td>
+                    </tr>
+                    <tr class="data">
+                        <td><div style="padding: 0 10px">Tổng cộng</div></td>
+                        <td><div style="padding: 0 10px" class="text-right"><strong>(@Model.Total.GetCurrencyString()) @Model.Total.Round().GetCurrencyString()</strong></div></td>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <span class="info">Ghi chú: <strong>@Model.Note</strong></span>
+            </div>
+            @if (Model.OffDays.Where(i => i.OffDate >= Model.From && i.OffDate <= Model.To).Count() > 0)
+            {
+                <div>
+                    <span class="info">Các ngày nghỉ trong tháng</span>
+                </div>
+                <div>
+                    <table width="100%" style="border-collapse: collapse; border: solid 1px #bf3636;">
+                        <tr style="background-color: #fff">
+                            <td align="center" style="border: solid 1px #bf3636">Thời gian</td>
+                            <td align="center" style="border: solid 1px #bf3636">Ghi chú</td>
+                        </tr>
+                        @foreach (var day in Model.OffDays.Where(i => i.OffDate >= Model.From && i.OffDate <= Model.To))
+                        {
+                            <tr class="data">
+                                <td><div style="padding: 0 10px">@day.OffDate.DayOfWeek.Value() @day.OffDate.ToString(Constants.DateString)</div></td>
+                                <td><div style="padding: 0 10px">@day.Note</div></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+            @if (Model.Fines.Count > 0)
+            {
+                <div>
+                    <span class="info">Nội dung vi phạm</span>
+                </div>
+                <div>
+                    <table width="100%" style="border-collapse: collapse; border: solid 1px #bf3636;">
+                        <tr style="background-color: #fff">
+                            <td align="center" style="border: solid 1px #bf3636">Ngày phạt</td>
+                            <td align="center" style="border: solid 1px #bf3636">Số tiền</td>
+                            <td align="center" style="border: solid 1px #bf3636">Lý đo</td>
+                        </tr>
+                        @foreach (var fine in Model.Fines)
+                        {
+                            <tr class="data">
+                                <td><div style="padding: 0 10px">@fine.SubmitDate.DayOfWeek.Value() @fine.SubmitDate.ToString(Constants.DateString)</div></td>
+                                <td align="right"><div style="padding: 0 10px">@fine.AmountString</div></td>
+                                <td><div style="padding: 0 10px">@fine.Reason</div></td>
+                            </tr>
+                        }
+                    </table>
+                </div>
+            }
+        </div>
+    </div>
+    <table width="100%">
+        <tr>
+            <td align="center" width="50%"></td>
+            <td align="center" width="50%">
+                <span>NGƯỜI LẬP PHIẾU</span><br />
+                <img src="@Url.Content("~/Content/Images/sign.jpg")" width="90" height="auto" style="padding-top: 20px"/>
+            </td>
+        </tr>
+    </table>
+</div>

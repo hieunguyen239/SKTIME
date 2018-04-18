@@ -1,0 +1,279 @@
+﻿@model SKtimeManagement.ExportRecord
+<div style="font-size: 9px; color: #bf3636">
+    <div>
+        <div>
+            <table width="100%">
+                <tr>
+                    <td width="70%" colspan="2">
+                        <div style="text-align: center">
+                            <div class="inline">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <img src="@Url.Content("~/Content/images/logo.png")" width="60%" height="auto" />
+                                        </td>
+                                        <td>
+                                            <div style="padding-left: 10px">
+                                                <span style="font-weight: bold">
+                                                    <span style="font-size: 24px">SKTIME EYEWEAR</span><br />
+                                                    <span style="font-size: 14px">HỆ THỐNG MẮT KÍNH CHÍNH HÃNG SỐ 1 VIỆT NAM</span><br />
+                                                    <span>Bảo hành &amp; dịch vụ hậu mãi tốt nhất !</span>
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </td>
+                    <td width="30%" align="right" valign="bottom">
+                        <img src="@Model.Code.BarcodeImage()" width="200" height="auto"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="30%">
+                        <div style="width: 100%">
+                            <div style="height: 70px; border: solid 2px #bf3636; border-radius: 10px; background-color: #fff"></div>
+                        </div>
+                    </td>
+                    <td width="40%">
+                        <div style="text-align: center">
+                            <span style="font-size: 16px">HÓA ĐƠN BÁN HÀNG/ INVOICE</span><br />
+                            <span>Cửa hàng: @Model.WarehouseName</span><br />
+                            <span>Liên: Khách hàng</span><br />
+                            <span>Ngày: @Model.SubmitDate.Day tháng @Model.SubmitDate.Month năm @Model.SubmitDate.Year</span>
+                        </div>
+                    </td>
+                    <td width="30%" class="text-right">
+                        <div style="display: inline-block; text-align: left;">
+                            <span>Số/ Invoice No: <strong>@Model.Code</strong></span><br />
+                            <span>Email: hotro@@sktime.vn</span><br />
+                            <span>Website: donghoso1.vn</span><br />
+                            <span>Hotline: (08) 38 68 11 68 - 0933 848 858</span><br />
+                            <span>Fax: (08) 364 5009</span>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <div>
+                <div class="flexible">
+                    <div class="w100">
+                        <table width="100%">
+                            <tr>
+                                <td width="40%">
+                                    <span>Họ tên người mua hàng: @Model.ClientName</span>
+                                </td>
+                                <td width="20%">
+                                    <span>Điện thoại: @Model.ClientPhone</span>
+                                </td>
+                                <td width="40%">
+                                    <span>Thành viên: @Model.ClientType</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td width="40%">
+                                    <span>Mã khách hàng: @Model.ClientCode</span>
+                                </td>
+                                <td width="20%">
+                                    <span>Điểm tích lũy: @Model.ClientPointString</span>
+                                </td>
+                                <td width="40%">
+                                    <span>Địa chỉ: @Model.ClientAddress</span><br />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="flexible">
+                    <div class="w50">
+                        <span>Hình thức thanh toán: @Model.PayMethod</span>
+                    </div>
+                    <div class="w50">
+                        <span>MST: </span>
+                        <table style="display: inline-block; border-collapse: collapse; background-color: #fff; margin-left: 5px;">
+                            <tr>
+                                <td width="18" height="18" style="border: solid 1px #bf3636"></td>
+                                <td width="18" height="18" style="border: solid 1px #bf3636"></td>
+                            </tr>
+                        </table>
+                        <table style="display: inline-block; border-collapse: collapse; background-color: #fff; margin-left: 5px;">
+                            <tr>
+                                <td width="18" height="18" style="border: solid 1px #bf3636"></td>
+                                <td width="18" height="18" style="border: solid 1px #bf3636"></td>
+                                <td width="18" height="18" style="border: solid 1px #bf3636"></td>
+                                <td width="18" height="18" style="border: solid 1px #bf3636"></td>
+                                <td width="18" height="18" style="border: solid 1px #bf3636"></td>
+                                <td width="18" height="18" style="border: solid 1px #bf3636"></td>
+                                <td width="18" height="18" style="border: solid 1px #bf3636"></td>
+                            </tr>
+                        </table>
+                        <table style="display: inline-block; border-collapse: collapse; background-color: #fff; margin-left: 5px;">
+                            <tr>
+                                <td width="18" height="18" style="border: solid 1px #bf3636"></td>
+                            </tr>
+                        </table>
+                        <table style="display: inline-block; border-collapse: collapse; background-color: #fff; margin-left: 5px;">
+                            <tr>
+                                <td width="18" height="18" style="border: solid 1px #bf3636"></td>
+                                <td width="18" height="18" style="border: solid 1px #bf3636"></td>
+                                <td width="18" height="18" style="border: solid 1px #bf3636"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="w100">
+                        @{ 
+                            var product = Model.Products.FirstOrDefault();
+                            var org = product.OriginalWarrantyValue;
+                            var bus = product.BussinessWarrantyValue;
+                        }
+                        <span>Thời gian bảo hành: @(org + bus) năm (Bảo hành chính hãng (@product.OriginalWarranty) + hệ thống SKTIME hỗ trợ sửa chữa miễn phí vĩnh viễn</span>
+                    </div>
+                </div>
+            </div>
+            <table width="100%" style="border-collapse: collapse; border: solid 1px #bf3636;">
+                <tr style="background-color: #fff">
+                    <td align="center" style="border: solid 1px #bf3636">STT<br />(No)</td>
+                    <td align="center" style="border: solid 1px #bf3636">Tên hàng hóa dịch vụ<br />(Description)</td>
+                    <td align="center" style="border: solid 1px #bf3636">Mã số<br />(Sr. No)</td>
+                    <td align="center" style="border: solid 1px #bf3636">ĐVT<br />(Unit)</td>
+                    <td align="center" style="border: solid 1px #bf3636">Số lượng<br />(Quantity)</td>
+                    <td align="center" style="border: solid 1px #bf3636">Đơn giá<br />(UnitPrice)</td>
+                    <td align="center" style="border: solid 1px #bf3636">Thành tiền<br />(Amount)</td>
+                </tr>
+                @for (var i = 0; i < Model.Products.Count; i++)
+                {
+                    <tr>
+                        <td align="center" style="border: solid 1px #bf3636">@(i + 1)</td>
+                        <td align="center" style="border: solid 1px #bf3636">@Model.Products[i].ProductName</td>
+                        <td align="center" style="border: solid 1px #bf3636">@Model.Products[i].Code</td>
+                        <td align="center" style="border: solid 1px #bf3636">@Model.Products[i].Unit</td>
+                        <td align="center" style="border: solid 1px #bf3636">@Model.Products[i].QuantityString</td>
+                        <td align="center" style="border: solid 1px #bf3636">@Model.Products[i].PriceString</td>
+                        <td align="center" style="border: solid 1px #bf3636">@Model.Products[i].Total</td>
+                    </tr>
+                }
+                @if (Model.Discount > 0)
+                {
+                    <tr>
+                        <td align="center" style="border: solid 1px #bf3636">@(Model.Products.Count + 1)</td>
+                        <td align="center" style="border: solid 1px #bf3636">Giảm giá</td>
+                        <td align="center" style="border: solid 1px #bf3636"></td>
+                        <td align="center" style="border: solid 1px #bf3636"></td>
+                        <td align="center" style="border: solid 1px #bf3636"></td>
+                        <td align="center" style="border: solid 1px #bf3636">@Model.DiscountString</td>
+                        <td align="center" style="border: solid 1px #bf3636"></td>
+                    </tr>
+                }
+            </table>
+            <div class="text-center">
+                <span>Cộng tiền hàng hóa, dịch vụ/ Total invoice: @((Model.Total - Model.Discount).GetCurrencyString()) VND (@((Model.Total - Model.Discount).GetCurrencyFullString()))</span>
+            </div>
+            <div class="flexible">
+                <div class="w100">
+                    <span>Ghi chú: @Model.Note</span>
+                </div>
+                <div class="w50">
+                    <div style="font-size: 8px">
+                        <strong>Thời gian tiếp nhận bảo hành sửa chữa:</strong><br />
+                        <span>- Từ 8h30 đến 21h30 các ngày trong tuần</span><br />
+                        <span>- Mắt kính được xử lý trong vòng 2-7 ngày (tùy từng vấn đề, tùy từng lỗi của mắt kính thời gian sửa chữa sẽ ngắn dài khác nhau)</span><br />
+                        <span>- Quý khách có thể truy cập vào mục bảo hành và sửa chữa trên website donghoso1.vn để biết thông tin chính xác về mắt kính</span>
+                    </div>
+                </div>
+                <div class="w50">
+                    <div style="font-size: 8px">
+                        <strong>Địa điểm bảo hành:</strong><br />
+                        <span>- Hệ thống các cửa hàng SKTIME và SKYWATCH thuộc các TTTM trên toàn quốc</span><br />
+                        <span>- Các hệ thống bảo hành trực tuyến:</span><br />
+                        <span>&emsp;+ Donghoso1.vn: 545 Nguyễn Đình Chiểu, P.2, Q.3, Tp.HCM</span><br />
+                        <span>&emsp;+ Shopdonghohieu.com: 299 Tô Hiến Thành, P.13, Q.10, Tp.HCM</span>
+                    </div>
+                </div>
+                <div class="w100" style="font-size: 8px;">
+                    <strong>Lưu ý:</strong><br />
+                    <span>- Phiếu bảo hành, Thẻ hoặc Sổ bảo hành quốc tế (nếu có) được ghi đầy đủ và chính xác các thông tin như sau: mã số mắt kính, nơi bán, ngày mua hàng</span><br />
+                    <span>- Phiếu bảo hành sẽ được in thông tin lịch sử bảo hành &amp; sửa chữa mắt kính của khách hàng</span><br />
+                    <span>- Tem chống hàng giả còn nguyên vẹn không bị rách hoặc bị sửa đổi</span>
+                </div>
+                <div class="w100">
+                    <div>
+                        <table width="100%">
+                            <tr>
+                                <td width="25%" align="center">
+                                    <span>Người mua hàng</span><br /><span>Custoner</span>
+                                </td>
+                                <td width="25%" align="center">
+                                    <span>Quản lý cửa hàng</span><br /><span>Manager</span>
+                                </td>
+                                <td width="25%" align="center">
+                                    <span>Người bán hàng</span><br /><span>Seller</span>
+                                </td>
+                                <td width="25%" align="center" rowspan="2" valign="top">
+                                    <span>Thủ trưởng đơn vị</span><br /><span>Director</span><br />
+                                    <img src="@Url.Content("~/Content/Images/sign.jpg")" width="90" height="auto"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td colspan="2">
+                                    <div style="padding-top: 30px;">
+                                        <div class="text-center" style="font-size: 8px;">
+                                            Hàng mua rồi miễn trả lại!<br />
+                                            Xin cảm ơn quý khách!<br />
+                                            Hotline chăm sóc khách hàng: 0933 848 858
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="page-break"></div>
+    <div>
+        <div class="text-center"><strong>QUY ĐỊNH BẢO HÀNH &amp; SỬA CHỮA CỦA MẮT KÍNH</strong></div>
+        <div style="font-size: 8px">
+            <span>Bảo hành chỉ có giá trị khi có phiếu bảo hành, thẻ hoặc sổ bảo hành quốc tế (nếu có) và còn trong thời gian bảo hành được tính từ ngày mua</span><br />
+            <strong>1. Bảo hành miễn phí:</strong><br />
+            <span>- Hư hỏng xảy ra do lỗi của nhà sản xuất như: sứt mối hàn, hỏng lò xo, xúc ve, rớt ốc</span><br />
+            <span>- Hỗ trợ sửa chữa miễn phí vĩnh viễn</span><br />
+            <strong>2. Không bảo hành:</strong><br />
+            <span>- Hết thời gian bảo hành</span><br />
+            <span>- Không có phiếu bảo hành, thẻ bảo hành quốc tế (nếu có)</span><br />
+            <span>- Do các hư hỏng bên ngoài như (vỏ, dây, kính, màu sắc,...) và lỗi do người sử dụng như (rơi, vỡ, va đập, trầy xước, móp méo, gãy càng, tróc xi, bay màu tròng, tiếp xúc với các loại hóa chất a xít, chất tẩy rửa có độ ăn mòn cao,...)</span><br />
+            <span>- Mồ hôi muối ăn mòn nơi tiếp xúc (ngoại trừ hàng Titanium)</span><br />
+            <span>- Mắt kính đã bị sửa chữa tại những nơi không phải là TTBH của hãng hoặc khách hàng tự sửa chữa</span><br />
+            <strong>3. Quy định đổi hàng:</strong><br />
+            <span>- Trong vòng 7 ngày kể từ ngày mua, chỉ đổi những mắt kính bị lỗi do lỗi của nhà sản xuất hoặc mẫu không phù hợp (chưa sử dụng và không bị trầy xước, còn mới nguyên vẹn). Quá thời hạn trên sẽ áp dụng bảo hành theo quy định</span><br />
+            <span>- Mắt kính được đổi chỉ 1 lần có giá trị bằng hoặc cao hơn và đầy đủ phụ kiện kèm theo</span><br />
+            <strong>4. Dịch vụ sửa chữa:</strong><br />
+            <span>- Quý khách có nhu cầu bảo dưỡng, sửa chữa, thay thế linh kiện chúng tôi sẽ tính phí với mức giá ưu đãi đặc biệt dành cho khách hàng thành viên</span><br />
+            <span>- Đảm bảo chất lượng, linh kiện chính hãng và được bảo hành sau sữa chữa</span>
+        </div>
+        <div>
+            <strong>Lịch sử bảo hành mắt kính:</strong><br />
+            <table width="100%" style="border-collapse: collapse; border: solid 1px #bf3636;">
+                <tr>
+                    <td height="100" style="border: solid 1px #bf3636"></td>
+                    <td height="100" style="border: solid 1px #bf3636"></td>
+                    <td height="100" style="border: solid 1px #bf3636"></td>
+                </tr>
+                <tr>
+                    <td height="100" style="border: solid 1px #bf3636"></td>
+                    <td height="100" style="border: solid 1px #bf3636"></td>
+                    <td height="100" style="border: solid 1px #bf3636"></td>
+                </tr>
+            </table>
+        </div>
+        <div class="text-center">
+            <span>Truy cập để xem trạng thái bảo hành: donghoso1.vn</span><br />
+            <span>Hàng mua rồi miễn trả lại</span><br />
+            <span>Xin cảm ơn quý khách !</span><br />
+            <span>Hotline chăm sóc khách hàng 0933 848 858</span>
+        </div>
+    </div>
+</div>

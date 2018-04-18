@@ -1,0 +1,5 @@
+﻿@model SKtimeManagement.ProductQuantity
+@{ 
+    var id = String.Format("quantity-{0}-{1}", Model.ProductID, Model.WarehouseID);
+}
+<span id="edit-@id"><span class="info">@Model.Quantity </span><a href="@Url.Action("EditQuantity", "Product", new { id = Model.WarehouseID, subID = Model.ProductID, value = Model.Quantity })" for="edit-@id" keeppopup="true" changeurl="false" class="button small edit"></a> <a href="@Url.Action("RemoveQuantity", "Product", new { id = Model.WarehouseID, subID = Model.ProductID })" for="@id" changeurl="false" class="button small remove"></a></span>

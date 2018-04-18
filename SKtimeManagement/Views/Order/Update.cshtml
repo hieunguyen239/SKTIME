@@ -1,0 +1,20 @@
+﻿@model SKtimeManagement.ExportList
+@{
+    ViewBag.Title = "Hóa đơn";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+<div class="tabs">
+    <div id="heads">
+        <a href="@Url.Action("Create", "Import")" target="_self" for="main-content" ptitle="Nhập kho">Nhập kho</a>
+        <a href="@Url.Action("Create", "Export")" target="_self" for="main-content" ptitle="Xuất kho">Xuất kho</a>
+        <span class="active">Hóa đơn</span>
+    </div>
+</div>
+<div class="flexible">
+    <div id="order-history" class="w25">
+        @Html.Partial(Views.Filter, Model)
+    </div>
+    <div id="order-detail" class="w75">
+        @Html.Partial(Views.UpdatePartial, Model)
+    </div>
+</div>

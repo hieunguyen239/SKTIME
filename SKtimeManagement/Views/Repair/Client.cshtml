@@ -1,0 +1,119 @@
+﻿@model SKtimeManagement.RepairModel
+<div>
+    <form action="@Url.Action("SelectProduct", "Repair", new { id = "" })" method="POST" for="repair-detail">
+        <input type="hidden" name="ProductID" value="@(Model.SelectedProduct != null ? Model.SelectedProduct.ID.ToString() : "")"/>
+        <div class="flexible">
+            <div class="w100">
+                <div>
+                    <label>Kho:</label>
+                    <select name="WarehouseID" data="@Url.Action("AuthorizedWarehouse", "Login")">
+                    </select>
+                </div>
+            </div>
+            <div class="w100">
+                <div class="border" id="repair-client">
+                    <input type="hidden" name="ClientID" value="" />
+                    <span id="title">Khách hàng</span>
+                    <div class="flexible">
+                        <div class="w50">
+                            <div>
+                                <label>Mã: </label><input type="text" class="input" name="ClientCode" value="" />
+                            </div>
+                            <div>
+                                <label>Tên: </label><input type="text" class="input" name="ClientName" value="" />
+                            </div>
+                            <div>
+                                <label>Số ĐT:</label><input type="text" class="input" name="ClientPhone" value="" />
+                            </div>
+                            <div>
+                                <label>Địa chỉ:</label><input type="text" class="input" name="ClientAddress" value="" />
+                            </div>
+                            <div>
+                                <label>Loại:</label><span id="client-type" class="info"></span>
+                            </div>
+                        </div>
+                        <div class="w50">
+                            <div class="tbl">
+                                <table>
+                                    <thead>
+                                        <tr id="head">
+                                            <td width="50"></td>
+                                            <td>Tên</td>
+                                            <td>Số ĐT</td>
+                                            <td>Địa chỉ</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <input type="submit" value="Sửa chữa" class="view"/>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    var _clientTimeOut;
+    $('#repair-client input[type="text"]').on('keyup', function () {
+        if (_clientTimeOut)
+            clearTimeout(_clientTimeOut);
+        var input = $(this);
+        _clientTimeOut = setTimeout(function () {
+            var val = input.val(),
+                prev = input.attr('prev');
+            if (val != '' && prev != val)
+                _FindClient();
+            $('#repair-client input[name="ClientID"]').val('');
+            input.attr('prev', val);
+        }, 200);
+    });
+    function _FindClient() {
+        $('#repair-client input[name="ClientID"]').val('');
+        var data = new FormData();
+        data.append('code', $('#repair-client input[name="ClientCode"]').val());
+        data.append('name', $('#repair-client input[name="ClientName"]').val());
+        data.append('phone', $('#repair-client input[name="ClientPhone"]').val());
+        data.append('address', $('#repair-client input[name="ClientAddress"]').val());
+        AjaxRequest({
+            url: '@Url.Action("Find", "Client")',
+            type: 'post',
+            data: data,
+            processData: false,
+            success: function (data) {
+                if (data.list) {
+                    _clientData = data.list;
+                    var html = '';
+                    _clientData.forEach(function (client, index) {
+                        html += '<tr class="data">' +
+                                '<td><div><span class="button-icon add" idx="' + index + '"></span></div></td>' +
+                                '<td><div><span>' + client.Name + '</span></div></td>' +
+                                '<td><div><span>' + client.Phone + '</span></div></td>' +
+                                '<td><div><span>' + client.Address + '</span></div></td>' +
+                                '</tr>';
+                    });
+                    $('#repair-client table tbody').html(html);
+                    $('#repair-client table tbody span[idx]').on('click', function () {
+                        var index = parseInt($(this).attr('idx')),
+                            client = _clientData[index];
+                        $('#repair-client input[name="ClientID"]').val(client.ID);
+                        $('#repair-client input[name="ClientCode"]').val(client.Code);
+                        $('#repair-client input[name="ClientCode"]').attr('readonly', 'readonly');
+                        $('#repair-client input[name="ClientName"]').val(client.Name);
+                        $('#repair-client input[name="ClientName"]').attr('readonly', 'readonly');
+                        $('#repair-client input[name="ClientPhone"]').val(client.Phone);
+                        $('#repair-client input[name="ClientPhone"]').attr('readonly', 'readonly');
+                        $('#repair-client input[name="ClientAddress"]').val(client.Address);
+                        $('#repair-client input[name="ClientAddress"]').attr('readonly', 'readonly');
+                        $('#repair-client #client-type').html(client.Type);
+                        _FindClientType(client.ID);
+                    });
+                }
+                //console.log('saved');
+            }
+        });
+    }
+</script>

@@ -1,0 +1,42 @@
+﻿@model SKtimeManagement.StoreInfo
+<div id="store-info">
+    <h3 class="text-center">Cửa hàng</h3>
+    <form action="@Url.Action("StoreSave", "Setting")" method="POST" for="main-content" fail="pop-up-content" class="sm">
+        <input type="hidden" name="ID" value="@Model.ID" />
+        <div id="message" class="text-center @(Model.Result ? "text-info" : "text-danger")">
+            @foreach (var msg in Model.Messages)
+            {
+                <i>@msg</i><br />
+            }
+        </div>
+        <div class="flexible">
+            <div class="w100">
+                <div>
+                    <label>Tên cửa hàng:</label><input class="input" type="text" name="Name" value="@Model.Name" valid="@(Model.Valid("Name") ? "true" : "false")" />
+                </div>
+                <div>
+                    <label>Địa chỉ:</label><input class="input" type="text" name="Address" value="@Model.Address" />
+                </div>
+                <div>
+                    <label>Số điện thoại:</label><input class="input" type="text" name="Phone" value="@Model.Phone" valid="@(Model.Valid("Phone") ? "true" : "false")" />
+                </div>
+                <div>
+                    <label>Doanh số quy định:</label><input class="input" type="number" name="SalePoint" value="@Model.SalePoint" />
+                </div>
+                @if (Model.ID == 0)
+                {
+                    <div>
+                        <label>Tạo kho hàng:</label><input type="checkbox" name="CreateWarehouse" />
+                    </div>
+                    <script>
+                        $('#store-info input[name="CreateWarehouse"]').prop('checked', true);
+                    </script>
+                }
+            </div>
+        </div>
+        <div class="text-right">
+            <input type="submit" value="Lưu" url="@Url.Action("Store", "Setting")" class="save"/>
+            <a href="@Url.Action("Store", "Setting")" target="_self" for="main-content" ptitle="Cửa hàng" class="button cancel">Hủy</a>
+        </div>
+    </form>
+</div>

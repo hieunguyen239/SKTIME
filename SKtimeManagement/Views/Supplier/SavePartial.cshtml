@@ -1,0 +1,30 @@
+﻿@model SKtimeManagement.SupplierInfo
+<div id="supplier-info">
+    <h3 class="text-center">Nhà cung cấp</h3>
+    <form action="@Url.Action("Save", "Supplier")" method="POST" for="main-content" fail="pop-up-content" class="sm">
+        <input type="hidden" name="ID" value="@Model.ID" />
+        <div id="message" class="text-center @(Model.Result ? "text-info" : "text-danger")">
+            @foreach (var msg in Model.Messages)
+            {
+                <i>@msg</i><br />
+            }
+        </div>
+        <div class="flexible">
+            <div class="w100">
+                <div>
+                    <label>Tên:</label><input class="input" type="text" name="Name" value="@Model.Name" valid="@(Model.Valid("Name") ? "true" : "false")" />
+                </div>
+                <div>
+                    <label>Số điện thoại:</label><input class="input" type="text" name="Phone" value="@Model.Phone" valid="@(Model.Valid("Phone") ? "true" : "false")" />
+                </div>
+                <div>
+                    <label>Địa chỉ:</label><input class="input" type="text" name="Address" value="@Model.Address" />
+                </div>
+            </div>
+        </div>
+        <div class="text-right">
+            <input type="submit" value="Lưu" url="@Url.Action("List", "Supplier")" class="save"/>
+            <a href="@Url.Action("List", "Supplier")" target="_self" for="main-content" ptitle="Nhà cung cấp" class="button cancel">Hủy</a>
+        </div>
+    </form>
+</div>

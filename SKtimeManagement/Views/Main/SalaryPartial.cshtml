@@ -1,0 +1,36 @@
+﻿@model SKtimeManagement.SalaryReport
+@{
+    var id = Guid.NewGuid().ToString();
+}
+<div id="salary-report" class="flexible">
+    <h3 class="text-center">Lương cá nhân</h3>
+    <div id="salary" class="tbl">
+        <table id="salary-table" data="@id">
+            <thead>
+                <tr id="head">
+                    <td><div>Tháng</div></td>
+                    <td><div>Lương</div></td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Records != null)
+                {
+                    var dictionary = (IDictionary<string, object>)Model.Records.FirstOrDefault();
+                    foreach (var month in Model.Months)
+                    {
+                        var value = 0m;
+                        var key = month.ToString("_MMyyyy");
+                        if (dictionary.ContainsKey(key))
+                        {
+                            value = (decimal)dictionary[key];
+                        }
+                        <tr class="data">
+                            <td><div>@month.ToString("MM/yyyy")</div></td>
+                            <td><div text="right">@value.GetCurrencyString()</div></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

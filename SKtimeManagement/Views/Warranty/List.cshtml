@@ -1,0 +1,44 @@
+﻿@model IEnumerable<SKtimeManagement.Warranty>
+@{ 
+    var id = Guid.NewGuid().ToString();
+}
+<div class="group">
+    <h3 class="head-line">Danh sách</h3>
+    <div id="content">
+        <div class="tbl">
+            <table id="warranty-table" data="@id" keys="ID">
+                <thead>
+                    <tr>
+                        <td width="50"></td>
+                        <td name="Code"><div>Mã KH</div></td>
+                        <td name="SubmitDate"><div>Ngày tạo</div></td>
+                        <td name="FinishDate"><div>Ngày giao hàng</div></td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        @{
+            var scripts = new List<string>();
+            if (Model != null)
+            {
+                var jsonData = Html.JsonSerialize(Model);
+                scripts.Add("_TableFunctions.Data.push({" + String.Format("id: '{0}',data: JSON.parse('{1}', _TableFunctions.JsonParse)", id, jsonData) + "});");
+            }
+        }
+        @Html.Raw(String.Format("<script>{0}</script>", String.Join("", scripts)))
+        <script>
+            _TableFunctions.Init({
+                e: '#warranty-list',
+                input: {
+                    id: '@id',
+                    input: [
+                        {
+                            html: '<div><a href="@Url.Action("Detail", "Warranty", new { id = "_ID" })" for="warrant-detail" ptitle="Bảo hành" class="button-icon view"></a></div>'
+                        }
+                    ]
+                }
+            });
+            _TableFunctions.RefreshData();
+        </script>
+    </div>
+</div>

@@ -1,0 +1,622 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7015D353-1D46-4A36-A342-00FDC03DC2A5}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SKtimeManagement</RootNamespace>
+    <AssemblyName>SKtimeManagement</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net451\Dapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Dynamic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>DLL\Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelLibrary">
+      <HintPath>DLL\ExcelLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.6.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.6\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.2.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.2.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.2.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.2.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.2.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NPOI">
+      <HintPath>DLL\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML">
+      <HintPath>DLL\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net">
+      <HintPath>DLL\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats">
+      <HintPath>DLL\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\bootstrap-datetimepicker.css" />
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\Site.css" />
+    <Content Include="DLL\Dynamic.dll" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap\wells.less" />
+    <Content Include="Content\bootstrap\variables.less" />
+    <Content Include="Content\bootstrap\utilities.less" />
+    <Content Include="Content\bootstrap\type.less" />
+    <Content Include="Content\bootstrap\tooltip.less" />
+    <Content Include="Content\bootstrap\thumbnails.less" />
+    <Content Include="Content\bootstrap\theme.less" />
+    <Content Include="Content\bootstrap\tables.less" />
+    <Content Include="Content\bootstrap\scaffolding.less" />
+    <Content Include="Content\bootstrap\responsive-utilities.less" />
+    <Content Include="Content\bootstrap\responsive-embed.less" />
+    <Content Include="Content\bootstrap\progress-bars.less" />
+    <Content Include="Content\bootstrap\print.less" />
+    <Content Include="Content\bootstrap\popovers.less" />
+    <Content Include="Content\bootstrap\panels.less" />
+    <Content Include="Content\bootstrap\pagination.less" />
+    <Content Include="Content\bootstrap\pager.less" />
+    <Content Include="Content\bootstrap\normalize.less" />
+    <Content Include="Content\bootstrap\navs.less" />
+    <Content Include="Content\bootstrap\navbar.less" />
+    <Content Include="Content\bootstrap\modals.less" />
+    <Content Include="Content\bootstrap\mixins\vendor-prefixes.less" />
+    <Content Include="Content\bootstrap\mixins\text-overflow.less" />
+    <Content Include="Content\bootstrap\mixins\text-emphasis.less" />
+    <Content Include="Content\bootstrap\mixins\table-row.less" />
+    <Content Include="Content\bootstrap\mixins\tab-focus.less" />
+    <Content Include="Content\bootstrap\mixins\size.less" />
+    <Content Include="Content\bootstrap\mixins\responsive-visibility.less" />
+    <Content Include="Content\bootstrap\mixins\resize.less" />
+    <Content Include="Content\bootstrap\mixins\reset-text.less" />
+    <Content Include="Content\bootstrap\mixins\reset-filter.less" />
+    <Content Include="Content\bootstrap\mixins\progress-bar.less" />
+    <Content Include="Content\bootstrap\mixins\panels.less" />
+    <Content Include="Content\bootstrap\mixins\pagination.less" />
+    <Content Include="Content\bootstrap\mixins\opacity.less" />
+    <Content Include="Content\bootstrap\mixins\nav-vertical-align.less" />
+    <Content Include="Content\bootstrap\mixins\nav-divider.less" />
+    <Content Include="Content\bootstrap\mixins\list-group.less" />
+    <Content Include="Content\bootstrap\mixins\labels.less" />
+    <Content Include="Content\bootstrap\mixins\image.less" />
+    <Content Include="Content\bootstrap\mixins\hide-text.less" />
+    <Content Include="Content\bootstrap\mixins\grid.less" />
+    <Content Include="Content\bootstrap\mixins\grid-framework.less" />
+    <Content Include="Content\bootstrap\mixins\gradients.less" />
+    <Content Include="Content\bootstrap\mixins\forms.less" />
+    <Content Include="Content\bootstrap\mixins\clearfix.less" />
+    <Content Include="Content\bootstrap\mixins\center-block.less" />
+    <Content Include="Content\bootstrap\mixins\buttons.less" />
+    <Content Include="Content\bootstrap\mixins\border-radius.less" />
+    <Content Include="Content\bootstrap\mixins\background-variant.less" />
+    <Content Include="Content\bootstrap\mixins\alerts.less" />
+    <Content Include="Content\bootstrap\mixins.less" />
+    <Content Include="Content\bootstrap\media.less" />
+    <Content Include="Content\bootstrap\list-group.less" />
+    <Content Include="Content\bootstrap\labels.less" />
+    <Content Include="Content\bootstrap\jumbotron.less" />
+    <Content Include="Content\bootstrap\input-groups.less" />
+    <Content Include="Content\bootstrap\grid.less" />
+    <Content Include="Content\bootstrap\glyphicons.less" />
+    <Content Include="Content\bootstrap\forms.less" />
+    <Content Include="Content\bootstrap\dropdowns.less" />
+    <Content Include="Content\bootstrap\component-animations.less" />
+    <Content Include="Content\bootstrap\code.less" />
+    <Content Include="Content\bootstrap\close.less" />
+    <Content Include="Content\bootstrap\carousel.less" />
+    <Content Include="Content\bootstrap\buttons.less" />
+    <Content Include="Content\bootstrap\button-groups.less" />
+    <Content Include="Content\bootstrap\breadcrumbs.less" />
+    <Content Include="Content\bootstrap\bootstrap.less" />
+    <Content Include="Content\bootstrap\badges.less" />
+    <Content Include="Content\bootstrap\alerts.less" />
+    <Content Include="Content\_bootstrap-datetimepicker.less" />
+    <Content Include="Content\bootstrap-datetimepicker-build.less" />
+    <Content Include="Content\App\base.scss" />
+    <Content Include="Content\App\home.scss" />
+    <Content Include="Content\App\login.scss" />
+    <Content Include="gulpfile.js" />
+    <Content Include="Scripts\App\base.js" />
+    <Content Include="Scripts\App\base.min.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Chart.js" />
+    <Content Include="Scripts\Chart.min.js" />
+    <Content Include="Scripts\Form.js" />
+    <Content Include="Scripts\jquery-1.9.1.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\jquery-1.9.1.min.map" />
+    <Content Include="Scripts\jquery-3.1.1.js" />
+    <Content Include="Scripts\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Scripts\jquery-3.1.1.slim.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\npm.js" />
+    <Content Include="Scripts\Table.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_LayoutBase.cshtml" />
+    <Content Include="Views\Main\SummaryAdmin.cshtml" />
+    <Content Include="Views\Main\Login.cshtml" />
+    <Content Include="Views\Shared\_LayoutHome.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ClientTypeController.cs" />
+    <Compile Include="Controllers\OutcomeController.cs" />
+    <Compile Include="Controllers\OrderController.cs" />
+    <Compile Include="Controllers\ExportController.cs" />
+    <Compile Include="Controllers\ImportController.cs" />
+    <Compile Include="Controllers\RepairController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\DeliveryController.cs" />
+    <Compile Include="Controllers\SalaryController.cs" />
+    <Compile Include="Controllers\SupplierController.cs" />
+    <Compile Include="Controllers\TagController.cs" />
+    <Compile Include="Controllers\ClientController.cs" />
+    <Compile Include="Controllers\IncomeController.cs" />
+    <Compile Include="Controllers\WarehouseController.cs" />
+    <Compile Include="Controllers\ProductController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\EmployeeController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\SettingController.cs" />
+    <Compile Include="Controllers\WarrantyController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\Binders.cs" />
+    <Compile Include="Helpers\City.cs" />
+    <Compile Include="Helpers\DB.cs" />
+    <Compile Include="Helpers\Ean13.cs" />
+    <Compile Include="Helpers\EmailService.cs" />
+    <Compile Include="Helpers\Excel.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Helpers\Functions.cs" />
+    <Compile Include="Helpers\Media.cs" />
+    <Compile Include="Helpers\Permission.cs" />
+    <Compile Include="Helpers\SiteConfiguration.cs" />
+    <Compile Include="Helpers\Variables.cs" />
+    <Compile Include="Models\Bussiness.cs" />
+    <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\ClientType.cs" />
+    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\EmployeeFine.cs" />
+    <Compile Include="Models\Export.cs" />
+    <Compile Include="Models\Import.cs" />
+    <Compile Include="Models\Outcome.cs" />
+    <Compile Include="Models\Log.cs" />
+    <Compile Include="Models\Repair.cs" />
+    <Compile Include="Models\Report.cs" />
+    <Compile Include="Models\Salary.cs" />
+    <Compile Include="Models\Summary.cs" />
+    <Compile Include="Models\Supplier.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\Login.cs" />
+    <Compile Include="Models\Store.cs" />
+    <Compile Include="Models\Tag.cs" />
+    <Compile Include="Models\Income.cs" />
+    <Compile Include="Models\Delivery.cs" />
+    <Compile Include="Models\Transaction.cs" />
+    <Compile Include="Models\Warehouse.cs" />
+    <Compile Include="Models\Warranty.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <Content Include="packages.config" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Setting\_LayoutSetting.cshtml" />
+    <Content Include="Views\Setting\BussinessPartial.cshtml" />
+    <Content Include="Views\Setting\Bussiness.cshtml" />
+    <Content Include="Views\Main\ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Main\ChangePassword.cshtml" />
+    <Content Include="Views\Setting\StorePartial.cshtml" />
+    <Content Include="Views\Setting\Store.cshtml" />
+    <Content Include="Views\Setting\StoreSavePartial.cshtml" />
+    <Content Include="Views\Setting\StoreSave.cshtml" />
+    <Content Include="Views\Employee\List.cshtml" />
+    <Content Include="Views\Employee\ListPartial.cshtml" />
+    <Content Include="Views\Employee\Save.cshtml" />
+    <Content Include="Views\Employee\SavePartial.cshtml" />
+    <Content Include="Views\Main\SummaryAdminPartial.cshtml" />
+    <Content Include="Views\Login\List.cshtml" />
+    <Content Include="Views\Login\ListPartial.cshtml" />
+    <Content Include="Views\Login\Save.cshtml" />
+    <Content Include="Views\Login\SavePartial.cshtml" />
+    <Content Include="Views\Product\List.cshtml" />
+    <Content Include="Views\Product\ListPartial.cshtml" />
+    <Content Include="Views\Product\Save.cshtml" />
+    <Content Include="Views\Product\SavePartial.cshtml" />
+    <Content Include="Views\Supplier\List.cshtml" />
+    <Content Include="Views\Supplier\ListPartial.cshtml" />
+    <Content Include="Views\Supplier\Save.cshtml" />
+    <Content Include="Views\Supplier\SavePartial.cshtml" />
+    <Content Include="Views\Warehouse\List.cshtml" />
+    <Content Include="Views\Warehouse\ListPartial.cshtml" />
+    <Content Include="Views\Warehouse\Save.cshtml" />
+    <Content Include="Views\Warehouse\SavePartial.cshtml" />
+    <Content Include="Views\Tag\List.cshtml" />
+    <Content Include="Views\Tag\ListPartial.cshtml" />
+    <Content Include="Views\Tag\Save.cshtml" />
+    <Content Include="Views\Tag\SavePartial.cshtml" />
+    <Content Include="Views\Product\Quantities.cshtml" />
+    <Content Include="Views\Product\EditQuantity.cshtml" />
+    <Content Include="Views\Product\Quantity.cshtml" />
+    <Content Include="Views\Product\Import.cshtml" />
+    <Content Include="Views\Product\ImportPartial.cshtml" />
+    <Content Include="Views\Client\List.cshtml" />
+    <Content Include="Views\Client\ListPartial.cshtml" />
+    <Content Include="Views\Client\Save.cshtml" />
+    <Content Include="Views\Client\SavePartial.cshtml" />
+    <Content Include="Views\ClientType\List.cshtml" />
+    <Content Include="Views\ClientType\ListPartial.cshtml" />
+    <Content Include="Views\ClientType\Save.cshtml" />
+    <Content Include="Views\ClientType\SavePartial.cshtml" />
+    <Content Include="Views\Import\Import.cshtml" />
+    <Content Include="Views\Import\ImportPartial.cshtml" />
+    <Content Include="Views\Import\Selector.cshtml" />
+    <Content Include="Views\Import\List.cshtml" />
+    <Content Include="Views\Import\History.cshtml" />
+    <Content Include="Views\Import\HistoryPartial.cshtml" />
+    <Content Include="Views\Export\History.cshtml" />
+    <Content Include="Views\Export\HistoryPartial.cshtml" />
+    <Content Include="Views\Export\Export.cshtml" />
+    <Content Include="Views\Export\ExportPartial.cshtml" />
+    <Content Include="Views\Export\List.cshtml" />
+    <Content Include="Views\Export\Selector.cshtml" />
+    <Content Include="Views\Main\Unauthorized.cshtml" />
+    <Content Include="Views\Main\UnauthorizedPartial.cshtml" />
+    <Content Include="Views\Order\Export.cshtml" />
+    <Content Include="Views\Order\ExportPartial.cshtml" />
+    <Content Include="Views\Order\History.cshtml" />
+    <Content Include="Views\Order\HistoryPartial.cshtml" />
+    <Content Include="Views\Order\List.cshtml" />
+    <Content Include="Views\Order\Selector.cshtml" />
+    <Content Include="Views\Order\Products.cshtml" />
+    <Content Include="Views\Order\Detail.cshtml" />
+    <Content Include="Views\Order\Update.cshtml" />
+    <Content Include="Views\Export\Products.cshtml" />
+    <Content Include="Views\Import\Products.cshtml" />
+    <Content Include="Views\Main\Logs.cshtml" />
+    <Content Include="Views\Main\Products.cshtml" />
+    <None Include="Scripts\jquery-1.9.1.intellisense.js" />
+    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Views\Income\List.cshtml" />
+    <Content Include="Views\Income\ListPartial.cshtml" />
+    <Content Include="Views\Income\Save.cshtml" />
+    <Content Include="Views\Income\SavePartial.cshtml" />
+    <Content Include="Views\Outcome\List.cshtml" />
+    <Content Include="Views\Outcome\ListPartial.cshtml" />
+    <Content Include="Views\Outcome\Save.cshtml" />
+    <Content Include="Views\Outcome\SavePartial.cshtml" />
+    <Content Include="Views\Income\Detail.cshtml" />
+    <Content Include="Views\Income\DetailPartial.cshtml" />
+    <Content Include="Views\Outcome\Detail.cshtml" />
+    <Content Include="Views\Outcome\DetailPartial.cshtml" />
+    <Content Include="Views\Product\Detail.cshtml" />
+    <Content Include="Views\Product\DetailPartial.cshtml" />
+    <Content Include="Views\Employee\Detail.cshtml" />
+    <Content Include="Views\Employee\DetailPartial.cshtml" />
+    <Content Include="Views\Client\Detail.cshtml" />
+    <Content Include="Views\Client\DetailPartial.cshtml" />
+    <Content Include="Views\Import\Filter.cshtml" />
+    <Content Include="Views\Import\UpdatePartial.cshtml" />
+    <Content Include="Views\Import\Update.cshtml" />
+    <Content Include="Views\Export\Filter.cshtml" />
+    <Content Include="Views\Export\Update.cshtml" />
+    <Content Include="Views\Export\UpdatePartial.cshtml" />
+    <Content Include="Views\Order\Filter.cshtml" />
+    <Content Include="Views\Order\UpdatePartial.cshtml" />
+    <Content Include="Views\Error\Index.cshtml" />
+    <Content Include="Views\Error\IndexPartial.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\NotFoundPartial.cshtml" />
+    <Content Include="Views\Error\AccessDenied.cshtml" />
+    <Content Include="Views\Error\AccessDeniedPartial.cshtml" />
+    <Content Include="Views\Order\Print.cshtml" />
+    <Content Include="Views\Main\Summary.cshtml" />
+    <Content Include="Views\Main\SummaryPartial.cshtml" />
+    <Content Include="Views\Main\CreatedOrders.cshtml" />
+    <Content Include="Views\Main\NewOrders.cshtml" />
+    <Content Include="Views\Main\PendingExports.cshtml" />
+    <Content Include="Views\Main\Header.cshtml" />
+    <Content Include="Views\Report\Summary.cshtml" />
+    <Content Include="Views\Report\SummaryPartial.cshtml" />
+    <Content Include="Views\Report\Orders.cshtml" />
+    <Content Include="Views\Report\Incomes.cshtml" />
+    <Content Include="Views\Report\Outcomes.cshtml" />
+    <Content Include="Views\Report\Detail.cshtml" />
+    <Content Include="Views\Report\DetailPartial.cshtml" />
+    <Content Include="Views\Export\Print.cshtml" />
+    <Content Include="Views\Import\Print.cshtml" />
+    <Content Include="Views\Delivery\List.cshtml" />
+    <Content Include="Views\Delivery\ListPartial.cshtml" />
+    <Content Include="Views\Delivery\Save.cshtml" />
+    <Content Include="Views\Delivery\SavePartial.cshtml" />
+    <Content Include="Views\Income\Print.cshtml" />
+    <Content Include="Views\Outcome\Print.cshtml" />
+    <Content Include="Views\Report\Product.cshtml" />
+    <Content Include="Views\Report\ProductPartial.cshtml" />
+    <Content Include="Views\Product\Check.cshtml" />
+    <Content Include="Views\Product\CheckPartial.cshtml" />
+    <Content Include="Views\Product\Find.cshtml" />
+    <Content Include="Views\Product\FindPartial.cshtml" />
+    <Content Include="Views\Product\Selector.cshtml" />
+    <Content Include="Views\Report\SaleGraph.cshtml" />
+    <Content Include="Views\Report\ProductByQuantityGraph.cshtml" />
+    <Content Include="Views\Report\ProductByRevenueGraph.cshtml" />
+    <Content Include="Views\Salary\CalculatePartial.cshtml" />
+    <Content Include="Views\Salary\Calculate.cshtml" />
+    <Content Include="Views\Salary\EmployeeList.cshtml" />
+    <Content Include="Views\Salary\Calculator.cshtml" />
+    <Content Include="Views\Salary\ForEmployee.cshtml" />
+    <Content Include="Views\Salary\ForEmployeePartial.cshtml" />
+    <Content Include="Views\Salary\Offsets.cshtml" />
+    <Content Include="Views\Salary\Orders.cshtml" />
+    <Content Include="Views\Salary\OffDays.cshtml" />
+    <Content Include="Views\Salary\Print.cshtml" />
+    <Content Include="Views\Report\SaleGraphTotal.cshtml" />
+    <Content Include="Views\Import\ProductUrl.cshtml" />
+    <Content Include="Views\Export\ProductUrl.cshtml" />
+    <Content Include="Views\Order\ProductUrl.cshtml" />
+    <Content Include="Views\Report\Salary.cshtml" />
+    <Content Include="Views\Report\SalaryPartial.cshtml" />
+    <Content Include="Views\Main\Salary.cshtml" />
+    <Content Include="Views\Main\SalaryPartial.cshtml" />
+    <Content Include="Views\Warranty\Save.cshtml" />
+    <Content Include="Views\Warranty\SavePartial.cshtml" />
+    <Content Include="Views\Warranty\Orders.cshtml" />
+    <Content Include="Views\Warranty\SelectedOrder.cshtml" />
+    <Content Include="Views\Order\PrintWatch.cshtml" />
+    <Content Include="Views\Warranty\SelectedProduct.cshtml" />
+    <Content Include="Views\Warranty\History.cshtml" />
+    <Content Include="Views\Warranty\Detail.cshtml" />
+    <Content Include="Views\Warranty\HistoryPartial.cshtml" />
+    <Content Include="Views\Warranty\List.cshtml" />
+    <Content Include="Views\Warranty\WarrantHistory.cshtml" />
+    <Content Include="Views\Warranty\Edit.cshtml" />
+    <Content Include="Views\Warranty\WarrantyNotes.cshtml" />
+    <Content Include="Views\Warranty\Print.cshtml" />
+    <Content Include="Views\Warranty\OldOrder.cshtml" />
+    <Content Include="Views\Warranty\Products.cshtml" />
+    <Content Include="Views\Repair\Detail.cshtml" />
+    <Content Include="Views\Repair\Edit.cshtml" />
+    <Content Include="Views\Repair\History.cshtml" />
+    <Content Include="Views\Repair\HistoryPartial.cshtml" />
+    <Content Include="Views\Repair\List.cshtml" />
+    <Content Include="Views\Repair\Client.cshtml" />
+    <Content Include="Views\Repair\Print.cshtml" />
+    <Content Include="Views\Repair\Products.cshtml" />
+    <Content Include="Views\Repair\Save.cshtml" />
+    <Content Include="Views\Repair\SavePartial.cshtml" />
+    <Content Include="Views\Repair\SelectedProduct.cshtml" />
+    <Content Include="Views\Repair\RepairHistory.cshtml" />
+    <Content Include="Views\Repair\RepairNotes.cshtml" />
+    <Content Include="Views\Order\TransactionList.cshtml" />
+    <Content Include="Views\Warranty\TransactionList.cshtml" />
+    <Content Include="Views\Repair\TransactionList.cshtml" />
+    <Content Include="Views\Main\OrderSummary.cshtml" />
+    <Content Include="Views\Main\ProcessingServices.cshtml" />
+    <Content Include="Views\Main\EmployeeList.cshtml" />
+    <Content Include="Views\Employee\FineList.cshtml" />
+    <Content Include="Views\Repair\ProductList.cshtml" />
+    <Content Include="Views\Repair\RepairProduct.cshtml" />
+    <Content Include="Views\Warranty\ProductList.cshtml" />
+    <Content Include="Views\Warranty\WarrantyProduct.cshtml" />
+    <Content Include="Views\Salary\List.cshtml" />
+    <Content Include="Views\Salary\ListPartial.cshtml" />
+    <Content Include="Views\Salary\SalaryList.cshtml" />
+    <Content Include="Views\Salary\Detail.cshtml" />
+    <Content Include="Views\Main\FineListPartial.cshtml" />
+    <Content Include="Views\Main\FineList.cshtml" />
+    <Content Include="Views\Report\Client.cshtml" />
+    <Content Include="Views\Report\ClientPartial.cshtml" />
+    <Content Include="Views\Report\ProductPart.cshtml" />
+    <Content Include="Views\Report\ProductPartPartial.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Media\Bussiness\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>60760</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:60760/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,34 @@
+﻿@model SKtimeManagement.EmployeeList
+@{ 
+    var id = Guid.NewGuid().ToString();
+}
+<div class="tbl">
+    <table id="employee-table" data="@id" key="ID" view="@Url.Action("Detail", "Employee", new { id = "{ID}" })" ptitle="Nhân viên">
+        <thead>
+            <tr>
+                <td width="50"></td>
+                <td name="Name"><div>Tên</div></td>
+                <td name="Position"><div>Chức vụ</div></td>
+                <td name="Phone"><div>Số điện thoại</div></td>
+                <td name="DOB"><div>Ngày sinh</div></td>
+                <td name="StartDate"><div>Ngày vào làm</div></td>
+                <td name="EndDate"><div>Ngày nghỉ luôn</div></td>
+                <td name="Address"><div>Địa chỉ</div></td>
+                <td name="WorkStatus"><div>Trạng thái</div></td>
+            </tr>
+        </thead>
+    </table>
+</div>
+@{
+    var scripts = new List<string>();
+    if (Model.Data != null)
+    {
+        var jsonData = Html.JsonSerialize(Model.Data);
+        scripts.Add("_TableFunctions.Data.push({" + String.Format("id: '{0}',data: JSON.parse('{1}', _TableFunctions.JsonParse)", id, jsonData) + "});");
+    }
+}
+@Html.Raw(String.Format("<script>{0}</script>", String.Join("", scripts)))
+<script>
+    _TableFunctions.Init({ e: '#employee-list' });
+    _TableFunctions.RefreshData();
+</script>

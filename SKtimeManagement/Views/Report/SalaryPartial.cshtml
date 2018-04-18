@@ -1,0 +1,150 @@
+﻿@model SKtimeManagement.SalaryReport
+@{ 
+    var id = Guid.NewGuid().ToString();
+}
+<div id="salary-report">
+    <div class="tabs">
+        <div id="heads">
+            <a href="@Url.Action("Summary", "Report")" target="_self" for="main-content" ptitle="Thống kê">Tổng quát</a>
+            <a href="@Url.Action("Detail", "Report")" target="_self" for="main-content" ptitle="Thống kê">Chi tiết</a>
+            <a href="@Url.Action("Product", "Report")" target="_self" for="main-content" ptitle="Thống kê">Sản phẩm</a>
+            <span class="active">Lương</span>
+            <a href="@Url.Action("Client", "Report")" target="_self" for="main-content" ptitle="Thống kê">Khách hàng</a>
+            <a href="@Url.Action("ProductPart", "Report")" target="_self" for="main-content" ptitle="Thống kê">Linh kiện</a>
+        </div>
+    </div>
+    <div class="flexible">
+        <div class="w25">
+            <div id="filter" class="group">
+                <h3 class="head-line">Tìm kiếm</h3>
+                <div id="content">
+                    <form action="@Url.Action("Salary", "Report")" method="post" for="salary-report" ptitle="Thống kê">
+                        <input type="hidden" name="ID" value="" />
+                        <div>
+                            <label>Lương cơ bản:</label>
+                            <input type="checkbox" name="BaseSalary" @(Model.Filter.ViewBaseSalary ? "checked" : "")/>
+                        </div>
+                        <div>
+                            <label>Họ tên:</label><input class="input" type="text" name="Name" value="@Model.Filter.Name" />
+                        </div>
+                        <div>
+                            <label>Số điện thoại:</label><input class="input" type="text" name="Phone" value="@Model.Filter.Phone" />
+                        </div>
+                        <div>
+                            <label>Địa chỉ:</label><input class="input" type="text" name="Address" value="@Model.Filter.Address" />
+                        </div>
+                        <div>
+                            <label>Cửa hàng:</label>
+                            <div class="inline">
+                                <div id="search-store" class="table-row">
+                                    <div><input type="text" placeholder="Tìm theo tên" /></div>
+                                    <div><span class="button small search"></span></div>
+                                </div>
+                                <span>
+                                    <select name="StoreID" data="@Url.Action("StoreList", "Setting")" value="@Model.Filter.StoreID">
+                                        <option value="">None</option>
+                                    </select>
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <label>Từ:</label>
+                            <div class='input-group date'>
+                                <input type='text' class="form-control input" name="From" value="@(Model.Filter.From.HasValue ? Model.Filter.From.Value.ToString(Constants.DateTimeString) : "")" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div>
+                            <label>Đến:</label>
+                            <div class='input-group date'>
+                                <input type='text' class="form-control input" name="To" value="@(Model.Filter.To.HasValue ? Model.Filter.To.Value.ToString(Constants.DateTimeString) : "")" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <input type="submit" value="Tìm" url="@Url.Action("Salary", "Report")" class="search" />
+                            <span class="button save" id="salary-download">Xuất Exccel</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="w75">
+            <div id="salary" class="tbl">
+                <table id="salary-table" data="@id">
+                    <thead>
+                        <tr id="head">
+                            <td name="Name"><div>Tên</div></td>
+                            @foreach (var month in Model.Months)
+                            {
+                                <td name="@month.ToString("_MMyyyy")"><div>@month.ToString("MM/yyyy")</div></td>
+                            }
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.Records != null)
+                        {
+                            var totals = new Dictionary<DateTime, decimal>();
+                            foreach (var record in Model.Records)
+                            {
+                                var dictionary = (IDictionary<string, object>)record;
+                                <tr class="data">
+                                    <td><div>@dictionary["Name"]</div></td>
+                                    @foreach (var month in Model.Months)
+                                    {
+                                        var value = 0m;
+                                        var key = month.ToString("_MMyyyy");
+                                        if (dictionary.ContainsKey(key))
+                                        {
+                                            value = (decimal)dictionary[key];
+                                        }
+                                        if (!totals.ContainsKey(month))
+                                        {
+                                            totals.Add(month, value);
+                                        }
+                                        else
+                                        {
+                                            totals[month] = totals[month] + value;
+                                        }
+                                        <td><div text="right">@value.GetCurrencyString()</div></td>
+                                    }
+                                </tr>
+                            }
+                            <tr class="data">
+                                <td><div>Tổng cộng</div></td>
+                                @foreach (var total in totals)
+                                {
+                                    <td><div text="right">@total.Value.GetCurrencyString()</div></td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#salary-download').on('click', function () {
+        var formData = new FormData();
+        $.each($('#filter form').serializeArray(), function (i, field) {
+            //console.log(field.name + ', ' + field.value);
+            formData.append(field.name, field.value);
+        });
+        AjaxRequest({
+            url: '@Url.Action("SalaryDownload", "Report")',
+            data: formData,
+            type: 'post',
+            processData: false,
+            success: function (data) {
+                if (data.result) {
+                    window.location = '@Url.Action("Download", "Report")';
+                }
+            }
+        });
+    });
+</script>

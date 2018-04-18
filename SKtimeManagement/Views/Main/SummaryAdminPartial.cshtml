@@ -1,0 +1,72 @@
+﻿@model SKtimeManagement.SummaryAdmin
+<div class="flexible">
+    <div class="w60">
+        <div>
+            @Html.Partial("Header")
+        </div>
+        <div class="group">
+            <h3 class="head-line">Sản phẩm phổ biến</h3>
+            <div id="content">
+                @Html.Partial(Views.Products, Model.PopularProductsByQuantity)
+            </div>
+        </div>
+        <div class="group">
+            <h3 class="head-line">Nhóm/ thương hiệu phổ biến</h3>
+            <div id="content">
+                @Html.Partial(Views.Products, Model.PopularTagsByQuantity)
+            </div>
+        </div>
+        <div class="group">
+            <h3 class="head-line">Nhân viên sinh trong tháng</h3>
+            <div id="content">
+                <div id="employee-list">
+                    <script>
+                            AjaxRequest({
+                                url: '@Url.Action("EmployeeList", "Main")',
+                                success: function (data) {
+                                    if (data.html) {
+                                        var id = '#employee-list';
+                                        $(id).html(data.html);
+                                        ProcessLinks(id);
+                                    }
+                                }
+                            });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w40">
+        <div class="group">
+            <h3 class="head-line">Hoạt động gần nhất</h3>
+            <div id="content" class="text-center">
+                @Html.Partial("Logs", Model.Logs)
+            </div>
+        </div>
+        <div class="group">
+            <h3 class="head-line">Phiếu xuất kho đang chờ</h3>
+            <div id="content" class="text-center">
+                @Html.Partial("PendingExports", Model.PendingExports)
+            </div>
+        </div>
+        <div class="group">
+            <h3 class="head-line">Phiếu bảo hành &amp; sửa chữa đang xử lý</h3>
+            <div id="content">
+                <div id="processing-services">
+                    <script>
+                            AjaxRequest({
+                                url: '@Url.Action("ProcessingServices", "Main")',
+                                success: function (data) {
+                                    if (data.html) {
+                                        var id = '#processing-services';
+                                        $(id).html(data.html);
+                                        ProcessLinks(id);
+                                    }
+                                }
+                            });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

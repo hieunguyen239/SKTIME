@@ -1,0 +1,12 @@
+﻿@model SKtimeManagement.ProductQuantity
+@{ 
+    var id = String.Format("quantity-{0}-{1}", Model.ProductID, Model.WarehouseID);
+    var value = String.Format("__value_{0}_{1}", Model.ProductID, Model.WarehouseID);
+}
+<input class="sm" type="number" min="0" id="value-@id" value="@Model.Quantity"/><a href="@Url.Action("SaveQuantity", "Product", new { id = Model.WarehouseID, subID = Model.ProductID, value = Model.Quantity })" for="edit-@id" keeppopup="true" changeurl="false" class="button small save"></a> <a href="@Url.Action("Quantity", "Product", new { id = Model.WarehouseID, subID = Model.ProductID, value = Model.Quantity })" for="edit-@id" keeppopup="true" changeurl="false" class="button small cancel"></a>
+<script>
+    var url = '@Url.Action("SaveQuantity", "Product", new { id = Model.WarehouseID, subID = Model.ProductID, value = value })';
+    $('#value-@id').on('change', function () {
+        $('a[for="edit-@id"]').attr('href', url.replace('@value', $(this).val()));
+    });
+</script>

@@ -1,0 +1,86 @@
+﻿@model SKtimeManagement.ClientInfo
+@{
+    ViewBag.Title = "Khách hàng";
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<div class="tabs">
+    <div id="heads">
+        <span class="active">Khách hàng</span>
+        <a href="@Url.Action("List", "ClientType")" target="_self" for="main-content" ptitle="Khách hàng">Loại</a>
+    </div>
+</div>
+<div class="flexible">
+    <div class="w25">
+        <div class="group">
+            <h3 class="head-line">Tìm kiếm</h3>
+            <div id="content">
+                <form id="client-filter" action="@Url.Action("List", "Client")" method="post" for="main-content" ptitle="Khách hàng">
+                    <div>
+                        <label>Tên:</label><input type="text" class="input" name="Name" value="" />
+                    </div>
+                    <div>
+                        <label>Số điện thoại:</label><input type="text" class="input" name="Phone" value="" />
+                    </div>
+                    <div>
+                        <label>Địa chỉ:</label><input type="text" class="input" name="Address" value="" />
+                    </div>
+                    <div>
+                        <label>Email:</label><input type="text" class="input" name="Email" value="" />
+                    </div>
+                    <div>
+                        <label>Thành phố:</label>
+                        <select name="City">
+                            <option value="">None</option>
+                            @foreach (var city in Country.VietNam.Cities)
+                            {
+                                <option value="@city.Name">@city.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div>
+                        <label>Quận:</label>
+                        <select name="District">
+                            <option value="">None</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Loại:</label>
+                        <select name="TypeID" data="@Url.Action("KeyList", "ClientType")" value="">
+                            <option value="">None</option>
+                        </select>
+                    </div>
+                    <div class="text-right">
+                        <input type="submit" value="Tìm" url="@Url.Action("List", "Client")" class="search"/>
+                        <a href="@Url.Action("Create", "Client" )" target="_self" class="button add" for="pop-up-content" ptitle="Khách hàng">Tạo mới</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="w75">
+        @Html.Partial(Views.DetailPartial, Model)
+    </div>
+</div>
+@{
+    var data = String.Join(",", Country.VietNam.Cities.Select(c => String.Format("{{ name: '{0}', districts: [{1}] }}", c.Name, String.Join(",", c.Districts.Select(d => String.Format("\"{0}\"", d))))));
+}
+<script>
+    var _cities = [@Html.Raw(data)];
+    $('#client-filter select[name="City"]').on('change', function () {
+        var val = $(this).val();
+        if (val != '') {
+            var search = _cities.filter(function (value, i) {
+                return value.name == val;
+            });
+            console.log(search);
+            if (search.length > 0) {
+                var html = '<option value="">None</option>';
+                search[0].districts.forEach(function (dist, i) {
+                    html += '<option value="' + dist + '">' + dist + '</option>';
+                });
+                $('#client-filter select[name="District"]').html(html);
+            }
+        }
+    });
+</script>

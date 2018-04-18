@@ -1,0 +1,111 @@
+﻿@model SKtimeManagement.ReportGraph
+@*@{ 
+    var id = Guid.NewGuid().ToString().Replace("-", "");
+    var graph = Model;
+    var stepWidth = graph.Warehouses.Count > 1 && graph.Warehouses.Count * 12 + 30 >= 60 ? graph.Warehouses.Count * 12 + 30 : 60;
+    var stepCount = graph.Count;
+    var width = stepCount * stepWidth;
+    var height = 400;
+    var step = 0;
+    var multiply = 0;
+    while (step * 10 < graph.Max)
+    {
+        step = (int)Math.Pow(10, multiply++);
+    }
+    while (graph.Max / step <= 5)
+    {
+        step /= 2;
+    }
+    var lines = new List<string>();
+    var revenues = new List<string>();
+    var spots = new List<string>();
+    for (var i = 0; i < 10; i++)
+    {
+        lines.Add(String.Format("_{2}.moveTo(0, {1}); _{2}.lineTo({0}, {1});", width, height / 10 * i, id));
+    }
+    var index = 0;
+    var count = 0;
+    var addSpot = true;
+    var color = Functions.RandomNumberString(6);
+    revenues.Add(String.Format("_{0}.fillStyle = \"#{1}\"; ", id, color));
+    foreach (var revenue in graph.Revenues.Where(i => !i.Warehouse.HasValue))
+    {
+        var cWidth = 12;
+        var cHeight = Math.Round(revenue.Value / step * (height / 10), 2);
+        var x = stepWidth * index + (stepWidth - graph.Warehouses.Count * cWidth) / 2 + count * cWidth;
+        var y = height - cHeight;
+        revenues.Add(String.Format("_{4}.fillRect({0}, {1}, {2}, {3}); ", x, y, cWidth, cHeight, id));
+        if (addSpot)
+        {
+            spots.Add(String.Format("<span class=\"spot\" style=\"left: {0}px\">{1}</span>", width / stepCount * index + 13, revenue.Time.ToString(graph.TimeFormat)));
+        }
+        index++;
+    }
+    addSpot = false;
+    count++;
+}
+<div id="@id" class="text-center" style="overflow: auto;">
+    <div class="report-graph inline">
+        <span id="x">
+            @Html.Raw(String.Join("", spots))
+        </span>
+        <span id="y">
+            @for (var i = 10; i >= 0; i--)
+            {
+                <span class="value" style="top: @((height / 10) * (10 - i) + 10)px; color: #0b4fa3">@((step * i).GetCurrencyShortString())</span>
+            }
+        </span>
+        <canvas width="@width" height="@height" style="background-color: #fff"></canvas>
+    </div>
+</div>
+<script>
+    var _@id = $('#@id .report-graph canvas')[0].getContext('2d');
+    _@(id).strokeStyle = "#b0b0b0";
+    _@(id).lineWidth = 1;
+    _@(id).beginPath();
+    @String.Join("", lines)
+    _@(id).stroke();
+
+    @Html.Raw(String.Join("", revenues))
+</script>*@
+@{ 
+    var chartID = Guid.NewGuid().ToString();
+    var graph = Model;
+    var color = Functions.RandomColor();
+    var labels = new List<string>();
+    var values = new List<int>();
+    foreach (var revenue in graph.Revenues.Where(i => !i.Warehouse.HasValue))
+    {
+        labels.Add(revenue.Time.ToString(graph.TimeFormat));
+        values.Add(Convert.ToInt32(revenue.Value));
+    }
+}
+<div class="text-center" style="overflow: auto">
+    <canvas id="@chartID" width="1300" height="400"></canvas>
+</div>
+<script>
+    var ctx = document.getElementById("@chartID");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: [@Html.Raw(String.Join(",", labels.Select(i => String.Format("'{0}'", i))))],
+            datasets: [{
+                label: 'Toàn bộ',
+                data: [@Html.Raw(String.Join(",", values))],
+                backgroundColor: '@color.ToWebString(0.2)',
+                borderColor: '@color.ToWebString()',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+</script>

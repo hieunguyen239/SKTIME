@@ -1,0 +1,121 @@
+﻿@model SKtimeManagement.ExportRecord
+@{
+    var id = Guid.NewGuid().ToString();
+}
+@if (Model.Products != null && Model.Products.Count > 0)
+{
+    <h3 class="text-center">Phiếu xuất kho</h3>
+    <div class="flexible">
+        <div class="w33">
+            <div>
+                <label>Mã phiếu:</label><span class="info">@Model.Code</span>
+            </div>
+            <div>
+                <label>Kho xuất:</label><span class="info">@Model.WarehouseName</span>
+            </div>
+            @if (!String.IsNullOrEmpty(Model.ToWarehouseName))
+            {
+                <div>
+                    <label>Kho nhận:</label><span class="info">@Model.ToWarehouseName</span>
+                </div>
+            }
+        </div>
+        <div class="w33">
+            <div>
+                <label>Ngày tạo:</label><span class="info">@Model.SubmitDate.ToString(Constants.DateTimeString)</span>
+            </div>
+            <div>
+                <label>Nhân viên:</label><span class="info">@Model.EmployeeName</span>
+            </div>
+            @if (!String.IsNullOrEmpty(Model.OrderCode))
+            {
+                <div>
+                    <label>Hóa đơn:</label><span class="info">@Model.OrderCode</span>
+                </div>
+            }
+        </div>
+        <div class="w33">
+            <div>
+                <label>Tổng tiền:</label><span class="info">@Model.Products.Sum(p => p.Price * p.Quantity).GetCurrencyString() VND</span>
+            </div>
+            <div>
+                <label>Trạng thái:</label><span class="info">@Model.Status</span>
+            </div>
+            <div>
+                <label>Số lượng:</label><span class="info">@Model.Products.Sum(i => i.Quantity).GetCurrencyString()</span>
+            </div>
+            @if (!String.IsNullOrEmpty(Model.ClientName))
+            {
+                <div>
+                    <label>Khách hàng:</label><span class="info">@Model.ClientName</span>
+                </div>
+            }
+        </div>
+        <div class="w100">
+            <div>
+                <label>Ghi chú:</label><span class="info">@Model.Note</span>
+            </div>
+            <div>
+                <label></label>
+                <span class="button print" onclick="Print('export-print')">In</span>
+                @if (Model.Status == ExportStatus.Pending)
+                {
+                    <a href="@Url.Action("Delivered", "Export", new { id = Model.ID })" target="_self" class="button edit" for="export-detail" changeurl="false" ptitle="Xuất kho">Đã chuyển</a>
+                }
+                else if (Model.Status == ExportStatus.Delivered)
+                {
+                    <a href="@Url.Action("Exported", "Export", new { id = Model.ID })" target="_self" class="button edit" for="export-detail" changeurl="false" ptitle="Xuất kho">Xác nhận nhập</a>
+                }
+                <a href="@Url.Action("Update", "Export", new { id = Model.ID })" target="_self" class="button edit" for="main-content" changeurl="false" ptitle="Xuất kho">Cập nhật</a>
+                <a href="@Url.Action("Copy", "Export", new { id = Model.ID })" target="_self" class="button copy" for="main-content" ptitle="Xuất kho">Sao chép</a>
+                <span class="button remove" onclick="RemoveRecord()">Xóa</span>
+            </div>
+        </div>
+    </div>
+}
+<div class="tbl">
+    <table data="@id">
+        <thead>
+            <tr>
+                <td name="Code"><div>Mã SP</div></td>
+                <td name="ProductUrl"><div>Tên</div></td>
+                <td name="Quantity" text="right"><div>Số lượng</div></td>
+                <td name="PriceString" text="right"><div>Giá xuất</div></td>
+                <td name="Total" text="right"><div>Thành tiền</div></td>
+            </tr>
+        </thead>
+    </table>
+</div>
+@{
+    var scripts = new List<string>();
+    if (Model != null)
+    {
+        var jsonData = Html.JsonSerialize(Model.Products);
+        scripts.Add("_TableFunctions.Data.push({" + String.Format("id: '{0}',data: JSON.parse('{1}', _TableFunctions.JsonParse)", id, jsonData) + "});");
+    }
+}
+@Html.Raw(String.Format("<script>{0}</script>", String.Join("", scripts)))
+@if (Model.Products != null && Model.Products.Count > 0)
+{
+    <script>
+        _TableFunctions.Init({
+            e: '#export-detail'
+        });
+        _TableFunctions.RefreshData();
+        function RemoveRecord() {
+            _messageActive = true;
+            $('#pop-up-content').html('<div><p>Bạn muốn xóa phiếu @Model.Code?</p><div class="text-right"><a class="button remove" for="main-content" ptitle="Xuất kho" changeurl="false" href="@Url.Action("Delete", "Export", new { id = Model.ID })">Xóa</a><span class="button cancel">Hủy</span></div></div>');
+            $('#pop-up-content').find('span.cancel').on('click', function () {
+                $('#pop-up').removeClass('active');
+            });
+            $('#pop-up').addClass('active');
+            ProcessLinks('#pop-up-content');
+        }
+    </script>
+}
+@if (Model.ID > 0)
+{
+    <div id="export-print" class="hidden">
+        @Html.Partial("Print", Model)
+    </div>
+}
