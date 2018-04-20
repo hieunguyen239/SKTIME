@@ -1,0 +1,24 @@
+﻿@model SKtimeManagement.TransactionSummary
+@{ 
+    var transactions = Model.Transactions.Sum(i => i.Amount);
+    var incomes = Model.Incomes.Data.Sum(i => i.Amount);
+    var outcomes = Model.Outcomes.Data.Sum(i => i.Amount);
+    var total = transactions + incomes - outcomes;
+}
+<div class="flexible">
+    <div class="w33">
+        <span class="info">Tổng tiền: <strong style="font-size: 20px;">@total.GetCurrencyString() VND</strong></span>
+    </div>
+    <div class="w33">
+        <span class="info">Tổng thu: <strong style="font-size: 20px;">@incomes.GetCurrencyString() VND</strong></span>
+    </div>
+    <div class="w33">
+        <span class="info">Tổng chi: <strong style="font-size: 20px;">@outcomes.GetCurrencyString() VND</strong></span>
+    </div>
+    @foreach (var method in PayMethod.List)
+    {
+        <div class="w33">
+            <span class="info">@method: <strong style="font-size: 20px;">@Model.Transactions.Where(i => i.Method == method).Sum(o => o.Amount).GetCurrencyString() VND</strong></span>
+        </div>
+    }
+</div>

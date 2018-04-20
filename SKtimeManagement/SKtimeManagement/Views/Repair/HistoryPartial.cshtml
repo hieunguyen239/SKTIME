@@ -1,0 +1,94 @@
+﻿@model SKtimeManagement.RepairList
+<div class="tabs">
+    <div id="heads">
+        <a href="@Url.Action("Create", "Import")" target="_self" for="main-content" ptitle="Nhập kho">Nhập kho</a>
+        <a href="@Url.Action("Create", "Export")" target="_self" for="main-content" ptitle="Xuất kho">Xuất kho</a>
+        <a href="@Url.Action("Create", "Order")" target="_self" for="main-content" ptitle="Hóa đơn">Hóa đơn</a>
+        <a href="@Url.Action("Create", "Warranty")" target="_self" for="main-content" ptitle="Bảo hành">Bảo hành</a>
+        <span class="active">Sửa chữa</span>
+    </div>
+</div>
+<div class="flexible">
+    <div class="w25">
+        <div id="filter" class="group">
+            <h3 class="head-line">Tìm kiếm</h3>
+            <div id="content">
+                <form id="client-filter" action="@Url.Action("History", "Repair")" method="post" for="main-content" ptitle="Sửa chữa">
+                    <div>
+                        <label>Kho:</label>
+                        <select name="WarehouseID" data="@Url.Action("AuthorizedWarehouse", "Login")" value="@Model.Filter.WarehouseID">
+                            <option>None</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Mã phiếu:</label><input type="text" class="input" name="Code" value="@Model.Filter.Code" />
+                    </div>
+                    <div>
+                        <label>Họ tên KH:</label><input type="text" class="input" name="ClientName" value="@Model.Filter.ClientName" />
+                    </div>
+                    <div>
+                        <label>Email:</label><input type="text" class="input" name="ClientEmail" value="@Model.Filter.ClientEmail" />
+                    </div>
+                    <div>
+                        <label>Số điện thoại:</label><input type="text" class="input" name="ClientPhone" value="@Model.Filter.ClientPhone" />
+                    </div>
+                    <div>
+                        <label>Từ:</label>
+                        <div class='input-group date' format="@Constants.DateWebString">
+                            <input type='text' class="form-control input" name="From" value="@(Model.Filter.From.HasValue ? Model.Filter.From.Value.ToString(Constants.DateString) : "")" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Đến:</label>
+                        <div class='input-group date' format="@Constants.DateWebString">
+                            <input type='text' class="form-control input" name="To" value="@(Model.Filter.To.HasValue ? Model.Filter.To.Value.ToString(Constants.DateString) : "")" />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <span id="repair-download" class="button save">Xuất Excel</span>
+                        <input type="submit" value="Tìm" url="@Url.Action("History", "Repair")" class="search" />
+                        <a href="@Url.Action("Create", "Repair" )" target="_self" class="button add" for="main-content" ptitle="Sửa chữa">Tạo mới</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="repair-list">
+            @if (Model.Data != null)
+            {
+                @Html.Partial("List", Model.Data)
+            }
+        </div>
+    </div>
+    <div id="repair-detail" class="w75">
+        @if (Model.Current != null)
+        {
+            @Html.Partial("Detail", Model.Current)
+        }
+    </div>
+</div>
+<script>
+    $('#repair-download').on('click', function () {
+        var formData = new FormData();
+        $.each($('#filter form').serializeArray(), function (i, field) {
+            //console.log(field.name + ', ' + field.value);
+            formData.append(field.name, field.value);
+        });
+        AjaxRequest({
+            url: '@Url.Action("Download", "Repair")',
+            data: formData,
+            type: 'post',
+            processData: false,
+            success: function (data) {
+                if (data.result) {
+                    window.location = '@Url.Action("Download", "Repair")';
+                }
+            }
+        });
+    });
+</script>

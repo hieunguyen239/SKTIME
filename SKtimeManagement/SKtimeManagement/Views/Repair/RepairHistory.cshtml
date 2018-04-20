@@ -1,0 +1,43 @@
+﻿@model IEnumerable<SKtimeManagement.Repair>
+@{
+    var id = Guid.NewGuid().ToString();
+}
+<div>
+    <div class="tbl" style="margin-top: 0;">
+        <table data="@id" keys="ID">
+            <thead>
+                <tr>
+                    <td width="50"></td>
+                    <td name="WarehouseName"><div>Kho</div></td>
+                    <td name="EmployeeName"><div>Nhân viên</div></td>
+                    <td name="FeeString"><div>Phí</div></td>
+                    <td name="DiscountString"><div>Khuyến mãi</div></td>
+                    <td name="FinishDate"><div>Ngày giao hàng</div></td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+@{
+    var scripts = new List<string>();
+    if (Model != null)
+    {
+        var jsonData = Html.JsonSerialize(Model);
+        scripts.Add("_TableFunctions.Data.push({" + String.Format("id: '{0}',data: JSON.parse('{1}', _TableFunctions.JsonParse)", id, jsonData) + "});");
+    }
+}
+@Html.Raw(String.Format("<script>{0}</script>", String.Join("", scripts)))
+<script>
+    _TableFunctions.Init({
+        e: '#repair-history',
+        input: {
+            id: '@id',
+            input: [
+                {
+                    html: '<div><a href="@Url.Action("Detail", "Repair", new { id = "_ID" })" for="repair-detail" ptitle="Sửa chữa" class="button-icon view"></a></div>'
+                }
+            ]
+        }
+    });
+    _TableFunctions.RefreshData();
+</script>

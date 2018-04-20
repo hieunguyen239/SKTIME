@@ -1,0 +1,78 @@
+﻿@model SKtimeManagement.ServiceReport
+@{
+    var warrantyID = Guid.NewGuid().ToString();
+    var repairID = Guid.NewGuid().ToString();
+    var html = String.Format(@"<div><a id=""view"" href=""{0}"" class=""button-icon view"" _UrlFor changeurl=""false""></a>", Url.Action("_UrlAction", "_UrlController", new { id = "_RecordID" }));
+}
+<div class="tabs inline">
+    <div id="heads">
+        <span for="warranty-list" class="active">Bảo hành</span>
+        <span for="repair-list">Sửa chữa</span>
+    </div>
+</div>
+<div id="warranty-list" class="tab-body">
+    <div class="tbl" style="margin-top: 0">
+        <table id="warranty-table" data="@warrantyID" keys="ID" color="Color">
+            <thead>
+                <tr>
+                    <td width="50"></td>
+                    <td name="Code"><div>Mã</div></td>
+                    <td name="SubmitDate"><div>Ngày nhận</div></td>
+                    <td name="FinishDate"><div>Ngày giao hàng</div></td>
+                    <td name="Status"><div>Trạng thái</div></td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div id="repair-list" class="tab-body hidden">
+    <div class="tbl" style="margin-top: 0">
+        <table id="repair-table" data="@repairID" keys="ID" color="Color">
+            <thead>
+                <tr>
+                    <td width="50"></td>
+                    <td name="Code"><div>Mã</div></td>
+                    <td name="SubmitDate"><div>Ngày nhận</div></td>
+                    <td name="FinishDate"><div>Ngày giao hàng</div></td>
+                    <td name="Status"><div>Trạng thái</div></td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+@{
+    var scripts = new List<string>();
+    if (Model != null)
+    {
+        var jsonData = Html.JsonSerialize(Model.Warranties);
+        scripts.Add("_TableFunctions.Data.push({" + String.Format("id: '{0}',data: JSON.parse('{1}', _TableFunctions.JsonParse)", warrantyID, jsonData) + "});");
+        jsonData = Html.JsonSerialize(Model.Repaires);
+        scripts.Add("_TableFunctions.Data.push({" + String.Format("id: '{0}',data: JSON.parse('{1}', _TableFunctions.JsonParse)", repairID, jsonData) + "});");
+    }
+}
+@Html.Raw(String.Format("<script>{0}</script>", String.Join("", scripts)))
+<script>
+    _TableFunctions.Init({
+        e: '#warranty-list',
+        input: {
+            id: '@warrantyID',
+            input: [
+                {
+                    html: '<div><a href="@Url.Action("Detail", "Warranty", new { id = "_ID" })" class="button-icon view"></a></div>'
+                }
+            ]
+        }
+    });
+    _TableFunctions.Init({
+        e: '#repair-list',
+        input: {
+            id: '@repairID',
+            input: [
+                {
+                    html: '<div><a href="@Url.Action("Detail", "Repair", new { id = "_ID" })" class="button-icon view"></a></div>'
+                }
+            ]
+        }
+    });
+    _TableFunctions.RefreshData();
+</script>

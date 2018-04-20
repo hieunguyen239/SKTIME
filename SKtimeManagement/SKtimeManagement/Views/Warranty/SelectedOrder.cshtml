@@ -1,0 +1,75 @@
+﻿@model SKtimeManagement.ExportRecord
+@if (Model != null)
+{
+    var items = Guid.NewGuid().ToString();
+    var scripts = new List<string>();
+    if (Model != null)
+    {
+        var jsonData = Html.JsonSerialize(Model.Products);
+        scripts.Add("_TableFunctions.Data.push({" + String.Format("id: '{0}',data: JSON.parse('{1}', _TableFunctions.JsonParse)", items, jsonData) + "});");
+    }
+    <div class="flexible">
+        <div class="w50">
+            <div>
+                <label>Mã hóa đơn:</label><span class="info">@Model.Code</span>
+            </div>
+            <div>
+                <label>Ngày tạo:</label><span class="info">@Model.SubmitDate.ToString(Constants.DateTimeString)</span>
+            </div>
+            <div>
+                <label>Khách hàng:</label><span class="info">@(Model.ClientID.HasValue ? Model.ClientName : "Khách lẻ") @(Model.ClientID.HasValue ? String.Format("({0})", Model.ClientType) : "")</span>
+            </div>
+        </div>
+        <div class="w50">
+            <div>
+                <label>Tổng tiền:</label><span class="info">@Model.Products.Sum(p => p.Price * p.Quantity).GetCurrencyString() VND</span>
+            </div>
+            <div>
+                <label>Khuyến mãi:</label><span class="info">@Model.DiscountString VND</span>
+            </div>
+            <div>
+                <label>Đã trả:</label><span class="info">@Model.PaidString VND</span>
+            </div>
+        </div>
+        <div class="w100">
+            <div class="tbl" style="margin-top: 0">
+                <table data="@items" keys="ID">
+                    <thead>
+                        <tr>
+                            <td width="50"></td>
+                            <td name="Code"><div>Mã</div></td>
+                            <td name="ProductName"><div>Tên</div></td>
+                            <td name="WarrantCount" text="right"><div>Số lần bảo hành</div></td>
+                            <td name="Quantity" text="right"><div>Số lượng</div></td>
+                            <td name="PriceString" text="right"><div>Giá</div></td>
+                            <td name="Total" text="right"><div>Thành tiền</div></td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="w100">
+            <div class="text-right">
+                <a href="@Url.Action("SelectProduct", "Warranty", new { id = Model.Products.FirstOrDefault(i => i.Price > 0).ID, subID = Model.WarehouseID })" for="warranty-detail" ptitle="Bảo hành" class="button view">Bảo hành</a>
+            </div>
+        </div>
+    </div>
+    @Html.Raw(String.Format("<script>{0}</script>", String.Join("", scripts)))
+    if (Model.Products != null && Model.Products.Count > 0)
+    {
+        <script>
+            _TableFunctions.Init({
+                e: '#selected-order',
+                input: {
+                    id: '@items',
+                    input: [
+                        {
+                            html: '<div><a href="@Url.Action("SelectProduct", "Warranty", new { id = "_ID", subID = Model.WarehouseID })" for="warranty-detail" ptitle="Bảo hành" class="button-icon view"></a></div>'
+                        }
+                    ]
+                }
+            });
+            _TableFunctions.RefreshData();
+        </script>
+    }
+}

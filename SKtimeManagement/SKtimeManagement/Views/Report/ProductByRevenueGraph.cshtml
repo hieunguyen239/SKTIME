@@ -1,0 +1,66 @@
+﻿@model List<ProductSaleReport>
+@{ 
+    var id = Guid.NewGuid().ToString().Replace("-", "");
+    var width = 1000;
+    var height = Model.Count * 50;
+    var max = Model.Max(i => i.OrderTotal);
+    var lines = new List<string>();
+    var values = new List<string>();
+    var spots = new List<string>();
+    var step = 0m;
+    var multiply = 0;
+    if (max > 0)
+    {
+        while (step * 10 < max)
+        {
+            step = (int)Math.Pow(10, multiply++);
+        }
+        while (max / step <= 5)
+        {
+            step /= 2;
+        }
+        var stepCount = Math.Ceiling(max / step);
+        for (var i = 0; i <= stepCount; i++)
+        {
+            spots.Add(String.Format("<span class=\"spot\" style=\"width: {0}px; text-align: left; left: {1}px\">{2}</span>", width / stepCount, width / stepCount * i - 10, (step * i).GetCurrencyShortString()));
+            if (i > 0)
+            {
+                lines.Add(String.Format("_{2}.moveTo({0}, {1}); _{2}.lineTo({0}, 0);", width / stepCount * i, height, id));
+            }
+        }
+        for (var i = 0; i < Model.Count; i++)
+        {
+            var x = 0;
+            var y = i * 50 + 10;
+            var cWidth = Math.Round(Model[i].OrderTotal / max * width, 2);
+            var cHeight = 30;
+            values.Add(String.Format("_{4}.fillRect({0}, {1}, {2}, {3}); ", x, y, cWidth, cHeight, id));
+        }
+    }
+}
+<div id="@id" class="text-center" style="overflow: auto;">
+    <div class="report-graph inline">
+        <span id="x">
+            @Html.Raw(String.Join("", spots))
+        </span>
+        <span id="y">
+            @for (var i = 0; i < Model.Count; i++)
+            {
+                var product = Model[i];
+                <a href="@Url.Action("Detail", "Product", new { id = product.ID })" target="_self" for="pop-up-content" ptitle="Thống kê" changeurl="false"><span class="value" style="left: -205px; width: 200px; top: @((height / Model.Count) * i + 30)px; color: #0b4fa3">@product.Name<br />(@product.Code)</span></a>
+            }
+        </span>
+        <canvas width="@width" height="@height" style="background-color: #fff"></canvas>
+    </div>
+</div>
+<script>
+    var _@id = $('#@id .report-graph canvas')[0].getContext('2d');
+    _@(id).strokeStyle = "#b0b0b0";
+    _@(id).lineWidth = 1;
+    _@(id).beginPath();
+    @String.Join("", lines)
+    _@(id).stroke();
+
+    _@(id).fillStyle = "#f88888";
+    @String.Join("", values)
+</script>

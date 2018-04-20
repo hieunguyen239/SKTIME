@@ -1,0 +1,114 @@
+﻿@model SKtimeManagement.EmployeeInfo
+<h3 class="text-center">Nhân viên</h3>
+@if (Model != null)
+{
+    <div class="flexible">
+        <div class="w20">
+            <div>
+                <label class="inline">Ảnh:</label><span class="image"><img class="thumb" src="@Url.Image("Employee", Model.Image)" /></span>
+            </div>
+        </div>
+        <div class="w80">
+            <div class="tabs inline">
+                <div id="heads">
+                    <span for="employee-detail" class="active">Thông tin</span>
+                    <span for="employee-fine-list">Phạt vi phạm</span>
+                </div>
+            </div>
+            <div id="employee-fine-list" class="tab-body hidden">
+                <script>
+                    AjaxRequest({
+                        url: '@Url.Action("GetFine", "Employee", new { id = Model.ID })',
+                        success: function (data) {
+                            if (data.html) {
+                                var id = '#employee-fine-list';
+                                $(id).html(data.html);
+                                ProcessForms(id);
+                                ProcessLinks(id);
+                            }
+                        }
+                    });
+                </script>
+            </div>
+            <div id="employee-detail" class="tab-body">
+                <div class="flexible">
+                    <div class="w50">
+                        <div>
+                            <label>Họ tên:</label><span class="info">@Model.Name</span>
+                        </div>
+                        <div>
+                            <label>Địa chỉ:</label><span class="info">@Model.Address</span>
+                        </div>
+                        <div>
+                            <label>Tài khoản đăng nhập:</label><span class="info">@Model.Username</span>
+                        </div>
+                        <div>
+                            <label>Số điện thoại:</label><span class="info">@Model.Phone</span>
+                        </div>
+                        <div>
+                            <label>Ngày sinh:</label><span class="info">@(Model.DOB.HasValue ? Model.DOB.Value.ToString(Constants.DateTimeString) : "")</span>
+                        </div>
+                        <div>
+                            <label>Ngày vào làm:</label><span class="info">@(Model.StartDate.HasValue ? Model.StartDate.Value.ToString(Constants.DateTimeString) : "")</span>
+                        </div>
+                        <div>
+                            <label>Ngày nghỉ luôn:</label><span class="info">@(Model.EndDate.HasValue ? Model.EndDate.Value.ToString(Constants.DateTimeString) : "")</span>
+                        </div>
+                        <div>
+                            <label>Tài khoản NH:</label><span class="info">@Model.BankNumber</span>
+                        </div>
+                        <div>
+                            <label>Tên NH:</label><span class="info">@Model.BankName</span>
+                        </div>
+                        <div>
+                            <label>Chi nhánh NH:</label><span class="info">@Model.BankBranch</span>
+                        </div>
+                    </div>
+                    <div class="w50">
+                        <div>
+                            <label>Trạng thái:</label><span class="info">@Model.WorkStatus</span>
+                        </div>
+                        <div>
+                            <label>Chức vụ:</label><span class="info">@Model.Position</span>
+                        </div>
+                        <div>
+                            <label>Cửa hàng:</label><span class="info">@Model.StoreName</span>
+                        </div>
+                        <div>
+                            <label>Thời gian làm việc:</label><span class="info">@Model.WorkTime</span>
+                        </div>
+                        <div>
+                            <label>Doanh số bàn hàng/ tháng:</label><span class="info">@Model.CurrentSaleString VND</span>
+                        </div>
+                        <div>
+                            <label>Lương căn bản:</label><span class="info">@Model.BaseSalaryString VND</span>
+                        </div>
+                        <div>
+                            <label>Lương tăng:</label><span class="info">@Model.AdditionalSalaryString VND</span>
+                        </div>
+                        <div>
+                            <label>Số ngày làm việc:</label><span class="info">@Model.WorkDays</span>
+                        </div>
+                        <div>
+                            <label>Số ngày nghỉ:</label><span class="info">@Model.OffDays</span>
+                        </div>
+                    </div>
+                    <div class="w100">
+                        <div>
+                            <label>Lí lịch:</label><span class="info">@Model.Summary</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="text-center text-danger">
+        Nhân viên không tồn tại
+    </div>
+}
+<div class="text-right">
+    <a href="@Url.Action("List", "Employee")" target="_self" class="button cancel" for="main-content" ptitle="Nhân viên">Trở về</a>
+</div>

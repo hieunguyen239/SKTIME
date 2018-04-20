@@ -1,0 +1,42 @@
+﻿@model SKtimeManagement.Login
+@{
+    ViewBag.Title = "Đăng nhập";
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+}
+
+<div id="login">
+    <span class="centerer"></span>
+    <div class="centered">
+        <div id="login-form">
+            <form action="@Url.Action("Login", "Main")" method="post">
+                <div>
+                    <input class="input" type="text" name="Username" placeholder="Tài khoản" value="@Model.Username"/>
+                </div>
+                <div>
+                    <input class="input" type="password" name="Password" placeholder="Mật khẩu" value="@Model.Password"/>
+                </div>
+                <div class="text-right">
+                    <input type="submit" value="Đăng nhập" class="login"/>
+                </div>
+                @if (!String.IsNullOrEmpty(Model.Message))
+                {
+                    <div class="text-center">
+                        <i class="text-danger">@Html.Raw(Model.Message)</i>
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+</div>
+
+@section styles {
+    @Styles.Render("~/Style/Login")
+}
+@section scripts {
+    <script>
+        $('#login-form').on('submit', function () {
+            $(this).find('input[type="submit"]').attr('disabled', 'disabled');
+            Loading($('#login-form'));
+        });
+    </script>
+}

@@ -1,0 +1,90 @@
+﻿@model SKtimeManagement.ExportList
+<h3 class="text-center">Phiếu xuất kho</h3>
+@if (!String.IsNullOrEmpty(Model.Message))
+{
+    <div class="text-center @(Model.Result ? "text-info" : "text-danger")">
+        <i>@Html.Raw(Model.Message)</i>
+    </div>
+}
+<div>
+    <form action="@Url.Action("Update", "Export")" method="post" ptitle="Xuất kho" for="export-detail">
+        <input type="hidden" name="id" value="@Model.Current.ID" />
+        <div class="flexible">
+            <div class="w33">
+                <div>
+                    <label>Mã phiếu:</label><span class="info">@Model.Current.Code</span>
+                </div>
+                <div>
+                    <label>Nhân viên:</label><span class="info">@Model.Current.EmployeeName</span>
+                </div>
+            </div>
+            <div class="w33">
+                <div>
+                    <label>Ngày tạo:</label><span class="info">@Model.Current.SubmitDate.ToString(Constants.DateTimeString)</span>
+                </div>
+                @if (!String.IsNullOrEmpty(Model.Current.OrderCode))
+            {
+                    <div>
+                        <label>Hóa đơn:</label><span class="info">@Model.Current.OrderCode</span>
+                    </div>
+                }
+            </div>
+            <div class="w33">
+                <div>
+                    <label>Tổng tiền:</label><span class="info">@Model.Current.Products.Sum(p => p.Price * p.Quantity).GetCurrencyString() VND</span>
+                </div>
+                @if (!String.IsNullOrEmpty(Model.Current.ClientName))
+            {
+                    <div>
+                        <label>Khách hàng:</label><span class="info">@Model.Current.ClientName</span>
+                    </div>
+                }
+            </div>
+            <div class="w100">
+                <div>
+                    <label>Ghi chú:</label>
+                    <input class="input" type="text" name="note" value="@Model.Current.Note" maxlength="200" style="margin-bottom: 0;" />
+                </div>
+                <div>
+                    <label></label><input type="submit" value="Cập nhật" class="save" url="@Url.Action("Detail", "Export", new { ID = Model.Current.ID })" style="margin: 10px 0 0"/>
+                    <a href="@Url.Action("Detail", "Export", new { id = Model.Current.ID })" target="_self" class="button cancel" for="export-detail" ptitle="Xuất kho" style="margin: 10px 0 0">Hủy</a>
+                </div>
+            </div>
+        </div>
+        <div class="tbl">
+            <table id="export-products">
+                <thead>
+                    <tr id="head">
+                        <td width="50"></td>
+                        <td>Mã SP</td>
+                        <td>Tên</td>
+                        <td>Kho hàng</td>
+                        <td>Số lượng</td>
+                        <td>Giá nhập</td>
+                        <td>Thành tiền</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Current.Products)
+                    {
+                        <tr class="data">
+                            <td><div></div></td>
+                            <td><div><span> @item.Code</span></div></td>
+                            <td><div><span> @item.ProductName</span></div></td>
+                            <td><div><span> @item.WarehouseName</span></div></td>
+                            <td><div><span> @item.QuantityString</span></div></td>
+                            <td><div><span> @item.PriceString</span></div></td>
+                            <td><div><span> @item.Total VND</span></div></td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="6"><div class="text-right">Tổng cộng:</div></td>
+                        <td><div class="text-center"><strong id="grand-total">@Model.Current.Products.Sum(p => p.Quantity * p.Price).GetCurrencyString()</strong> VND</div></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </form>
+</div>

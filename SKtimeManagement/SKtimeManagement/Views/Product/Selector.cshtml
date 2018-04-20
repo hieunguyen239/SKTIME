@@ -1,0 +1,32 @@
+﻿@model SKtimeManagement.FindItem
+@if (Model != null && !String.IsNullOrEmpty(Model.Code))
+{
+    var name = Model.ID > 0 ? String.Format("<a href=\"{0}\" target=\"_self\" for=\"pop-up-content\" changeurl=\"false\">{1}</a>", Url.Action("Detail", "Product", new { id = Model.ID }), Model.Name) : Model.Name;
+    <script>
+        var _find = _products.filter(function (value, index) {
+            return value.Code == '@Model.Code';
+        });
+        if (_find.length == 0) {
+            _products.push({
+                ID: @Model.ID,
+                Code: '@Model.Code',
+                Name: '@Html.Raw(name)',
+                Tag: '@Model.TagName',
+                Unit: '@Model.Unit',
+                Warehouse: '@Model.WarehouseName',
+                Max: @Model.Max,
+                Quantity: 1,
+                Exist: @(Model.Exist.JsonValue())
+            });
+        }
+        else {
+            _find[0].Quantity += 1;
+        }
+        RefreshProductList();
+        RecentImage({
+            code: '@Model.Code',
+            name: '@Model.Name',
+            img: '@Model.Image'
+        });
+    </script>
+}

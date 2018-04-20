@@ -1,8 +1,0 @@
-﻿@model IEnumerable<SKtimeManagement.ProductQuantity>
-@foreach (var q in Model)
-{
-    var id = String.Format("quantity-{0}-{1}", q.ProductID, q.WarehouseID);
-    <div id="@id">
-        <label>@q.WarehouseName: </label>@Html.Partial("Quantity", q)
-    </div>
-}

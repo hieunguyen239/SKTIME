@@ -1,0 +1,77 @@
+﻿@model SKtimeManagement.ImportRecord
+<div class="flexible">
+    <div class="w50">
+        <strong style="font-size: 18px">SKTIME SHOP</strong><br />
+        <span>HCMC, VIETNAM</span><br />
+        <span>ĐT: 0933 848 858</span>
+    </div>
+</div>
+<div class="text-center">
+    <strong style="font-size: 26px;">PHIẾU NHẬP HÀNG</strong>
+</div>
+<div class="flexible">
+    <div class="w50">
+        <span>Ngày tạo: <strong>@Model.SubmitDate.ToString("dd/MM/yyyy")</strong></span><br />
+        <span>Kho: <strong>@Model.WarehouseName</strong></span><br />
+        <span>Địa chỉ: <strong>@Model.WarehouseAddress</strong></span>
+    </div>
+    <div class="w50">
+        <span>Mã: <strong>@Model.Code</strong></span><br />
+    </div>
+</div>
+<div>
+    <table width="100%" style="border-collapse: collapse; border: solid 1px #bf3636; margin: 10px 0;">
+        <tr>
+            <td align="center" style="border: solid 1px #bf3636"><strong>STT</strong></td>
+            <td align="center" style="border: solid 1px #bf3636"><strong>MÃ SP</strong></td>
+            <td align="center" style="border: solid 1px #bf3636"><strong>TÊN SẢN PHẨM</strong></td>
+            <td align="center" style="border: solid 1px #bf3636"><strong>ĐƠN VỊ TÍNH</strong></td>
+            <td align="center" style="border: solid 1px #bf3636"><strong>SỐ LƯỢNG</strong></td>
+            <td align="center" style="border: solid 1px #bf3636"><strong>ĐƠN GIÁ</strong></td>
+            <td align="center" style="border: solid 1px #bf3636" width="150"><strong>THÀNH TIỀN</strong></td>
+        </tr>
+        @for (var i = 0; i < Model.Products.Count; i++)
+        {
+            <tr>
+                <td align="center" style="border: solid 1px #bf3636"><span>@(i + 1)</span></td>
+                <td align="center" style="border: solid 1px #bf3636"><span>@Model.Products[i].Code</span></td>
+                <td align="left" style="border: solid 1px #bf3636; padding-left: 10px;"><span>@Model.Products[i].Name</span></td>
+                <td align="center" style="border: solid 1px #bf3636"><span>@Model.Products[i].Unit</span></td>
+                <td align="center" style="border: solid 1px #bf3636"><span>@Model.Products[i].QuantityString</span></td>
+                <td align="center" style="border: solid 1px #bf3636"><span>@Model.Products[i].PriceString</span></td>
+                <td align="right" style="border: solid 1px #bf3636; padding-right: 10px;"><span>@((Model.Products[i].Price * Model.Products[i].Quantity).GetCurrencyString())</span></td>
+            </tr>
+        }
+        <tr>
+            <td align="center" style="border: solid 1px #bf3636"><strong></strong></td>
+            <td align="center" style="border: solid 1px #bf3636"><strong></strong></td>
+            <td align="center" style="border: solid 1px #bf3636"><strong>TỔNG CỘNG</strong></td>
+            <td align="center" style="border: solid 1px #bf3636"><strong></strong></td>
+            <td align="center" style="border: solid 1px #bf3636"><strong>@Model.Products.Sum(p => p.Quantity).GetCurrencyString()</strong></td>
+            <td align="center" style="border: solid 1px #bf3636"><strong></strong></td>
+            <td align="right" style="border: solid 1px #bf3636; padding-right: 10px;"><strong>@Model.Products.Sum(p => p.Price * p.Quantity).GetCurrencyString()</strong></td>
+        </tr>
+    </table>
+    <div>
+        <span>Ghi chú: <strong>@Model.Note</strong></span>
+    </div>
+    <table width="100%">
+        <tr>
+            <td align="center" width="20%">
+                <strong>Người giao hàng</strong><br />(Ký, Họ Tên)
+            </td>
+            <td align="center" width="20%">
+                <strong>Người nhận hàng</strong><br />(Ký, Họ Tên)
+            </td>
+            <td align="center" width="20%">
+                <strong>Thủ quỹ</strong><br />(Ký, Họ Tên)
+            </td>
+            <td align="center" width="20%">
+                <strong>Kế toán trưởng</strong><br />(Ký, Họ Tên)
+            </td>
+            <td align="center" width="20%">
+                <strong>Thủ trưởng đơn vị</strong><br />(Ký, Họ Tên)
+            </td>
+        </tr>
+    </table>
+</div>

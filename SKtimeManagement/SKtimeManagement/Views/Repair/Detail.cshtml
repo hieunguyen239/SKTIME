@@ -1,0 +1,377 @@
+﻿@model SKtimeManagement.RepairModel
+@{ 
+    var mechanicID = Guid.NewGuid().ToString();
+    var internalID = Guid.NewGuid().ToString();
+}
+<div class="flexible">
+    <div class="w20">
+        <div class="text-center">
+            @if (Model.SelectedProduct != null)
+            {
+                <span class="image"><img class="thumb" src="@Url.Image("Product", Model.SelectedProduct.Image)" /></span><br />
+                <strong>@Model.SelectedProduct.Name</strong><br /><strong>@Model.SelectedProduct.Code</strong>
+            }
+            else
+            {
+                <span class="image"><img class="thumb" src="@Url.Image("Product", null)" /></span><br />
+                <strong>@Model.Record.ProductName</strong>
+            }
+        </div>
+    </div>
+    <div id="repair-detail-content" class="w80">
+        <div class="tabs inline">
+            <div id="heads">
+                <span for="repair-info" class="active">Thông tin</span>
+                <span for="repair-payment-list">Thanh toán</span>
+                <span for="repair-history">Lịch sử</span>
+            </div>
+        </div>
+        <div id="repair-info" class="tab-body">
+            @if (Model.Edit)
+            {
+                @Html.Partial("Edit", Model)
+            }
+            else
+            {
+                <div class="flexible">
+                    <div class="w100">
+                        <a href="@Url.Action("Update", "Repair", new { id = Model.Record.ID })" target="_self" class="button edit" for="repair-info" ptitle="Sửa chữa">Cập nhật</a>
+                        <span class="button print" onclick="Print('repair-print')">In</span>
+                        <span class="button remove" onclick="RemoveRecord()">Xóa</span>
+                    </div>
+                    <div class="w50">
+                        <div>
+                            <label>Mã phiếu:</label><span class="info">@Model.Record.Code</span>
+                        </div>
+                        <div>
+                            <label>Kho:</label><span class="info">@Model.Record.WarehouseName</span>
+                        </div>
+                        <div>
+                            <label>Kho tiếp nhận:</label><span class="info">@Model.Record.ReceiveWarehouseName</span>
+                        </div>
+                        <div>
+                            <label>Ngày tạo:</label><span class="info">@Model.Record.SubmitDate.ToString(Constants.DateTimeString)</span>
+                        </div>
+                    </div>
+                    <div class="w50">
+                        <div>
+                            <label>Mã khách hàng:</label><span class="info">@Model.Record.ClientCode</span>
+                        </div>
+                        <div>
+                            <label>Khách hàng:</label><span class="info">@Model.Record.ClientName</span>
+                        </div>
+                        <div>
+                            <label>Nhân viên:</label><span class="info">@Model.Record.EmployeeName</span>
+                        </div>
+                        <div>
+                            <label>Tình trạng:</label><span class="info">@Model.Record.ProductState</span>
+                        </div>
+                    </div>
+                    <div class="w50">
+                        <div>
+                            <label>Chuyển đến NVBH:</label><span class="info">@(Model.Record.TransferDate.HasValue ? Model.Record.TransferDate.Value.ToString(Constants.DateString) : "")</span>
+                        </div>
+                        <div>
+                            <label>NVBH nhận:</label><span class="info">@(Model.Record.ReceivedDate.HasValue ? Model.Record.ReceivedDate.Value.ToString(Constants.DateString) : "")</span>
+                        </div>
+                        <div>
+                            <label>Chuyển đến CH:</label><span class="info">@(Model.Record.ProcessedDate.HasValue ? Model.Record.ProcessedDate.Value.ToString(Constants.DateString) : "")</span>
+                        </div>
+                        <div>
+                            <label>CH nhận:</label><span class="info">@(Model.Record.ReturnedDate.HasValue ? Model.Record.ReturnedDate.Value.ToString(Constants.DateString) : "")</span>
+                        </div>
+                        <div>
+                            <label>Giao hàng:</label><span class="info">@Model.Record.FinishDate.ToString(Constants.DateString)</span>
+                        </div>
+                    </div>
+                    <div class="w50">
+                        <div>
+                            <label>Dịch vụ:</label><span class="info">@Model.Record.Service</span>
+                        </div>
+                        <div>
+                            <label>Giá tiền:</label><span class="info">@Model.Record.FeeString</span>
+                        </div>
+                        <div>
+                            <label>Khuyến mãi:</label><span class="info">@Model.Record.DiscountString</span>
+                        </div>
+                        <div>
+                            <label>Đã trả:</label><span class="info" id="paid">@Model.Record.PaidString</span>
+                        </div>
+                        <div>
+                            <label>Ghi chú:</label><span class="info">@Model.Record.Note</span>
+                        </div>
+                        <div>
+                            <label>Khác:</label><span class="info">@Model.Record.Other</span>
+                        </div>
+                    </div>
+                    <div class="w100">
+                        <div class="border">
+                            <span id="title">Cập nhật thời gian</span>
+                            @if (!Model.Record.TransferDate.HasValue)
+                            {
+                                <form action="@Url.Action("TransferDate", "Repair")" method="POST" for="repair-detail">
+                                    <input type="hidden" name="ID" value="@Model.Record.ID" />
+                                    <div id="form-message" class="text-center text-danger"></div>
+                                    <div>
+                                        <label>Chuyển đến NVBH:</label>
+                                        <div class="inline">
+                                            <div class='input-group date' format="@Constants.DateWebString">
+                                                <input type='text' class="form-control input" name="TransferDate" value="@DateTime.Now.ToString(Constants.DateString)" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label></label>
+                                        <input type="submit" value="Lưu" class="save" />
+                                    </div>
+                                </form>
+                            }
+                            else if (!Model.Record.ReceivedDate.HasValue)
+                            {
+                                <form action="@Url.Action("ReceivedDate", "Repair")" method="POST" for="repair-detail">
+                                    <input type="hidden" name="ID" value="@Model.Record.ID" />
+                                    <div id="form-message" class="text-center text-danger"></div>
+                                    <div>
+                                        <label>NVBH nhận:</label>
+                                        <div class="inline">
+                                            <div class='input-group date' format="@Constants.DateWebString">
+                                                <input type='text' class="form-control input" name="ReceivedDate" value="@Model.Record.TransferDate.Value.ToString(Constants.DateString)" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label></label>
+                                        <input type="submit" value="Lưu" class="save" />
+                                    </div>
+                                </form>
+                            }
+                            else if (!Model.Record.ProcessedDate.HasValue)
+                            {
+                                <form action="@Url.Action("ProcessedDate", "Repair")" method="POST" for="repair-detail">
+                                    <input type="hidden" name="ID" value="@Model.Record.ID" />
+                                    <div id="form-message" class="text-center text-danger"></div>
+                                    <div>
+                                        <label>Chuyển đến CH:</label>
+                                        <div class="inline">
+                                            <div class='input-group date' format="@Constants.DateWebString">
+                                                <input type='text' class="form-control input" name="ProcessedDate" value="@Model.Record.ReceivedDate.Value.ToString(Constants.DateString)" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label></label>
+                                        <input type="submit" value="Lưu" class="save" />
+                                    </div>
+                                </form>
+                            }
+                            else if (!Model.Record.ReturnedDate.HasValue)
+                            {
+                                <form action="@Url.Action("ReturnedDate", "Repair")" method="POST" for="repair-detail">
+                                    <input type="hidden" name="ID" value="@Model.Record.ID" />
+                                    <div id="form-message" class="text-center text-danger"></div>
+                                    <div>
+                                        <label>CH nhận:</label>
+                                        <div class="inline">
+                                            <div class='input-group date' format="@Constants.DateWebString">
+                                                <input type='text' class="form-control input" name="ReturnedDate" value="@Model.Record.ProcessedDate.Value.ToString(Constants.DateString)" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label></label>
+                                        <input type="submit" value="Lưu" class="save" />
+                                    </div>
+                                </form>
+                            }
+                            else
+                            {
+                                <form action="@Url.Action("FinishDate", "Repair")" method="POST" for="repair-detail">
+                                    <input type="hidden" name="ID" value="@Model.Record.ID" />
+                                    <div id="form-message" class="text-center text-danger"></div>
+                                    <div>
+                                        <label>Giao hàng:</label>
+                                        <div class="inline">
+                                            <div class='input-group date' format="@Constants.DateWebString">
+                                                <input type='text' class="form-control input" name="FinishDate" value="@Model.Record.FinishDate.ToString(Constants.DateString)" />
+                                                <span class="input-group-addon">
+                                                    <span class="glyphicon glyphicon-calendar"></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label></label>
+                                        <input type="submit" value="Lưu" class="save" />
+                                    </div>
+                                </form>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div id="repair-payment-list" class="tab-body hidden">
+            <script>
+                AjaxRequest({
+                    url: '@Url.Action("GetTransactions", "Repair", new { id = Model.Record.ID })',
+                    success: function (data) {
+                        if (data.html) {
+                            $('#repair-payment-list').html(data.html);
+                            ProcessForms('#repair-payment-list');
+                            ProcessLinks('#repair-payment-list');
+                        }
+                    }
+                });
+            </script>
+        </div>
+        @if (Model.Record.ProductID.HasValue)
+        {
+            <div id="repair-history" class="tab-body hidden">
+
+            </div>
+        }
+    </div>
+    <div class="w100">
+        <div class="tabs inline">
+            <div id="heads">
+                <span for="mechanic-note" class="active">Tin nhắn</span>
+                @if (Model.ViewInternalNote)
+                {
+                    <span for="internal-note">Tin nhắn nội bộ</span>
+                }
+                <span for="repair-item">Linh kiện sử dụng</span>
+            </div>
+        </div>
+        <div id="mechanic-note" class="tab-body">
+            <form action="@Url.Action("SaveMechanicNote", "Repair")" method="post" for="@mechanicID" ptitle="Sửa chữa">
+                <input type="hidden" name="RepairID" value="@Model.Record.ID" />
+                <input type="hidden" name="subID" value="@mechanicID"/>
+                <div>
+                    <label>Tin nhắn:</label><input type="text" class="input" name="Message" />
+                </div>
+                <div>
+                    <label></label>
+                    <input type="submit" value="Thêm" class="add" />
+                </div>
+            </form>
+            <div id="@mechanicID"></div>
+        </div>
+        @if (Model.ViewInternalNote)
+        {
+            <div id="internal-note" class="tab-body hidden">
+                <form action="@Url.Action("SaveInternalNote", "Repair")" method="post" for="@internalID" ptitle="Sửa chữa">
+                    <input type="hidden" name="RepairID" value="@Model.Record.ID" />
+                    <input type="hidden" name="subID" value="@internalID" />
+                    <div>
+                        <label>Tin nhắn:</label><input type="text" class="input" name="Message" />
+                    </div>
+                    <div>
+                        <label></label>
+                        <input type="submit" value="Thêm" class="add" />
+                    </div>
+                </form>
+                <div id="@internalID"></div>
+            </div>
+        }
+        <div id="repair-item" class="tab-body hidden">
+            <div class="flexible">
+                <div id="repair-item-filter" class="w50">
+                    <div class="border">
+                        <span id="title">Tìm sản phẩm</span>
+                        <div>
+                            <form action="@Url.Action("SearchProduct", "Repair")" method="post" for="repair-item-filter" ptitle="Sửa chữa">
+                                <input type="hidden" name="WarehouseID" value="@Model.Record.WarehouseID" />
+                                <input type="hidden" name="recordID" value="@Model.Record.ID" />
+                                <div>
+                                    <label>Mã:</label><input class="input" type="text" name="Code" value="" />
+                                </div>
+                                <div>
+                                    <label>Tên:</label><input class="input" type="text" name="Name" value="" />
+                                </div>
+                                <div class="text-right">
+                                    <input type="submit" value="Tìm" class="search" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div id="repair-item-list" class="w50">
+                    <script>
+                        AjaxRequest({
+                            url: '@Url.Action("GetProducts", "Repair", new { id = Model.Record.ID })',
+                            success: function (data) {
+                                if (data.html) {
+                                    var id = '#repair-item-list';
+                                    $(id).html(data.html);
+                                    ProcessLinks(id);
+                                }
+                            }
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="repair-print" class="hidden">
+    @Html.Partial("Print", Model)
+</div>
+@if (Model.Record.ProductID.HasValue)
+{
+    <script>
+        AjaxRequest({
+            url: '@Url.Action("RepairHistory", "Repair", new { id = Model.Record.ProductID.Value, subID = Model.Record.ClientID })',
+            success: function (data) {
+                if (data.html) {
+                    $('#repair-history').html(data.html);
+                }
+            }
+        });
+    </script>
+}
+<script>
+    AjaxRequest({
+        url: '@Url.Action("GetMechanicNote", "Repair", new { id = Model.Record.ID, subID = mechanicID })',
+        success: function (data) {
+            if (data.html) {
+                $('#@mechanicID').html(data.html);
+                ProcessLinks('#@mechanicID');
+            }
+        }
+    });
+    function RemoveRecord() {
+        _messageActive = true;
+        $('#pop-up-content').html('<div><p>Bạn muốn xóa phiếu sửa chữa @Model.Record.Code?</p><div class="text-right"><a class="button remove" for="main-content" ptitle="Sửa chữa" changeurl="false" href="@Url.Action("Remove", "Repair", new { id = Model.Record.ID })">Xóa</a><span class="button cancel">Hủy</span></div></div>');
+        $('#pop-up-content').find('span.cancel').on('click', function () {
+            $('#pop-up').removeClass('active');
+        });
+        $('#pop-up').addClass('active');
+        ProcessLinks('#pop-up-content');
+    }
+</script>
+@if (Model.ViewInternalNote)
+{
+    <script>
+        AjaxRequest({
+            url: '@Url.Action("GetInternalNote", "Repair", new { id = Model.Record.ID, subID = internalID })',
+            success: function (data) {
+                if (data.html) {
+                    $('#@internalID').html(data.html);
+                    ProcessLinks('#@internalID');
+                }
+            }
+        });
+    </script>
+}

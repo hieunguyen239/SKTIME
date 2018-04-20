@@ -1,0 +1,69 @@
+﻿@model SKtimeManagement.StoreList
+@{
+    var id = Guid.NewGuid().ToString();
+}
+<div class="tabs">
+    <div id="heads">
+        <a href="@Url.Action("Bussiness", "Setting")" target="_self" for="main-content" ptitle="Công ty/ đơn vị">Công ty/ đơn vị</a>
+        <span class="active">Cửa hàng</span>
+    </div>
+</div>
+@if (!String.IsNullOrEmpty(Model.Message))
+{
+    <div class="text-center">
+        <i class="text-info">@Html.Raw(Model.Message)</i>
+    </div>
+}
+<div class="flexible">
+    <div class="w25">
+        <div class="group">
+            <h3 class="head-line">Tìm kiếm</h3>
+            <div id="content">
+                <form action="@Url.Action("Store", "Setting")" method="post" for="main-content" ptitle="Cửa hàng">
+                    <div>
+                        <label>Tên:</label><input class="input" type="text" name="Name" value="@Model.Filter.Name" />
+                    </div>
+                    <div>
+                        <label>Số điện thoại:</label><input class="input" type="text" name="Phone" value="@Model.Filter.Phone" />
+                    </div>
+                    <div>
+                        <label>Địa chỉ:</label><input class="input" type="text" name="Address" value="@Model.Filter.Address" />
+                    </div>
+                    <div class="text-right">
+                        <input type="submit" value="Tìm" url="@Url.Action("Store", "Setting")" class="search" />
+                        <a href="@Url.Action("StoreCreate", "Setting")" target="_self" class="button add" for="pop-up-content" ptitle="Cửa hàng">Tạo mới</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="w75">
+        <p>Tổng cộng: <span class="text-info">@Model.Data.Count</span></p>
+        <div id="store" class="tbl">
+            <table id="store-table" data="@id" key="ID" update="@Url.Action("StoreUpdate", "Setting", new { id = "{ID}" })" remove="@Url.Action("StoreRemove", "Setting", new { id = "{ID}" })" ptitle="Cửa hàng">
+                <thead>
+                    <tr>
+                        <td width="80"></td>
+                        <td name="Name"><div>Tên cửa hàng</div></td>
+                        <td name="Address"><div>Địa chỉ</div></td>
+                        <td name="Phone"><div>Số điện thoại</div></td>
+                        <td text="right" name="SalePointString"><div>Doanh số quy định</div></td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+@{
+    var scripts = new List<string>();
+    if (Model.Data != null)
+    {
+        var jsonData = Html.JsonSerialize(Model.Data);
+        scripts.Add("_TableFunctions.Data.push({" + String.Format("id: '{0}',data: JSON.parse('{1}', _TableFunctions.JsonParse)", id, jsonData) + "});");
+    }
+}
+@Html.Raw(String.Format("<script>{0}</script>", String.Join("", scripts)))
+<script>
+    _TableFunctions.Init({ e: '#store' });
+    _TableFunctions.RefreshData();
+</script>

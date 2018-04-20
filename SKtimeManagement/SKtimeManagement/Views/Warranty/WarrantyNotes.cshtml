@@ -1,0 +1,39 @@
+﻿@model SKtimeManagement.WarrantyNoteList
+@{ 
+    var id = Guid.NewGuid().ToString();
+    var tableID = Guid.NewGuid().ToString();
+}
+<div id="@tableID" class="tbl">
+    <table data="@id" keys="ID">
+        <thead>
+            <tr>
+                <td width="50"></td>
+                <td name="Title"><div>Người nhắn</div></td>
+                <td name="Message"><div>Nội dung</div></td>
+            </tr>
+        </thead>
+    </table>
+</div>
+@{
+    var scripts = new List<string>();
+    if (Model.Data != null)
+    {
+        var jsonData = Html.JsonSerialize(Model.Data);
+        scripts.Add("_TableFunctions.Data.push({" + String.Format("id: '{0}',data: JSON.parse('{1}', _TableFunctions.JsonParse)", id, jsonData) + "});");
+    }
+}
+@Html.Raw(String.Format("<script>{0}</script>", String.Join("", scripts)))
+<script>
+    _TableFunctions.Init({
+        e: '#@tableID',
+        input: {
+            id: '@id',
+            input: [
+                {
+                    html: '<div><a href="@Url.Action(Model.RemoveUrl, "Warranty", new { id = "_ID", subID = Model.ID })" for="@Model.ID" changeurl="false" ptitle="Bảo hành" class="button-icon remove"></a></div>'
+                }
+            ]
+        }
+    });
+    _TableFunctions.RefreshData();
+</script>

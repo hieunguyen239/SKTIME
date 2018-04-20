@@ -1,0 +1,25 @@
+﻿@model ImexItem
+@{
+    var script = "";
+    if (Model != null)
+    {
+        script = String.Format("<script>_orderData.push({0});_RefreshOrderList();ProcessSelects('#order-products tbody');</script>", Model.JsObject);
+    }
+}
+@if (Model != null)
+{
+    <script>
+    var index = -1, id = @Model.ID;
+    _orderData.forEach(function (e, i) {
+        if (e.ID == id) {
+            index = i;
+            e.Quantity += 1;
+            e.Total = GetCurrencyString(e.Price * e.Quantity)
+        }
+    });
+    if (index == -1)
+        _orderData.push(@Html.Raw(Model.JsObject));
+    _RefreshOrderList();
+    ProcessSelects('#order-products tbody');
+    </script>
+}

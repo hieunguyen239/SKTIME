@@ -1,0 +1,333 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutBase.cshtml";
+    var employee = (EmployeeInfo)Session[SessionKey.Employee];
+}
+
+<header>
+    <div class="container">
+        <div class="text-right">
+            <span>Hi, @employee.Name</span>
+            <div id="user-logo" style="background-image: url('@Url.Image("Employee", employee.Image)');">
+                <div id="user-menu">
+                    <div class="item">
+                        <a href="@Url.Action("EmployeeSalary", "Main")" target="_self" for="pop-up-content" changeurl="false">Lương cá nhân</a>
+                    </div>
+                    <div class="line"></div>
+                    <div class="item">
+                        <a href="@Url.Action("GetFine", "Main")" target="_self" for="pop-up-content" changeurl="false">Phạt vi phạm</a>
+                    </div>
+                    <div class="line"></div>
+                    <div class="item">
+                        <a href="@Url.Action("ChangePassword", "Main")" target="_self" for="main-content" ptitle="Đổi mật khẩu">Đổi mật khẩu</a>
+                    </div>
+                    <div class="line"></div>
+                    <div class="item">
+                        <a href="@Url.Action("Logout", "Main")" target="_self">Đăng xuất</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="main-menu">
+            <div id="content">
+                <div class="item">
+                    <a class="icon home-white" href="@Url.Action("Index", "Main")" target="_self" for="main-content" ptitle="Trang chủ">Trang chủ</a>
+                </div>
+                <div class="item">
+                    <a class="icon setting-white" href="@Url.Action("Bussiness", "Setting")" target="_self" for="main-content" ptitle="Cài đặt">Cài đặt</a>
+                </div>
+                <div class="item">
+                    <span class="icon employee-white">Nhân viên</span>
+                    <div id="list">
+                        <a class="icon employee-blue" href="@Url.Action("List", "Employee")" target="_self" for="main-content" ptitle="Nhân viên">Nhân viên</a>
+                        <span class="line"></span>
+                        <a class="icon login-blue" href="@Url.Action("List", "Login")" target="_self" for="main-content" ptitle="Đăng nhập">Đăng nhập</a>
+                        <span class="line"></span>
+                        <a class="icon employee-blue" href="@Url.Action("List", "Delivery")" target="_self" for="main-content" ptitle="Đơn vị giao hàng">Đơn vị giao hàng</a>
+                        <span class="line"></span>
+                        <a class="icon salary-blue" href="@Url.Action("Calculate", "Salary")" target="_self" for="main-content" ptitle="Nhân viên">Chấm công</a>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="icon product-white">Sản phẩm</span>
+                    <div id="list">
+                        <a class="icon product-blue" href="@Url.Action("List", "Product")" target="_self" for="main-content" ptitle="Sản phẩm">Sản phẩm</a>
+                        <span class="line"></span>
+                        <a class="icon tag-blue" href="@Url.Action("List", "Tag")" target="_self" for="main-content" ptitle="Nhóm sản phẩm">Nhóm sản phẩm</a>
+                        <span class="line"></span>
+                        <a class="icon warehouse-blue" href="@Url.Action("List", "Warehouse")" target="_self" for="main-content" ptitle="Kho hàng">Kho hàng</a>
+                        <span class="line"></span>
+                        <a class="icon supplier-blue" href="@Url.Action("List", "Supplier")" target="_self" for="main-content" ptitle="Nhà cung cấp">Nhà cung cấp</a>
+                        <span class="line"></span>
+                        <a class="icon storing-blue" href="@Url.Action("Check", "Product")" target="_self" for="main-content" ptitle="Sản phẩm">Tồn kho</a>
+                        <span class="line"></span>
+                        <a class="icon storing-blue" href="@Url.Action("Find", "Product")" target="_self" for="main-content" ptitle="Sản phẩm">Kiểm hàng</a>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="icon client-white">Khách hàng</span>
+                    <div id="list">
+                        <a class="icon client-blue" href="@Url.Action("List", "Client")" target="_self" for="main-content" ptitle="Khách hàng">Khách hàng</a>
+                        <span class="line"></span>
+                        <a class="icon client-type-blue" href="@Url.Action("List", "ClientType")" target="_self" for="main-content" ptitle="Khách hàng">Phân loại</a>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="icon import-white">Nhập/xuất kho</span>
+                    <div id="list">
+                        <a class="icon import-blue" href="@Url.Action("Create", "Import")" target="_self" for="main-content" ptitle="Nhập kho">Nhập kho</a>
+                        <span class="line"></span>
+                        <a class="icon history-blue" href="@Url.Action("History", "Import")" target="_self" for="main-content" ptitle="Nhập kho">Lịch sử nhập kho</a>
+                        <span class="line"></span>
+                        <a class="icon export-blue" href="@Url.Action("Create", "Export")" target="_self" for="main-content" ptitle="Xuất kho">Xuất kho</a>
+                        <span class="line"></span>
+                        <a class="icon history-blue" href="@Url.Action("History", "Export")" target="_self" for="main-content" ptitle="Xuất kho">Lịch sử xuất kho</a>
+                        <span class="line"></span>
+                        <a class="icon order-blue" href="@Url.Action("Create", "Order")" target="_self" for="main-content" ptitle="Hóa đơn">Tạo hóa đơn</a>
+                        <span class="line"></span>
+                        <a class="icon history-blue" href="@Url.Action("History", "Order")" target="_self" for="main-content" ptitle="Hóa đơn">Xem hóa đơn</a>
+                        <span class="line"></span>
+                        <a class="icon warranty-blue" href="@Url.Action("Create", "Warranty")" target="_self" for="main-content" ptitle="Bảo hành">Bảo hành</a>
+                        <span class="line"></span>
+                        <a class="icon history-blue" href="@Url.Action("History", "Warranty")" target="_self" for="main-content" ptitle="Bảo hành">Lịch sử bảo hành</a>
+                        <span class="line"></span>
+                        <a class="icon repair-blue" href="@Url.Action("Create", "Repair")" target="_self" for="main-content" ptitle="Sửa chữa">Sửa chữa</a>
+                        <span class="line"></span>
+                        <a class="icon history-blue" href="@Url.Action("History", "Repair")" target="_self" for="main-content" ptitle="Sửa chữa">Lịch sử sửa chữa</a>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="icon increase-white">Phiếu thu/chi</span>
+                    <div id="list">
+                        <a class="icon increase-blue" href="@Url.Action("List", "Income")" target="_self" for="main-content" ptitle="Phiếu thu">Phiếu thu</a>
+                        <span class="line"></span>
+                        <a class="icon decrease-blue" href="@Url.Action("List", "Outcome")" target="_self" for="main-content" ptitle="Phiếu chi">Phiếu chi</a>
+                    </div>
+                </div>
+                <div class="item">
+                    <span class="icon graph-white">Thống kê</span>
+                    <div id="list">
+                        <a class="icon graph-blue" href="@Url.Action("Summary", "Report")" target="_self" for="main-content" ptitle="Thống kê">Tổng quát</a>
+                        <span class="line"></span>
+                        <a class="icon graph-blue" href="@Url.Action("Detail", "Report")" target="_self" for="main-content" ptitle="Thống kê">Chi tiết</a>
+                        <span class="line"></span>
+                        <a class="icon product-blue" href="@Url.Action("Product", "Report")" target="_self" for="main-content" ptitle="Thống kê">Sản phẩm</a>
+                        <span class="line"></span>
+                        <a class="icon salary-blue" href="@Url.Action("Salary", "Report")" target="_self" for="main-content" ptitle="Thống kê">Lương</a>
+                        <span class="line"></span>
+                        <a class="icon client-blue" href="@Url.Action("Client", "Report")" target="_self" for="main-content" ptitle="Thống kê">Khách hàng</a>
+                        <span class="line"></span>
+                        <a class="icon product-blue" href="@Url.Action("ProductPart", "Report")" target="_self" for="main-content" ptitle="Thống kê">Linh kiện</a>
+                    </div>
+                </div>
+            </div>
+            <div id="button">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </div>
+</header>
+<div id="main-menu-content">
+    <div class="item">
+        <a class="icon home-blue" href="@Url.Action("Index", "Main")" target="_self" for="main-content" ptitle="Trang chủ">Trang chủ</a>
+    </div>
+    <div class="item">
+        <a class="icon setting-blue" href="@Url.Action("Bussiness", "Setting")" target="_self" for="main-content" ptitle="Cài đặt">Cài đặt</a>
+    </div>
+    <span class="line">Nhân viên</span>
+    <div class="item">
+        <a class="icon employee-blue" href="@Url.Action("List", "Employee")" target="_self" for="main-content" ptitle="Nhân viên">Nhân viên</a>
+    </div>
+    <div class="item">
+        <a class="icon login-blue" href="@Url.Action("List", "Login")" target="_self" for="main-content" ptitle="Đăng nhập">Đăng nhập</a>
+    </div>
+    <div class="item">
+        <a class="icon employee-blue" href="@Url.Action("List", "Delivery")" target="_self" for="main-content" ptitle="Đơn vị giao hàng">Đơn vị giao hàng</a>
+    </div>
+    <div class="item">
+        <a class="icon salary-blue" href="@Url.Action("Calculate", "Salary")" target="_self" for="main-content" ptitle="Nhân viên">Chấm công</a>
+    </div>
+    <span class="line">Sản phẩm</span>
+    <div class="item">
+        <a class="icon product-blue" href="@Url.Action("List", "Product")" target="_self" for="main-content" ptitle="Sản phẩm">Sản phẩm</a>
+    </div>
+    <div class="item">
+        <a class="icon tag-blue" href="@Url.Action("List", "Tag")" target="_self" for="main-content" ptitle="Nhóm sản phẩm">Nhóm sản phẩm</a>
+    </div>
+    <div class="item">
+        <a class="icon warehouse-blue" href="@Url.Action("List", "Warehouse")" target="_self" for="main-content" ptitle="Kho hàng">Kho hàng</a>
+    </div>
+    <div class="item">
+        <a class="icon supplier-blue" href="@Url.Action("List", "Supplier")" target="_self" for="main-content" ptitle="Nhà cung cấp">Nhà cung cấp</a>
+    </div>
+    <div class="item">
+        <a class="icon storing-blue" href="@Url.Action("Check", "Product")" target="_self" for="main-content" ptitle="Sản phẩm">Tồn kho</a>
+    </div>
+    <div class="item">
+        <a class="icon storing-blue" href="@Url.Action("Find", "Product")" target="_self" for="main-content" ptitle="Sản phẩm">Kiểm hàng</a>
+    </div>
+    <span class="line">Khách hàng</span>
+    <div class="item">
+        <a class="icon client-blue" href="@Url.Action("List", "Client")" target="_self" for="main-content" ptitle="Khách hàng">Khách hàng</a>
+    </div>
+    <div class="item">
+        <a class="icon client-type-blue" href="@Url.Action("List", "ClientType")" target="_self" for="main-content" ptitle="Khách hàng">Phân loại</a>
+    </div>
+    <span class="line">Nhập kho</span>
+    <div class="item">
+        <a class="icon import-blue" href="@Url.Action("Create", "Import")" target="_self" for="main-content" ptitle="Nhập kho">Nhập kho</a>
+    </div>
+    <div class="item">
+        <a class="icon history-blue" href="@Url.Action("History", "Import")" target="_self" for="main-content" ptitle="Nhập kho">Lịch sử nhập kho</a>
+    </div>
+    <div class="item">
+        <a class="icon export-blue" href="@Url.Action("Create", "Export")" target="_self" for="main-content" ptitle="Xuất kho">Xuất kho</a>
+    </div>
+    <div class="item">
+        <a class="icon history-blue" href="@Url.Action("History", "Export")" target="_self" for="main-content" ptitle="Xuất kho">Lịch sử xuất kho</a>
+    </div>
+    <div class="item">
+        <a class="icon order-blue" href="@Url.Action("Create", "Order")" target="_self" for="main-content" ptitle="Hóa đơn">Tạo hóa đơn</a>
+    </div>
+    <div class="item">
+        <a class="icon history-blue" href="@Url.Action("History", "Order")" target="_self" for="main-content" ptitle="Hóa đơn">Xem hóa đơn</a>
+    </div>
+    <div class="item">
+        <a class="icon warranty-blue" href="@Url.Action("Create", "Warranty")" target="_self" for="main-content" ptitle="Bảo hành">Bảo hành</a>
+    </div>
+    <div class="item">
+        <a class="icon history-blue" href="@Url.Action("History", "Warranty")" target="_self" for="main-content" ptitle="Bảo hành">Lịch sử bảo hành</a>
+    </div>
+    <div class="item">
+        <a class="icon repair-blue" href="@Url.Action("Create", "Repair")" target="_self" for="main-content" ptitle="Sửa chữa">Sửa chữa</a>
+    </div>
+    <div class="item">
+        <a class="icon history-blue" href="@Url.Action("History", "Repair")" target="_self" for="main-content" ptitle="Sửa chữa">Lịch sử sửa chữa</a>
+    </div>
+    <span class="line">Phiếu thu/chi</span>
+    <div class="item">
+        <a class="icon increase-blue" href="@Url.Action("List", "Income")" target="_self" for="main-content" ptitle="Phiếu thu">Phiếu thu</a>
+    </div>
+    <div class="item">
+        <a class="icon decrease-blue" href="@Url.Action("List", "Outcome")" target="_self" for="main-content" ptitle="Phiếu chi">Phiếu chi</a>
+    </div>
+    <span class="line">Thống kê</span>
+    <div class="item">
+        <a class="icon graph-blue" href="@Url.Action("Summary", "Report")" target="_self" for="main-content" ptitle="Thống kê">Tổng quát</a>
+    </div>
+    <div class="item">
+        <a class="icon graph-blue" href="@Url.Action("Detail", "Report")" target="_self" for="main-content" ptitle="Thống kê">Chi tiết</a>
+    </div>
+    <div class="item">
+        <a class="icon product-blue" href="@Url.Action("Product", "Report")" target="_self" for="main-content" ptitle="Thống kê">Sản phẩm</a>
+    </div>
+    <div class="item">
+        <a class="icon salary-blue" href="@Url.Action("Salary", "Report")" target="_self" for="main-content" ptitle="Thống kê">Lương</a>
+    </div>
+    <div class="item">
+        <a class="icon client-blue" href="@Url.Action("Client", "Report")" target="_self" for="main-content" ptitle="Thống kê">Khách hàng</a>
+    </div>
+    <div class="item">
+        <a class="icon product-blue" href="@Url.Action("ProductPart", "Report")" target="_self" for="main-content" ptitle="Thống kê">Linh kiện</a>
+    </div>
+</div>
+<div id="main">
+    <div class="container">
+        <div id="main-content">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+<div id="pop-up">
+    <span class="centerer"></span>
+    <div class="centered">
+        <div id="close">X</div>
+        <div id="pop-up-content">
+
+        </div>
+    </div>
+</div>
+@section styles {
+    @RenderSection("styles", required: false)
+}
+@section scripts {
+    <script>
+        _DateTimeFormatString = '@Constants.DateTimeWebString';
+        _userMenuActive = false;
+        _mainMenuActive = false;
+        _messageActive = false;
+        $('header #user-logo').on('click', function () {
+            $(this).toggleClass('active');
+        });
+        $('header #user-logo').on('mouseenter', function () {
+            _userMenuActive = true;
+        });
+        $('header #user-logo').on('mouseleave', function () {
+            _userMenuActive = false;
+        });
+        $('header #user-logo #user-menu a').on('click', function () {
+            _userMenuActive = false;
+            $('header #user-logo').removeClass('active');
+        });
+        $('header #main-menu #button').on('click', function () {
+            $('#main-menu-content').toggleClass('active');
+            if ($('#main-menu-content').hasClass('active'))
+                $('body').addClass('locked');
+            else
+                $('body').removeClass('locked');
+        });
+        $('header #main-menu #button').on('mouseenter', function () {
+            _mainMenuActive = true;
+        });
+        $('header #main-menu #button').on('mouseleave', function () {
+            _mainMenuActive = false;
+        });
+        $('#main-menu-content').on('mouseenter', function () {
+            _mainMenuActive = true;
+        });
+        $('#main-menu-content').on('mouseleave', function () {
+            _mainMenuActive = false;
+        });
+        $('#main-menu-content a').on('click', function () {
+            _mainMenuActive = false;
+            $('#main-menu-content').removeClass('active');
+        });
+        $('#pop-up > .centered').on('mouseenter', function () {
+            _messageActive = true;
+        });
+        $('#pop-up > .centered').on('mouseleave', function () {
+            _messageActive = false;
+        });
+        $('#pop-up #close').on('click', function () {
+            $('#pop-up').removeClass('active');
+        });
+        $(document).on('click', function () {
+            if (!_userMenuActive)
+                $('header #user-logo').removeClass('active');
+            if (!_mainMenuActive)
+                $('#main-menu-content').removeClass('active');
+            if (!_messageActive)
+                $('#pop-up').removeClass('active');
+            if ($('#main-menu-content').hasClass('active'))
+                $('body').addClass('locked');
+            else if (!$('#pop-up').hasClass('active'))
+                $('body').removeClass('locked');
+        });
+        ProcessLinks('header');
+        ProcessLinks('#main-menu-content');
+        ProcessLinks('#main-content');
+        ProcessForms('#main-content');
+        _RefreshSession();
+        function _RefreshSession() {
+            setInterval(function () {
+                AjaxRequest({
+                    url: '@Url.Action("StayAlive", "Main")',
+                    type: 'post',
+                    processData: false
+                });
+            }, 900000);
+        }
+    </script>
+    @RenderSection("scripts", required: false)
+}

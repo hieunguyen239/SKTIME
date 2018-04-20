@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SKtimeManagement.Log>
+@{
+    var logID = Guid.NewGuid().ToString();
+    var html = String.Format(@"<div><a id=""view"" href=""{0}"" class=""button-icon view _UrlClass"" _UrlFor changeurl=""false""></a>", Url.Action("_UrlAction", "_UrlController", new { id = "_RecordID" }));
+}
+<div id="logs" class="tbl">
+    <table id="logs-table" data="@logID" keys="RecordID,UrlClass,UrlFor,UrlAction,UrlController" color="Color">
+        <thead>
+            <tr>
+                <td width="50"></td>
+                <td name="Message"><div>Hoạt động</div></td>
+            </tr>
+        </thead>
+    </table>
+</div>
+@{
+    var scripts = new List<string>();
+    if (Model != null)
+    {
+        var jsonData = Html.JsonSerialize(Model);
+        scripts.Add("_TableFunctions.Data.push({" + String.Format("id: '{0}',data: JSON.parse('{1}', _TableFunctions.JsonParse)", logID, jsonData) + "});");
+    }
+    scripts.Add(String.Format("var _html = '{0}'", html));
+}
+@Html.Raw(String.Format("<script>{0}</script>", String.Join("", scripts)))
+<script>
+    _TableFunctions.Init({
+        e: '#logs',
+        input: {
+            id: '@logID',
+            input: [
+                {
+                    html: _html
+                }
+            ]
+        }
+    });
+    _TableFunctions.RefreshData();
+</script>
