@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -435,6 +436,7 @@
     <Content Include="Views\Import\Products.cshtml" />
     <Content Include="Views\Main\Logs.cshtml" />
     <Content Include="Views\Main\Products.cshtml" />
+    <None Include="Properties\PublishProfiles\SKtimeManagement.pubxml" />
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Views\Income\List.cshtml" />

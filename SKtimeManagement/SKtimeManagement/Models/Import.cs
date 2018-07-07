@@ -215,25 +215,25 @@ namespace SKtimeManagement
                     conditions.Add(String.Format("and p.Name like N'%{0}%'", filter.Name));
                 if (filter.SupplierID.HasValue)
                     conditions.Add(String.Format("and p.SupplierID = {0}", filter.SupplierID.DbValue()));
-                if (filter.WarehouseID.HasValue)
+                if (filter.WarehouseID.HasValue && filter.WarehouseID > 0)
                     conditions.Add(String.Format("and w.ID = {0}", filter.WarehouseID.DbValue()));
             }
+            var strSql = String.Format(
+                @"select top 100 p.ID, p.Code, p.Name, p.Image, p.Price, p.Point, w.Name as [WarehouseName], w.ID as [WarehouseID],
+                    sum(isnull(ip.Quantity, 0)) - isnull((select sum(ep.Quantity) from ExportProduct ep left join Export e on e.ID = ep.ExportID and e.Removed = 0 and e.Status in (N'Đã xuất', N'Đã chuyển') where ep.Returned = 0 and ep.ProductID = p.ID and e.WarehouseID = w.ID), 0) as [Quantity]
+                from Product p
+                    join ImportProduct ip on p.ID = ip.ProductID
+                    join Import i on i.ID = ip.ImportID and i.Status = 'active' 
+                    join Warehouse w on w.Status = 'active' and w.ID = i.WarehouseID {2} {3}
+                where p.Status = 'active' and p.BussinessID = {0} {1} 
+                group by p.ID, p.Code, p.Name, p.Image, p.Price, p.Point, w.Name, w.ID
+                having sum(isnull(ip.Quantity, 0)) - isnull((select sum(ep.Quantity) from ExportProduct ep left join Export e on e.ID = ep.ExportID and e.Removed = 0 and e.Status in (N'Đã xuất', N'Đã chuyển') where ep.Returned = 0 and ep.ProductID = p.ID and e.WarehouseID = w.ID), 0) > 0
+                order by p.Name",
+                bussinessID, String.Join(" ", conditions),
+                filter != null && filter.TagID.HasValue ? String.Format("join ProductTag pt on p.ID = pt.ProductID and pt.TagID = {0}", filter.TagID.Value) : "",
+                filter != null && filter.ForRepair.HasValue ? String.Format("join ProductTag pt on p.ID = pt.ProductID join Tag t on t.ID = pt.TagID and t.ForRepair = {0}", filter.ForRepair.DbValue()) : "");
             var products = Query<ImexItem>(new DbQuery(userID, employeeID, action,
-                String.Format(
-                    @"select top 100 p.ID, p.Code, p.Name, p.Image, p.Price, p.Point, w.Name as [WarehouseName], w.ID as [WarehouseID],
-                        sum(isnull(ip.Quantity, 0)) - isnull((select sum(ep.Quantity) from ExportProduct ep left join Export e on e.ID = ep.ExportID and e.Removed = 0 and e.Status in (N'Đã xuất', N'Đã chuyển') where ep.Returned = 0 and ep.ProductID = p.ID and e.WarehouseID = w.ID), 0) as [Quantity]
-                    from Product p
-                        join ImportProduct ip on p.ID = ip.ProductID
-                        join Import i on i.ID = ip.ImportID and i.Status = 'active' 
-                        join Warehouse w on w.Status = 'active' and w.ID = i.WarehouseID {2} {3}
-                    where p.Status = 'active' and p.BussinessID = {0} {1} 
-                    group by p.ID, p.Code, p.Name, p.Image, p.Price, p.Point, w.Name, w.ID
-                    having sum(isnull(ip.Quantity, 0)) - isnull((select sum(ep.Quantity) from ExportProduct ep left join Export e on e.ID = ep.ExportID and e.Removed = 0 and e.Status in (N'Đã xuất', N'Đã chuyển') where ep.Returned = 0 and ep.ProductID = p.ID and e.WarehouseID = w.ID), 0) > 0
-                    order by p.Name",
-                    bussinessID, String.Join(" ", conditions),
-                    filter != null && filter.TagID.HasValue ? String.Format("join ProductTag pt on p.ID = pt.ProductID and pt.TagID = {0}", filter.TagID.Value) : "",
-                    filter != null && filter.ForRepair.HasValue ? String.Format("join ProductTag pt on p.ID = pt.ProductID join Tag t on t.ID = pt.TagID and t.ForRepair = {0}", filter.ForRepair.DbValue()) : ""), 
-                log), out queryResult);
+                strSql, log), out queryResult);
             return products.Select(i => i.SetMaximum()).ToList();
         }
         public static ImexItem Get(int userID, int employeeID, string action, int productID, int whid, bool log = false)
