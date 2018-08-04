@@ -193,13 +193,14 @@ namespace SKtimeManagement
                 if (filter.SupplierID.HasValue)
                     conditions.Add(String.Format("and p.SupplierID = {0}", filter.SupplierID.DbValue()));
             }
+            var strSql = String.Format(@"select top 100 p.ID, p.Code, p.Name, p.Image, p.Price, p.Point, {3} as [WarehouseID]
+                from Product p {2}
+                where p.Status = 'active' and p.BussinessID = {0} {1} order by p.Name",
+                bussinessID, String.Join(" ", conditions),
+                filter != null && filter.TagID.HasValue ? String.Format("join ProductTag pt on p.ID = pt.ProductID and pt.TagID = {0}", filter.TagID.Value) : "",
+                filter != null && filter.WarehouseID.HasValue ? filter.WarehouseID.Value : 0);
             return Query<ImexItem>(new DbQuery(userID, employeeID, action, 
-                String.Format(@"select top 100 p.ID, p.Code, p.Name, p.Image, p.Price, p.Point, {3} as [WarehouseID]
-                                from Product p {2}
-                                where p.Status = 'active' and p.BussinessID = {0} {1} order by p.Name", 
-                                bussinessID, String.Join(" ", conditions),
-                                filter != null && filter.TagID.HasValue ? String.Format("join ProductTag pt on p.ID = pt.ProductID and pt.TagID = {0}", filter.TagID.Value) : "",
-                                filter != null && filter.WarehouseID.HasValue ? filter.WarehouseID.Value : 0), log), out queryResult);
+                strSql, log), out queryResult);
         }
         public static List<ImexItem> Find(int userID, int employeeID, string action, int bussinessID, ProductFilter filter = null, bool log = false)
         {
