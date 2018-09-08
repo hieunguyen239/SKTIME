@@ -1,8 +1,10 @@
 ﻿body {
     padding: 0;
     margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: /* Roman */ -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Fira Sans, Ubuntu, Oxygen, Oxygen Sans, Cantarell, Droid Sans, Lucida Grande, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Emoji, Segoe UI Symbol, /* CJK */ Hiragino Kaku Gothic Pro, Meiryo, Hiragino Sans GB W3, /* Arabic */ Noto Naskh Arabic, Droid Arabic Naskh, Geeza Pro, Simplified Arabic, /* Thai */ Noto Sans Thai, Thonburi, Dokchampa, Droid Sans Thai, /* Sans Fallbacks */ Droid Sans Fallback, '.SFNSDisplay-Regular', /* CJK Fallbacks */ Heiti SC, Microsoft Yahei;
+    font-weight: 600;
     background-color: #f1f1f1;
+
     &.locked {
         overflow: hidden;
     }
@@ -109,8 +111,8 @@ input {
     }
     &[type="button"], &[type="submit"] {
         display: inline-block;
-        background-color: #3fc241;
-        border: #267ee0;
+        background-color: #1bb71d;
+        border: #114682;
         border-radius: 4px;
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
@@ -187,38 +189,38 @@ span.button, a.button, input[type="button"], input[type="submit"] {
         margin-bottom: 0;
     }
     &.login {
-        background-image: url('../Content/images/icon/login.png');
+        background-image: url('/Content/images/icon/login.png');
     }
     &.search {
-        background-image: url('../Content/images/icon/search.png');
+        background-image: url('/Content/images/icon/search.png');
     }
     &.view {
-        background-image: url('../Content/images/icon/view.png');
+        background-image: url('/Content/images/icon/view.png');
     }
     &.add {
-        background-image: url('../Content/images/icon/add.png');
+        background-image: url('/Content/images/icon/add.png');
     }
     &.edit {
-        background-image: url('../Content/images/icon/edit.png');
+        background-image: url('/Content/images/icon/edit.png');
     }
     &.copy {
-        background-image: url('../Content/images/icon/copy.png');
+        background-image: url('/Content/images/icon/copy.png');
     }
     &.save {
-        background-image: url('../Content/images/icon/save.png');
+        background-image: url('/Content/images/icon/save.png');
     }
     &.print {
-        background-image: url('../Content/images/icon/print.png');
+        background-image: url('/Content/images/icon/print.png');
     }
     &.remove {
-        background-image: url('../Content/images/icon/white/remove.png');
+        background-image: url('/Content/images/icon/white/remove.png');
         &.small {
-            background-image: url('../Content/images/icon/remove.png');
+            background-image: url('/Content/images/icon/remove.png');
         }
     }
     &.cancel {
         background-color: #ac4a4a;
-        background-image: url('../Content/images/icon/white/cancel.png');
+        background-image: url('/Content/images/icon/white/cancel.png');
         &:hover {
             background-color: #9d4545;
         }
@@ -228,8 +230,8 @@ span, a {
     position: relative;
     &.button {
         display: inline-block;
-        background-color: #3fc241;
-        border: #267ee0;
+        background-color: #1bb71d;
+        border: #114682;
         border-radius: 4px;
         -webkit-border-radius: 4px;
         -moz-border-radius: 4px;
@@ -251,19 +253,19 @@ span, a {
             cursor: pointer;
         }
         &.search {
-            background-image: url('../Content/images/icon/search.png');
+            background-image: url('/Content/images/icon/search.png');
         }
         &.view {
-            background-image: url('../Content/images/icon/view.png');
+            background-image: url('/Content/images/icon/view.png');
         }
         &.add {
-            background-image: url('../Content/images/icon/add.png');
+            background-image: url('/Content/images/icon/add.png');
         }
         &.edit {
-            background-image: url('../Content/images/icon/edit.png');
+            background-image: url('/Content/images/icon/edit.png');
         }
         &.remove {
-            background-image: url('../Content/images/icon/remove.png');
+            background-image: url('/Content/images/icon/remove.png');
         }
     }
     &.icon {
@@ -271,210 +273,210 @@ span, a {
         background-size: 25px 25px;
         background-repeat: no-repeat;
         &.client-white {
-            background-image: url('../Content/images/icon/white/client.png');
+            background-image: url('/Content/images/icon/white/client.png');
         }
         &.client-blue {
-            background-image: url('../Content/images/icon/blue/client.png');
+            background-image: url('/Content/images/icon/blue/client.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/client.png');
+                background-image: url('/Content/images/icon/white/client.png');
             }
         }
         &.client-type-white {
-            background-image: url('../Content/images/icon/white/client-type.png');
+            background-image: url('/Content/images/icon/white/client-type.png');
         }
         &.client-type-blue {
-            background-image: url('../Content/images/icon/blue/client-type.png');
+            background-image: url('/Content/images/icon/blue/client-type.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/client-type.png');
+                background-image: url('/Content/images/icon/white/client-type.png');
             }
         }
         &.company-white {
-            background-image: url('../Content/images/icon/white/company.png');
+            background-image: url('/Content/images/icon/white/company.png');
         }
         &.company-blue {
-            background-image: url('../Content/images/icon/blue/company.png');
+            background-image: url('/Content/images/icon/blue/company.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/company.png');
+                background-image: url('/Content/images/icon/white/company.png');
             }
         }
         &.employee-white {
-            background-image: url('../Content/images/icon/white/employee.png');
+            background-image: url('/Content/images/icon/white/employee.png');
         }
         &.employee-blue {
-            background-image: url('../Content/images/icon/blue/employee.png');
+            background-image: url('/Content/images/icon/blue/employee.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/employee.png');
+                background-image: url('/Content/images/icon/white/employee.png');
             }
         }
         &.export-white {
-            background-image: url('../Content/images/icon/white/export.png');
+            background-image: url('/Content/images/icon/white/export.png');
         }
         &.export-blue {
-            background-image: url('../Content/images/icon/blue/export.png');
+            background-image: url('/Content/images/icon/blue/export.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/export.png');
+                background-image: url('/Content/images/icon/white/export.png');
             }
         }
         &.history-white {
-            background-image: url('../Content/images/icon/white/history.png');
+            background-image: url('/Content/images/icon/white/history.png');
         }
         &.history-blue {
-            background-image: url('../Content/images/icon/blue/history.png');
+            background-image: url('/Content/images/icon/blue/history.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/history.png');
+                background-image: url('/Content/images/icon/white/history.png');
             }
         }
         &.home-white {
-            background-image: url('../Content/images/icon/white/home.png');
+            background-image: url('/Content/images/icon/white/home.png');
         }
         &.home-blue {
-            background-image: url('../Content/images/icon/blue/home.png');
+            background-image: url('/Content/images/icon/blue/home.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/home.png');
+                background-image: url('/Content/images/icon/white/home.png');
             }
         }
         &.import-white {
-            background-image: url('../Content/images/icon/white/import.png');
+            background-image: url('/Content/images/icon/white/import.png');
         }
         &.import-blue {
-            background-image: url('../Content/images/icon/blue/import.png');
+            background-image: url('/Content/images/icon/blue/import.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/import.png');
+                background-image: url('/Content/images/icon/white/import.png');
             }
         }
         &.login-white {
-            background-image: url('../Content/images/icon/white/login.png');
+            background-image: url('/Content/images/icon/white/login.png');
         }
         &.login-blue {
-            background-image: url('../Content/images/icon/blue/login.png');
+            background-image: url('/Content/images/icon/blue/login.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/login.png');
+                background-image: url('/Content/images/icon/white/login.png');
             }
         }
         &.order-white {
-            background-image: url('../Content/images/icon/white/order.png');
+            background-image: url('/Content/images/icon/white/order.png');
         }
         &.order-blue {
-            background-image: url('../Content/images/icon/blue/order.png');
+            background-image: url('/Content/images/icon/blue/order.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/order.png');
+                background-image: url('/Content/images/icon/white/order.png');
             }
         }
         &.product-white {
-            background-image: url('../Content/images/icon/white/product.png');
+            background-image: url('/Content/images/icon/white/product.png');
         }
         &.product-blue {
-            background-image: url('../Content/images/icon/blue/product.png');
+            background-image: url('/Content/images/icon/blue/product.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/product.png');
+                background-image: url('/Content/images/icon/white/product.png');
             }
         }
         &.setting-white {
-            background-image: url('../Content/images/icon/white/setting.png');
+            background-image: url('/Content/images/icon/white/setting.png');
         }
         &.setting-blue {
-            background-image: url('../Content/images/icon/blue/setting.png');
+            background-image: url('/Content/images/icon/blue/setting.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/setting.png');
+                background-image: url('/Content/images/icon/white/setting.png');
             }
         }
         &.store-white {
-            background-image: url('../Content/images/icon/white/store.png');
+            background-image: url('/Content/images/icon/white/store.png');
         }
         &.store-blue {
-            background-image: url('../Content/images/icon/blue/store.png');
+            background-image: url('/Content/images/icon/blue/store.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/store.png');
+                background-image: url('/Content/images/icon/white/store.png');
             }
         }
         &.supplier-white {
-            background-image: url('../Content/images/icon/white/supplier.png');
+            background-image: url('/Content/images/icon/white/supplier.png');
         }
         &.supplier-blue {
-            background-image: url('../Content/images/icon/blue/supplier.png');
+            background-image: url('/Content/images/icon/blue/supplier.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/supplier.png');
+                background-image: url('/Content/images/icon/white/supplier.png');
             }
         }
         &.tag-white {
-            background-image: url('../Content/images/icon/white/tag.png');
+            background-image: url('/Content/images/icon/white/tag.png');
         }
         &.tag-blue {
-            background-image: url('../Content/images/icon/blue/tag.png');
+            background-image: url('/Content/images/icon/blue/tag.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/tag.png');
+                background-image: url('/Content/images/icon/white/tag.png');
             }
         }
         &.warehouse-white {
-            background-image: url('../Content/images/icon/white/warehouse.png');
+            background-image: url('/Content/images/icon/white/warehouse.png');
         }
         &.warehouse-blue {
-            background-image: url('../Content/images/icon/blue/warehouse.png');
+            background-image: url('/Content/images/icon/blue/warehouse.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/warehouse.png');
+                background-image: url('/Content/images/icon/white/warehouse.png');
             }
         }
         &.increase-white {
-            background-image: url('../Content/images/icon/white/increase.png');
+            background-image: url('/Content/images/icon/white/increase.png');
         }
         &.increase-blue {
-            background-image: url('../Content/images/icon/blue/increase.png');
+            background-image: url('/Content/images/icon/blue/increase.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/increase.png');
+                background-image: url('/Content/images/icon/white/increase.png');
             }
         }
         &.decrease-white {
-            background-image: url('../Content/images/icon/white/decrease.png');
+            background-image: url('/Content/images/icon/white/decrease.png');
         }
         &.decrease-blue {
-            background-image: url('../Content/images/icon/blue/decrease.png');
+            background-image: url('/Content/images/icon/blue/decrease.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/decrease.png');
+                background-image: url('/Content/images/icon/white/decrease.png');
             }
         }
         &.graph-white {
-            background-image: url('../Content/images/icon/white/graph.png');
+            background-image: url('/Content/images/icon/white/graph.png');
         }
         &.graph-blue {
-            background-image: url('../Content/images/icon/blue/graph.png');
+            background-image: url('/Content/images/icon/blue/graph.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/graph.png');
+                background-image: url('/Content/images/icon/white/graph.png');
             }
         }
         &.storing-white {
-            background-image: url('../Content/images/icon/white/storing.png');
+            background-image: url('/Content/images/icon/white/storing.png');
         }
         &.storing-blue {
-            background-image: url('../Content/images/icon/blue/storing.png');
+            background-image: url('/Content/images/icon/blue/storing.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/storing.png');
+                background-image: url('/Content/images/icon/white/storing.png');
             }
         }
         &.salary-white {
-            background-image: url('../Content/images/icon/white/salary.png');
+            background-image: url('/Content/images/icon/white/salary.png');
         }
         &.salary-blue {
-            background-image: url('../Content/images/icon/blue/salary.png');
+            background-image: url('/Content/images/icon/blue/salary.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/salary.png');
+                background-image: url('/Content/images/icon/white/salary.png');
             }
         }
         &.repair-white {
-            background-image: url('../Content/images/icon/white/repair.png');
+            background-image: url('/Content/images/icon/white/repair.png');
         }
         &.repair-blue {
-            background-image: url('../Content/images/icon/blue/repair.png');
+            background-image: url('/Content/images/icon/blue/repair.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/repair.png');
+                background-image: url('/Content/images/icon/white/repair.png');
             }
         }
         &.warranty-white {
-            background-image: url('../Content/images/icon/white/warranty.png');
+            background-image: url('/Content/images/icon/white/warranty.png');
         }
         &.warranty-blue {
-            background-image: url('../Content/images/icon/blue/warranty.png');
+            background-image: url('/Content/images/icon/blue/warranty.png');
             &:hover {
-                background-image: url('../Content/images/icon/white/warranty.png');
+                background-image: url('/Content/images/icon/white/warranty.png');
             }
         }
     }
@@ -487,7 +489,7 @@ img {
     }
 }
 header {
-    background-color: #267ee0;
+    background-color: #114682;
     padding: 3px 10px;
     color: #fff;
     position: fixed;
@@ -585,7 +587,7 @@ header {
             }
         }
         #content {
-            margin-top: 10px;
+            margin-top: 5px;
             display: none;
             @media (min-width: 1100px) {
                 display: block;
@@ -634,7 +636,7 @@ header {
                     a {
                         padding: 5px 7px 5px 40px;
                         &:hover {
-                            background-color: #267ee0;
+                            background-color: #114682;
                             color: #fff;
                         }
                         &.icon {
@@ -712,7 +714,7 @@ header {
         }
         &:hover {
             cursor: pointer;
-            background-color: #267ee0;
+            background-color: #114682;
             a {
                 color: #fff;
             }
@@ -958,7 +960,7 @@ header {
 .tabs {
     > #heads {
         margin-bottom: 20px;
-        border-bottom: solid 1px #267ee0; 
+        border-bottom: solid 1px #114682; 
         span, a {
             display: inline-block;
             padding: 10px 15px;
@@ -983,14 +985,14 @@ header {
                 &:after {
                     left: 0;
                     width: 100%;
-                    background-color: #267ee0;
+                    background-color: #114682;
                 }
             }
             &.active {
                 &:after {
                     left: 0;
                     width: 100%;
-                    background-color: #267ee0;
+                    background-color: #114682;
                 }
             }
         }
@@ -1235,7 +1237,7 @@ header {
 			    background-color: #fff;
 
 			    &.data {
-				    background-color: #d4f7e3;
+				    background-color: #e0ffed;
 
 				    &:nth-child(even) {
 					    background-color: #fff;
@@ -1258,7 +1260,7 @@ header {
                     }
 
 				    &:hover, &.active {
-					    background-color: #c0dfff;
+					    background-color: #cfe6ff;
 				    }
 			    }
 
@@ -1293,7 +1295,7 @@ header {
 		    color: #fff;
 
 		    tr {
-			    background-color: #3fc241;
+			    background-color: #1bb71d;
 
                 &#head {
                     td {
@@ -1339,7 +1341,7 @@ header {
                         width: 100%;
                         padding: 5px 1%;
                         margin: 0;
-                        border-color: #d4f7e3;
+                        border-color: #e0ffed;
                     }
                 }
 
@@ -1411,11 +1413,11 @@ header {
 				    }
 
 				    &#next {
-					    background-image: url('../Content/images/arrow-right.png');
+					    background-image: url('/Content/images/arrow-right.png');
 				    }
 
 				    &#previous {
-					    background-image: url('../Content/images/arrow-left.png');
+					    background-image: url('/Content/images/arrow-left.png');
 				    }
 			    }	
 		    }
@@ -1505,7 +1507,7 @@ header {
     h3 {
         &.head-line {
             padding: 15px;
-            background-color: #267ee0;
+            background-color: #114682;
             font-size: 18px;
             color: #fff;
         }
@@ -1566,4 +1568,9 @@ header {
             display: inline-block;
         }
     }
+}
+
+.user-name-top {
+    display: inline-block;
+    margin-top: 10px;
 }

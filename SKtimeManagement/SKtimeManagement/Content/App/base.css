@@ -1,7 +1,8 @@
-body {
+﻿body {
   padding: 0;
   margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Fira Sans, Ubuntu, Oxygen, Oxygen Sans, Cantarell, Droid Sans, Lucida Grande, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Emoji, Segoe UI Symbol, Hiragino Kaku Gothic Pro, Meiryo, Hiragino Sans GB W3, Noto Naskh Arabic, Droid Arabic Naskh, Geeza Pro, Simplified Arabic, Noto Sans Thai, Thonburi, Dokchampa, Droid Sans Thai, Droid Sans Fallback, ".SFNSDisplay-Regular", Heiti SC, Microsoft Yahei;
+  font-weight: 600;
   background-color: #f1f1f1; }
   body.locked {
     overflow: hidden; }
@@ -101,8 +102,8 @@ input {
     width: 100px !important; }
   input[type="button"], input[type="submit"] {
     display: inline-block;
-    background-color: #3fc241;
-    border: #267ee0;
+    background-color: #1bb71d;
+    border: #114682;
     border-radius: 4px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -165,28 +166,28 @@ span.button, a.button, input[type="button"], input[type="submit"] {
     margin-right: 0;
     margin-bottom: 0; }
   span.button.login, a.button.login, input[type="button"].login, input[type="submit"].login {
-    background-image: url("../Content/images/icon/login.png"); }
+    background-image: url("/Content/images/icon/login.png"); }
   span.button.search, a.button.search, input[type="button"].search, input[type="submit"].search {
-    background-image: url("../Content/images/icon/search.png"); }
+    background-image: url("/Content/images/icon/search.png"); }
   span.button.view, a.button.view, input[type="button"].view, input[type="submit"].view {
-    background-image: url("../Content/images/icon/view.png"); }
+    background-image: url("/Content/images/icon/view.png"); }
   span.button.add, a.button.add, input[type="button"].add, input[type="submit"].add {
-    background-image: url("../Content/images/icon/add.png"); }
+    background-image: url("/Content/images/icon/add.png"); }
   span.button.edit, a.button.edit, input[type="button"].edit, input[type="submit"].edit {
-    background-image: url("../Content/images/icon/edit.png"); }
+    background-image: url("/Content/images/icon/edit.png"); }
   span.button.copy, a.button.copy, input[type="button"].copy, input[type="submit"].copy {
-    background-image: url("../Content/images/icon/copy.png"); }
+    background-image: url("/Content/images/icon/copy.png"); }
   span.button.save, a.button.save, input[type="button"].save, input[type="submit"].save {
-    background-image: url("../Content/images/icon/save.png"); }
+    background-image: url("/Content/images/icon/save.png"); }
   span.button.print, a.button.print, input[type="button"].print, input[type="submit"].print {
-    background-image: url("../Content/images/icon/print.png"); }
+    background-image: url("/Content/images/icon/print.png"); }
   span.button.remove, a.button.remove, input[type="button"].remove, input[type="submit"].remove {
-    background-image: url("../Content/images/icon/white/remove.png"); }
+    background-image: url("/Content/images/icon/white/remove.png"); }
     span.button.remove.small, a.button.remove.small, input[type="button"].remove.small, input[type="submit"].remove.small {
-      background-image: url("../Content/images/icon/remove.png"); }
+      background-image: url("/Content/images/icon/remove.png"); }
   span.button.cancel, a.button.cancel, input[type="button"].cancel, input[type="submit"].cancel {
     background-color: #ac4a4a;
-    background-image: url("../Content/images/icon/white/cancel.png"); }
+    background-image: url("/Content/images/icon/white/cancel.png"); }
     span.button.cancel:hover, a.button.cancel:hover, input[type="button"].cancel:hover, input[type="submit"].cancel:hover {
       background-color: #9d4545; }
 
@@ -194,8 +195,8 @@ span, a {
   position: relative; }
   span.button, a.button {
     display: inline-block;
-    background-color: #3fc241;
-    border: #267ee0;
+    background-color: #1bb71d;
+    border: #114682;
     border-radius: 4px;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
@@ -213,157 +214,157 @@ span, a {
     span.button-icon:hover, a.button-icon:hover {
       cursor: pointer; }
     span.button-icon.search, a.button-icon.search {
-      background-image: url("../Content/images/icon/search.png"); }
+      background-image: url("/Content/images/icon/search.png"); }
     span.button-icon.view, a.button-icon.view {
-      background-image: url("../Content/images/icon/view.png"); }
+      background-image: url("/Content/images/icon/view.png"); }
     span.button-icon.add, a.button-icon.add {
-      background-image: url("../Content/images/icon/add.png"); }
+      background-image: url("/Content/images/icon/add.png"); }
     span.button-icon.edit, a.button-icon.edit {
-      background-image: url("../Content/images/icon/edit.png"); }
+      background-image: url("/Content/images/icon/edit.png"); }
     span.button-icon.remove, a.button-icon.remove {
-      background-image: url("../Content/images/icon/remove.png"); }
+      background-image: url("/Content/images/icon/remove.png"); }
   span.icon, a.icon {
     background-position: 10px 0;
     background-size: 25px 25px;
     background-repeat: no-repeat; }
     span.icon.client-white, a.icon.client-white {
-      background-image: url("../Content/images/icon/white/client.png"); }
+      background-image: url("/Content/images/icon/white/client.png"); }
     span.icon.client-blue, a.icon.client-blue {
-      background-image: url("../Content/images/icon/blue/client.png"); }
+      background-image: url("/Content/images/icon/blue/client.png"); }
       span.icon.client-blue:hover, a.icon.client-blue:hover {
-        background-image: url("../Content/images/icon/white/client.png"); }
+        background-image: url("/Content/images/icon/white/client.png"); }
     span.icon.client-type-white, a.icon.client-type-white {
-      background-image: url("../Content/images/icon/white/client-type.png"); }
+      background-image: url("/Content/images/icon/white/client-type.png"); }
     span.icon.client-type-blue, a.icon.client-type-blue {
-      background-image: url("../Content/images/icon/blue/client-type.png"); }
+      background-image: url("/Content/images/icon/blue/client-type.png"); }
       span.icon.client-type-blue:hover, a.icon.client-type-blue:hover {
-        background-image: url("../Content/images/icon/white/client-type.png"); }
+        background-image: url("/Content/images/icon/white/client-type.png"); }
     span.icon.company-white, a.icon.company-white {
-      background-image: url("../Content/images/icon/white/company.png"); }
+      background-image: url("/Content/images/icon/white/company.png"); }
     span.icon.company-blue, a.icon.company-blue {
-      background-image: url("../Content/images/icon/blue/company.png"); }
+      background-image: url("/Content/images/icon/blue/company.png"); }
       span.icon.company-blue:hover, a.icon.company-blue:hover {
-        background-image: url("../Content/images/icon/white/company.png"); }
+        background-image: url("/Content/images/icon/white/company.png"); }
     span.icon.employee-white, a.icon.employee-white {
-      background-image: url("../Content/images/icon/white/employee.png"); }
+      background-image: url("/Content/images/icon/white/employee.png"); }
     span.icon.employee-blue, a.icon.employee-blue {
-      background-image: url("../Content/images/icon/blue/employee.png"); }
+      background-image: url("/Content/images/icon/blue/employee.png"); }
       span.icon.employee-blue:hover, a.icon.employee-blue:hover {
-        background-image: url("../Content/images/icon/white/employee.png"); }
+        background-image: url("/Content/images/icon/white/employee.png"); }
     span.icon.export-white, a.icon.export-white {
-      background-image: url("../Content/images/icon/white/export.png"); }
+      background-image: url("/Content/images/icon/white/export.png"); }
     span.icon.export-blue, a.icon.export-blue {
-      background-image: url("../Content/images/icon/blue/export.png"); }
+      background-image: url("/Content/images/icon/blue/export.png"); }
       span.icon.export-blue:hover, a.icon.export-blue:hover {
-        background-image: url("../Content/images/icon/white/export.png"); }
+        background-image: url("/Content/images/icon/white/export.png"); }
     span.icon.history-white, a.icon.history-white {
-      background-image: url("../Content/images/icon/white/history.png"); }
+      background-image: url("/Content/images/icon/white/history.png"); }
     span.icon.history-blue, a.icon.history-blue {
-      background-image: url("../Content/images/icon/blue/history.png"); }
+      background-image: url("/Content/images/icon/blue/history.png"); }
       span.icon.history-blue:hover, a.icon.history-blue:hover {
-        background-image: url("../Content/images/icon/white/history.png"); }
+        background-image: url("/Content/images/icon/white/history.png"); }
     span.icon.home-white, a.icon.home-white {
-      background-image: url("../Content/images/icon/white/home.png"); }
+      background-image: url("/Content/images/icon/white/home.png"); }
     span.icon.home-blue, a.icon.home-blue {
-      background-image: url("../Content/images/icon/blue/home.png"); }
+      background-image: url("/Content/images/icon/blue/home.png"); }
       span.icon.home-blue:hover, a.icon.home-blue:hover {
-        background-image: url("../Content/images/icon/white/home.png"); }
+        background-image: url("/Content/images/icon/white/home.png"); }
     span.icon.import-white, a.icon.import-white {
-      background-image: url("../Content/images/icon/white/import.png"); }
+      background-image: url("/Content/images/icon/white/import.png"); }
     span.icon.import-blue, a.icon.import-blue {
-      background-image: url("../Content/images/icon/blue/import.png"); }
+      background-image: url("/Content/images/icon/blue/import.png"); }
       span.icon.import-blue:hover, a.icon.import-blue:hover {
-        background-image: url("../Content/images/icon/white/import.png"); }
+        background-image: url("/Content/images/icon/white/import.png"); }
     span.icon.login-white, a.icon.login-white {
-      background-image: url("../Content/images/icon/white/login.png"); }
+      background-image: url("/Content/images/icon/white/login.png"); }
     span.icon.login-blue, a.icon.login-blue {
-      background-image: url("../Content/images/icon/blue/login.png"); }
+      background-image: url("/Content/images/icon/blue/login.png"); }
       span.icon.login-blue:hover, a.icon.login-blue:hover {
-        background-image: url("../Content/images/icon/white/login.png"); }
+        background-image: url("/Content/images/icon/white/login.png"); }
     span.icon.order-white, a.icon.order-white {
-      background-image: url("../Content/images/icon/white/order.png"); }
+      background-image: url("/Content/images/icon/white/order.png"); }
     span.icon.order-blue, a.icon.order-blue {
-      background-image: url("../Content/images/icon/blue/order.png"); }
+      background-image: url("/Content/images/icon/blue/order.png"); }
       span.icon.order-blue:hover, a.icon.order-blue:hover {
-        background-image: url("../Content/images/icon/white/order.png"); }
+        background-image: url("/Content/images/icon/white/order.png"); }
     span.icon.product-white, a.icon.product-white {
-      background-image: url("../Content/images/icon/white/product.png"); }
+      background-image: url("/Content/images/icon/white/product.png"); }
     span.icon.product-blue, a.icon.product-blue {
-      background-image: url("../Content/images/icon/blue/product.png"); }
+      background-image: url("/Content/images/icon/blue/product.png"); }
       span.icon.product-blue:hover, a.icon.product-blue:hover {
-        background-image: url("../Content/images/icon/white/product.png"); }
+        background-image: url("/Content/images/icon/white/product.png"); }
     span.icon.setting-white, a.icon.setting-white {
-      background-image: url("../Content/images/icon/white/setting.png"); }
+      background-image: url("/Content/images/icon/white/setting.png"); }
     span.icon.setting-blue, a.icon.setting-blue {
-      background-image: url("../Content/images/icon/blue/setting.png"); }
+      background-image: url("/Content/images/icon/blue/setting.png"); }
       span.icon.setting-blue:hover, a.icon.setting-blue:hover {
-        background-image: url("../Content/images/icon/white/setting.png"); }
+        background-image: url("/Content/images/icon/white/setting.png"); }
     span.icon.store-white, a.icon.store-white {
-      background-image: url("../Content/images/icon/white/store.png"); }
+      background-image: url("/Content/images/icon/white/store.png"); }
     span.icon.store-blue, a.icon.store-blue {
-      background-image: url("../Content/images/icon/blue/store.png"); }
+      background-image: url("/Content/images/icon/blue/store.png"); }
       span.icon.store-blue:hover, a.icon.store-blue:hover {
-        background-image: url("../Content/images/icon/white/store.png"); }
+        background-image: url("/Content/images/icon/white/store.png"); }
     span.icon.supplier-white, a.icon.supplier-white {
-      background-image: url("../Content/images/icon/white/supplier.png"); }
+      background-image: url("/Content/images/icon/white/supplier.png"); }
     span.icon.supplier-blue, a.icon.supplier-blue {
-      background-image: url("../Content/images/icon/blue/supplier.png"); }
+      background-image: url("/Content/images/icon/blue/supplier.png"); }
       span.icon.supplier-blue:hover, a.icon.supplier-blue:hover {
-        background-image: url("../Content/images/icon/white/supplier.png"); }
+        background-image: url("/Content/images/icon/white/supplier.png"); }
     span.icon.tag-white, a.icon.tag-white {
-      background-image: url("../Content/images/icon/white/tag.png"); }
+      background-image: url("/Content/images/icon/white/tag.png"); }
     span.icon.tag-blue, a.icon.tag-blue {
-      background-image: url("../Content/images/icon/blue/tag.png"); }
+      background-image: url("/Content/images/icon/blue/tag.png"); }
       span.icon.tag-blue:hover, a.icon.tag-blue:hover {
-        background-image: url("../Content/images/icon/white/tag.png"); }
+        background-image: url("/Content/images/icon/white/tag.png"); }
     span.icon.warehouse-white, a.icon.warehouse-white {
-      background-image: url("../Content/images/icon/white/warehouse.png"); }
+      background-image: url("/Content/images/icon/white/warehouse.png"); }
     span.icon.warehouse-blue, a.icon.warehouse-blue {
-      background-image: url("../Content/images/icon/blue/warehouse.png"); }
+      background-image: url("/Content/images/icon/blue/warehouse.png"); }
       span.icon.warehouse-blue:hover, a.icon.warehouse-blue:hover {
-        background-image: url("../Content/images/icon/white/warehouse.png"); }
+        background-image: url("/Content/images/icon/white/warehouse.png"); }
     span.icon.increase-white, a.icon.increase-white {
-      background-image: url("../Content/images/icon/white/increase.png"); }
+      background-image: url("/Content/images/icon/white/increase.png"); }
     span.icon.increase-blue, a.icon.increase-blue {
-      background-image: url("../Content/images/icon/blue/increase.png"); }
+      background-image: url("/Content/images/icon/blue/increase.png"); }
       span.icon.increase-blue:hover, a.icon.increase-blue:hover {
-        background-image: url("../Content/images/icon/white/increase.png"); }
+        background-image: url("/Content/images/icon/white/increase.png"); }
     span.icon.decrease-white, a.icon.decrease-white {
-      background-image: url("../Content/images/icon/white/decrease.png"); }
+      background-image: url("/Content/images/icon/white/decrease.png"); }
     span.icon.decrease-blue, a.icon.decrease-blue {
-      background-image: url("../Content/images/icon/blue/decrease.png"); }
+      background-image: url("/Content/images/icon/blue/decrease.png"); }
       span.icon.decrease-blue:hover, a.icon.decrease-blue:hover {
-        background-image: url("../Content/images/icon/white/decrease.png"); }
+        background-image: url("/Content/images/icon/white/decrease.png"); }
     span.icon.graph-white, a.icon.graph-white {
-      background-image: url("../Content/images/icon/white/graph.png"); }
+      background-image: url("/Content/images/icon/white/graph.png"); }
     span.icon.graph-blue, a.icon.graph-blue {
-      background-image: url("../Content/images/icon/blue/graph.png"); }
+      background-image: url("/Content/images/icon/blue/graph.png"); }
       span.icon.graph-blue:hover, a.icon.graph-blue:hover {
-        background-image: url("../Content/images/icon/white/graph.png"); }
+        background-image: url("/Content/images/icon/white/graph.png"); }
     span.icon.storing-white, a.icon.storing-white {
-      background-image: url("../Content/images/icon/white/storing.png"); }
+      background-image: url("/Content/images/icon/white/storing.png"); }
     span.icon.storing-blue, a.icon.storing-blue {
-      background-image: url("../Content/images/icon/blue/storing.png"); }
+      background-image: url("/Content/images/icon/blue/storing.png"); }
       span.icon.storing-blue:hover, a.icon.storing-blue:hover {
-        background-image: url("../Content/images/icon/white/storing.png"); }
+        background-image: url("/Content/images/icon/white/storing.png"); }
     span.icon.salary-white, a.icon.salary-white {
-      background-image: url("../Content/images/icon/white/salary.png"); }
+      background-image: url("/Content/images/icon/white/salary.png"); }
     span.icon.salary-blue, a.icon.salary-blue {
-      background-image: url("../Content/images/icon/blue/salary.png"); }
+      background-image: url("/Content/images/icon/blue/salary.png"); }
       span.icon.salary-blue:hover, a.icon.salary-blue:hover {
-        background-image: url("../Content/images/icon/white/salary.png"); }
+        background-image: url("/Content/images/icon/white/salary.png"); }
     span.icon.repair-white, a.icon.repair-white {
-      background-image: url("../Content/images/icon/white/repair.png"); }
+      background-image: url("/Content/images/icon/white/repair.png"); }
     span.icon.repair-blue, a.icon.repair-blue {
-      background-image: url("../Content/images/icon/blue/repair.png"); }
+      background-image: url("/Content/images/icon/blue/repair.png"); }
       span.icon.repair-blue:hover, a.icon.repair-blue:hover {
-        background-image: url("../Content/images/icon/white/repair.png"); }
+        background-image: url("/Content/images/icon/white/repair.png"); }
     span.icon.warranty-white, a.icon.warranty-white {
-      background-image: url("../Content/images/icon/white/warranty.png"); }
+      background-image: url("/Content/images/icon/white/warranty.png"); }
     span.icon.warranty-blue, a.icon.warranty-blue {
-      background-image: url("../Content/images/icon/blue/warranty.png"); }
+      background-image: url("/Content/images/icon/blue/warranty.png"); }
       span.icon.warranty-blue:hover, a.icon.warranty-blue:hover {
-        background-image: url("../Content/images/icon/white/warranty.png"); }
+        background-image: url("/Content/images/icon/white/warranty.png"); }
 
 img.thumb {
   width: auto;
@@ -371,7 +372,7 @@ img.thumb {
   height: auto; }
 
 header {
-  background-color: #267ee0;
+  background-color: #114682;
   padding: 3px 10px;
   color: #fff;
   position: fixed;
@@ -456,7 +457,7 @@ header {
       header #main-menu #button:hover {
         cursor: pointer; }
     header #main-menu #content {
-      margin-top: 10px;
+      margin-top: 5px;
       display: none; }
       @media (min-width: 1100px) {
         header #main-menu #content {
@@ -500,7 +501,7 @@ header {
           header #main-menu #content .item #list a {
             padding: 5px 7px 5px 40px; }
             header #main-menu #content .item #list a:hover {
-              background-color: #267ee0;
+              background-color: #114682;
               color: #fff; }
             header #main-menu #content .item #list a.icon {
               background-position: 10px 2px; }
@@ -561,7 +562,7 @@ header {
       background-position: 30px 3px; }
   #main-menu-content .item:hover {
     cursor: pointer;
-    background-color: #267ee0; }
+    background-color: #114682; }
     #main-menu-content .item:hover a {
       color: #fff; }
 
@@ -757,7 +758,7 @@ header {
 
 .tabs > #heads {
   margin-bottom: 20px;
-  border-bottom: solid 1px #267ee0; }
+  border-bottom: solid 1px #114682; }
   .tabs > #heads span, .tabs > #heads a {
     display: inline-block;
     padding: 10px 15px;
@@ -781,11 +782,11 @@ header {
       .tabs > #heads span:hover:after, .tabs > #heads a:hover:after {
         left: 0;
         width: 100%;
-        background-color: #267ee0; }
+        background-color: #114682; }
     .tabs > #heads span.active:after, .tabs > #heads a.active:after {
       left: 0;
       width: 100%;
-      background-color: #267ee0; }
+      background-color: #114682; }
 
 .tabs > #contents {
   margin-top: -1px; }
@@ -970,7 +971,7 @@ header {
     .tbl table tbody tr {
       background-color: #fff; }
       .tbl table tbody tr.data {
-        background-color: #d4f7e3; }
+        background-color: #e0ffed; }
         .tbl table tbody tr.data:nth-child(even) {
           background-color: #fff; }
         .tbl table tbody tr.data[color="red"] {
@@ -984,7 +985,7 @@ header {
         .tbl table tbody tr.data[color="yellow"] {
           background-color: #ebf68a; }
         .tbl table tbody tr.data:hover, .tbl table tbody tr.data.active {
-          background-color: #c0dfff; }
+          background-color: #cfe6ff; }
       .tbl table tbody tr td {
         text-align: left; }
         .tbl table tbody tr td > [text="center"] {
@@ -1003,7 +1004,7 @@ header {
     .tbl table thead {
       color: #fff; }
       .tbl table thead tr {
-        background-color: #3fc241; }
+        background-color: #1bb71d; }
         .tbl table thead tr#head td {
           position: relative; }
           .tbl table thead tr#head td:after {
@@ -1035,7 +1036,7 @@ header {
           width: 100%;
           padding: 5px 1%;
           margin: 0;
-          border-color: #d4f7e3; }
+          border-color: #e0ffed; }
         .tbl table thead tr td {
           text-align: center; }
     .tbl table tfoot tr {
@@ -1079,9 +1080,9 @@ header {
           cursor: pointer;
           opacity: 0.6; }
         .tbl table tfoot #right i#next {
-          background-image: url("../Content/images/arrow-right.png"); }
+          background-image: url("/Content/images/arrow-right.png"); }
         .tbl table tfoot #right i#previous {
-          background-image: url("../Content/images/arrow-left.png"); }
+          background-image: url("/Content/images/arrow-left.png"); }
     .tbl table tfoot #left {
       float: left;
       position: sticky;
@@ -1148,7 +1149,7 @@ header {
   margin-bottom: 15px; }
   .group h3.head-line {
     padding: 15px;
-    background-color: #267ee0;
+    background-color: #114682;
     font-size: 18px;
     color: #fff; }
   .group #content {
@@ -1191,3 +1192,8 @@ header {
   @media (min-width: 1100px) {
     .input-number [contenteditable="true"] {
       display: inline-block; } }
+
+.user-name-top {
+  display: inline-block;
+  margin-top: 10px; }
+

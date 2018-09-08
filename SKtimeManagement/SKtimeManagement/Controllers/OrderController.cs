@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SKtimeManagement.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -115,7 +116,7 @@ namespace SKtimeManagement
         }
         [LoginFilter]
         [HttpPost]
-        public ActionResult Submit(OrderRecord record)
+        public ActionResult Submit(OrderRecord record, FormCollection collection)
         {
             record.EmployeeName = Employee.Name;
             var action = record.ID > 0 ? DbAction.Order.Modify : DbAction.Order.Create;
@@ -154,6 +155,15 @@ namespace SKtimeManagement
             }
             if (result)
             {
+                // trigger creating income when do exchange product on order
+                if (collection["Action"] == "Exchange")
+                {
+                    using (var data = new DataClassesDataContext())
+                    {
+                        data.TriggerInsertIncome(record.ID, Employee.ID, Employee.BussinessID, record.WarehouseID, record.Code, BaseModel.NewUniqueCode(UserID, Employee.ID, Employee.BussinessID, "Income"), DateTime.Now, Convert.ToDecimal(collection["TotalTransactionPaid"]));
+                    }
+                }
+
                 var model = new ExportList();
                 model.List = Export.OrderHistory(UserID, Employee.ID, Employee.BussinessID);
                 model.Current = Export.GetOrder(UserID, Employee.ID, orderID);
@@ -263,10 +273,17 @@ namespace SKtimeManagement
                 login.Username == "admin")
             { Return = true };
             if (Request.IsAjaxRequest())
-                return Json(new
+            {
+                using (var data = new DataClassesDataContext())
                 {
-                    html = RenderPartialViewToString(Views.ExportPartial, model)
-                }, JsonRequestBehavior.AllowGet);
+                    model.Action = "Exchange";
+                    model.TotalTransactionPaid = data.GetTotalTransactionPaid(id).SingleOrDefault().Paid;
+                    return Json(new
+                    {
+                        html = RenderPartialViewToString(Views.ExportPartial, model)
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
             return View(Views.Export, model);
         }
         [LoginFilter]

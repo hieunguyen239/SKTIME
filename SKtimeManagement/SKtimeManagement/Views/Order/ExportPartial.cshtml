@@ -56,6 +56,8 @@
         </div>
         <div id="list">
             <form action="@Url.Action("Submit", "Order")" method="post" ptitle="Xuất kho" for="main-content">
+                <input type="hidden" name="Action" value="@Model.Action" />
+                <input type="hidden" name="TotalTransactionPaid" value="@Model.TotalTransactionPaid" />
                 <input type="hidden" name="ID" value="@Model.ID"/>
                 <input type="hidden" name="Code" value="@Model.Code" />
                 <input type="hidden" name="Export" value="@(Model.ToExport || Model.ID == 0 ? "on" : "")" />

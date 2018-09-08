@@ -344,6 +344,8 @@ namespace SKtimeManagement
         public ImexItem[] Selected { get; set; }
         public string Note { get; set; }
         public string Message { get; set; }
+        public string Action { get; set; }
+        public decimal? TotalTransactionPaid { get; set; }
         public static ExportProduct GetProduct(int userID, int employeeID, int productID, string action = null)
         {
             if (String.IsNullOrEmpty(action))
@@ -365,25 +367,25 @@ namespace SKtimeManagement
             if (String.IsNullOrEmpty(action))
                 action = DbAction.Order.View;
             QueryOutput queryResult;
+            var sqlResult = String.Format(@"select top 100 o.ID, o.EmployeeID, o.DeliveryID, o.WarehouseID, o.Code, o.SubmitDate, o.PayMethod, o.Receipt, o.Total, o.Discount, o.Paid, o.Note, o.Status, o.Returned,
+                    w.Name as [WarehouseName], c.ID as [ClientID], c.Code as [ClientCode], c.Name as [ClientName], c.Address as [ClientAddress], c.Phone as [ClientPhone], 
+                    em.Name as [EmployeeName], del.Name as [DeliveryName], ex.ID as [ExportID], ex.Code as [ExportCode], t.Name as [ClientType], t.DiscountType as [DiscountType], t.DiscountValue as [DiscountValue]
+                from SKtimeManagement..[Order] o
+                    join Warehouse w on o.WarehouseID = w.ID and w.Status = 'active' and ((select Username from Login where ID = {1}) = 'admin' or w.ID in (select WarehouseID from LoginWarehouse where LoginID = {1}))
+                    join ExportProduct p on o.ID = p.OrderID and p.Returned = 0
+                    left join Export ex on ex.ID = p.ExportID
+                    join Employee em on o.EmployeeID = em.ID
+                    left join Delivery del on o.DeliveryID = del.ID
+                    left join Client c on o.ClientID = c.ID
+                    left join ClientType ct on c.ID = ct.ClientID
+                    left join Type t on ct.TypeID = t.ID
+                where o.Removed = 0 and o.ID = {0}
+                group by o.ID, o.EmployeeID, o.DeliveryID, o.WarehouseID, o.Code, o.SubmitDate, o.PayMethod, o.Receipt, o.Total, o.Discount, o.Paid, o.Note, o.Status, o.Returned, 
+                    w.Name, c.ID, c.Code, c.Name, c.Address, c.Phone, em.Name, del.Name, ex.ID, ex.Code, t.Name, t.DiscountType, t.DiscountValue
+                order by o.ID desc", recordID, userID);
             var result = Query<ExportRecord>(new DbQuery(userID, employeeID, action, 
-                String.Format(@"select top 100 o.ID, o.EmployeeID, o.DeliveryID, o.WarehouseID, o.Code, o.SubmitDate, o.PayMethod, o.Receipt, o.Total, o.Discount, o.Paid, o.Note, o.Status, o.Returned,
-                                    w.Name as [WarehouseName], c.ID as [ClientID], c.Code as [ClientCode], c.Name as [ClientName], c.Address as [ClientAddress], c.Phone as [ClientPhone], 
-                                    em.Name as [EmployeeName], del.Name as [DeliveryName], ex.ID as [ExportID], ex.Code as [ExportCode], t.Name as [ClientType], t.DiscountType as [DiscountType], t.DiscountValue as [DiscountValue]
-                                from SKtimeManagement..[Order] o
-                                    join Warehouse w on o.WarehouseID = w.ID and w.Status = 'active' and ((select Username from Login where ID = {1}) = 'admin' or w.ID in (select WarehouseID from LoginWarehouse where LoginID = {1}))
-                                    join ExportProduct p on o.ID = p.OrderID and p.Returned = 0
-                                    left join Export ex on ex.ID = p.ExportID
-                                    join Employee em on o.EmployeeID = em.ID
-                                    left join Delivery del on o.DeliveryID = del.ID
-                                    left join Client c on o.ClientID = c.ID
-                                    left join ClientType ct on c.ID = ct.ClientID
-                                    left join Type t on ct.TypeID = t.ID
-                                where o.Removed = 0 and o.ID = {0}
-                                group by o.ID, o.EmployeeID, o.DeliveryID, o.WarehouseID, o.Code, o.SubmitDate, o.PayMethod, o.Receipt, o.Total, o.Discount, o.Paid, o.Note, o.Status, o.Returned, 
-                                    w.Name, c.ID, c.Code, c.Name, c.Address, c.Phone, em.Name, del.Name, ex.ID, ex.Code, t.Name, t.DiscountType, t.DiscountValue
-                                order by o.ID desc", recordID, userID)), out queryResult).FirstOrDefault();
-            result.Products = Query<ExportProduct>(new DbQuery(userID, employeeID, action, 
-                String.Format(
+                sqlResult), out queryResult).FirstOrDefault();
+            var sqlProducts = String.Format(
                     @"select e.ID, e.OrderID, e.ExportID, e.ProductID, e.Quantity, e.Price, e.Point, p.Code, p.Name as [ProductName], p.Unit, p.OriginalWarranty, p.BussinessWarranty, 
                         sum(isnull(ip.Quantity, 0)) - isnull((select sum(ep.Quantity) from ExportProduct ep left join Export e on e.ID = ep.ExportID and e.Removed = 0 and e.Status in (N'Đã xuất', N'Đã chuyển') where ep.ProductID = p.ID and e.WarehouseID = max(w.ID)), 0) as [Maximum],
                         count(wr.ID) as [WarrantCount]
@@ -395,10 +397,11 @@ namespace SKtimeManagement
                         left join Warehouse w on w.Status = 'active' and w.ID = i.WarehouseID
                         left join Warranty wr on e.ID = wr.ProductID and ex.WarehouseID = wr.WarehouseID and wr.Status = 'active'
                     where e.Returned = 0 and e.OrderID = {0} and w.ID = {1}
-                    group by e.ID, e.OrderID, e.ExportID, e.ProductID, e.Quantity, e.Price, e.Point, p.ID, p.Code, p.Name, p.Unit, p.OriginalWarranty, p.BussinessWarranty", 
-                recordID, result.WarehouseID), log), out queryResult).ToList();
-            result.ReturnProducts = Query<ExportProduct>(new DbQuery(userID, employeeID, action,
-                String.Format(
+                    group by e.ID, e.OrderID, e.ExportID, e.ProductID, e.Quantity, e.Price, e.Point, p.ID, p.Code, p.Name, p.Unit, p.OriginalWarranty, p.BussinessWarranty",
+                recordID, result.WarehouseID);
+            result.Products = Query<ExportProduct>(new DbQuery(userID, employeeID, action, 
+                sqlProducts, log), out queryResult).ToList();
+            var sqlReturnProducts = String.Format(
                     @"select e.ID, e.OrderID, e.ExportID, e.ProductID, e.Quantity, e.Price, e.Point, p.Code, p.Name as [ProductName], p.Unit, p.OriginalWarranty, p.BussinessWarranty, 
                         sum(isnull(ip.Quantity, 0)) - isnull((select sum(ep.Quantity) from ExportProduct ep left join Export e on e.ID = ep.ExportID and e.Removed = 0 and e.Status in (N'Đã xuất', N'Đã chuyển') where ep.ProductID = p.ID and e.WarehouseID = max(w.ID)), 0) as [Maximum]
                     from ExportProduct e 
@@ -408,7 +411,9 @@ namespace SKtimeManagement
                         left join Warehouse w on w.Status = 'active' and w.ID = i.WarehouseID
                     where e.Returned = 1 and e.OrderID = {0} and w.ID = {1}
                     group by e.ID, e.OrderID, e.ExportID, e.ProductID, e.Quantity, e.Price, e.Point, p.ID, p.Code, p.Name, p.Unit, p.OriginalWarranty, p.BussinessWarranty",
-                recordID, result.WarehouseID), log), out queryResult).ToList();
+                recordID, result.WarehouseID);
+            result.ReturnProducts = Query<ExportProduct>(new DbQuery(userID, employeeID, action,
+                sqlReturnProducts, log), out queryResult).ToList();
             return result;
         }
         public static ExportRecord GetExport(int userID, int employeeID, int recordID, bool log = false)
