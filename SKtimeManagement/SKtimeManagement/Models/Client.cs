@@ -149,17 +149,18 @@ namespace SKtimeManagement
                 if (filter.TypeID.HasValue)
                     conditions.Add(String.Format("and t.ID = {0}", filter.TypeID.DbValue()));
             }
-            QueryOutput queryResult;
+            QueryOutput queryResult; // coding here - change the way of list paging to improve performance
+            var strSql = String.Format(@"select top 100 {2} c.ID, c.BussinessID, c.Code, c.Name, c.Phone, c.Address, c.Email, c.City, c.District, MAX(t.ID) as [TypeID], t.Name as [TypeName], c.Point
+                from Client c 
+                    left join ClientType ct on c.ID = ct.ClientID and ct.Status = 'active'
+                    left join Type t on ct.TypeID = t.ID and t.Status = 'active'
+                where c.BussinessID = {0} and c.Status = 'active' {1} 
+                group by c.ID, c.BussinessID, c.Code, c.Name, c.Phone, c.Address, c.Email, c.City, c.District, t.Name, c.Point
+                order by c.Name",
+                bussinessID, String.Join("", conditions), max.HasValue ? String.Format("top {0}", max.Value) : "");
             result.Data = Query<ClientInfo>(
                 new DbQuery(userID, employeeID, DbAction.Client.View, 
-                String.Format(@"select {2} c.ID, c.BussinessID, c.Code, c.Name, c.Phone, c.Address, c.Email, c.City, c.District, MAX(t.ID) as [TypeID], t.Name as [TypeName], c.Point
-                                from Client c 
-                                    left join ClientType ct on c.ID = ct.ClientID and ct.Status = 'active'
-                                    left join Type t on ct.TypeID = t.ID and t.Status = 'active'
-                                where c.BussinessID = {0} and c.Status = 'active' {1} 
-                                group by c.ID, c.BussinessID, c.Code, c.Name, c.Phone, c.Address, c.Email, c.City, c.District, t.Name, c.Point
-                                order by c.Name", 
-                                bussinessID, String.Join("", conditions), max.HasValue ? String.Format("top {0}", max.Value) : ""), log), out queryResult);
+                strSql, log), out queryResult);
             return result;
         }
         public static List<dynamic> KeyList(int userID, int employeeID, int bussinessID)
