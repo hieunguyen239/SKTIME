@@ -1,4 +1,4 @@
-﻿@model SKtimeManagement.SalaryCalculator
+﻿@model SKtimeManagement.SalaryDetail
 @{
     ViewBag.Title = "Chấm công";
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
@@ -10,13 +10,13 @@
             <div id="content">
                 <form action="@Url.Action("FindEmployee", "Salary")" method="post" for="employee-list" ptitle="Chấm công">
                     <div>
-                        <label>Họ tên:</label><input class="input" type="text" name="Name" value="@Model.EmployeeFilter.Name" />
+                        <label>Họ tên:</label><input class="input" type="text" name="Name" value="@Model.SalaryCalculator.EmployeeFilter.Name" />
                     </div>
                     <div>
-                        <label>Số điện thoại:</label><input class="input" type="text" name="Phone" value="@Model.EmployeeFilter.Phone" />
+                        <label>Số điện thoại:</label><input class="input" type="text" name="Phone" value="@Model.SalaryCalculator.EmployeeFilter.Phone" />
                     </div>
                     <div>
-                        <label>Địa chỉ:</label><input class="input" type="text" name="Address" value="@Model.EmployeeFilter.Address" />
+                        <label>Địa chỉ:</label><input class="input" type="text" name="Address" value="@Model.SalaryCalculator.EmployeeFilter.Address" />
                     </div>
                     <div>
                         <label>Cửa hàng:</label>
@@ -26,7 +26,7 @@
                                 <div><span class="button small search"></span></div>
                             </div>
                             <span>
-                                <select name="StoreID" data="@Url.Action("StoreList", "Setting")" value="@Model.EmployeeFilter.StoreID">
+                                <select name="StoreID" data="@Url.Action("StoreList", "Setting")" value="@Model.SalaryCalculator.EmployeeFilter.StoreID">
                                     <option value="">None</option>
                                 </select>
                             </span>

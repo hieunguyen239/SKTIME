@@ -282,4 +282,9 @@ namespace SKtimeManagement
                     select * from EmployeeOffDay where EmployeeID = @employeeID order by OffDate desc", id), true), out result).ToList();
         }
     }
+    public class SalaryDetail
+    {
+        public SalaryCalculator SalaryCalculator { get; set; }
+        public bool IsAdmin { get; set; }
+    }
 }

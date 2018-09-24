@@ -1,68 +1,71 @@
-﻿@model SKtimeManagement.SalaryCalculator
-@if (Model != null && Model.EmployeeInfo != null)
+﻿@model SKtimeManagement.SalaryDetail
+@if (Model != null && Model.SalaryCalculator.EmployeeInfo != null)
 {
     <div class="flexible">
         <div class="w50">
             <div class="flexible">
                 <div class="w75">
                     <div>
-                        <label>Tháng:</label><span class="info">@Model.From.ToString("MM/yyyy")</span>
+                        <label>Tháng:</label><span class="info">@Model.SalaryCalculator.From.ToString("MM/yyyy")</span>
                     </div>
                     <div>
-                        <label>Nhân viên:</label><span class="info">@Model.EmployeeInfo.Name</span>
+                        <label>Nhân viên:</label><span class="info">@Model.SalaryCalculator.EmployeeInfo.Name</span>
                     </div>
                     <div>
-                        <label>Doanh thu NV:</label><span class="info">@Model.Orders.Where(i => i.EmployeeID == Model.EmployeeInfo.ID).Sum(i => i.Paid).GetCurrencyString()</span>
+                        <label>Doanh thu NV:</label><span class="info">@Model.SalaryCalculator.Orders.Where(i => i.EmployeeID == Model.SalaryCalculator.EmployeeInfo.ID).Sum(i => i.Paid).GetCurrencyString()</span>
                     </div>
                     <div>
-                        <label>Cửa hàng:</label><span class="info">@Model.EmployeeInfo.StoreName</span>
+                        <label>Cửa hàng:</label><span class="info">@Model.SalaryCalculator.EmployeeInfo.StoreName</span>
                     </div>
                     <div>
-                        <label>Doanh thu:</label><span class="info">@Model.Orders.Sum(i => i.Paid).GetCurrencyString()</span>
+                        <label>Doanh thu:</label><span class="info">@Model.SalaryCalculator.Orders.Sum(i => i.Paid).GetCurrencyString()</span>
                     </div>
                 </div>
                 <div class="w25">
                     <div>
-                        <img src="@Url.Image("Employee", Model.EmployeeInfo.Image)" width="auto" height="130" />
+                        <img src="@Url.Image("Employee", Model.SalaryCalculator.EmployeeInfo.Image)" width="auto" height="130" />
                     </div>
                 </div>
                 <div class="w100">
+                    @if (Model.IsAdmin)
+                    {
+                        <div>
+                            <label>Lương căn bản:</label><span class="info">@Model.SalaryCalculator.BaseSalary.GetCurrencyString()</span>
+                        </div>
+                    }
                     <div>
-                        <label>Lương căn bản:</label><span class="info">@Model.BaseSalary.GetCurrencyString()</span>
+                        <label>Hệ số phạt nghỉ:</label><span class="info">@Model.SalaryCalculator.Info.OffValue.GetCurrencyString()</span>
                     </div>
                     <div>
-                        <label>Hệ số phạt nghỉ:</label><span class="info">@Model.Info.OffValue.GetCurrencyString()</span>
+                        <label>Số ngày được phép nghỉ:</label><span class="info">@Model.SalaryCalculator.Info.ValidOffDays.GetCurrencyString()</span>
                     </div>
                     <div>
-                        <label>Số ngày được phép nghỉ:</label><span class="info">@Model.Info.ValidOffDays.GetCurrencyString()</span>
+                        <label>Ngày nghỉ phạt:</label><span class="info">@Model.SalaryCalculator.Info.AdditionalOffDays.GetCurrencyString()</span>
                     </div>
                     <div>
-                        <label>Ngày nghỉ phạt:</label><span class="info">@Model.Info.AdditionalOffDays.GetCurrencyString()</span>
+                        <label>Tổng số nhân viên:</label><span class="info">@Model.SalaryCalculator.Info.EmployeeCount.GetCurrencyString()</span>
                     </div>
                     <div>
-                        <label>Tổng số nhân viên:</label><span class="info">@Model.Info.EmployeeCount.GetCurrencyString()</span>
+                        <label>Mức doanh số:</label><span class="info">@Model.SalaryCalculator.Info.SalePoint.GetCurrencyString()</span>
                     </div>
                     <div>
-                        <label>Mức doanh số:</label><span class="info">@Model.Info.SalePoint.GetCurrencyString()</span>
+                        <label>Biên độ tăng:</label><span class="info">@Model.SalaryCalculator.Info.SaleAdd.GetCurrencyString()</span>
                     </div>
                     <div>
-                        <label>Biên độ tăng:</label><span class="info">@Model.Info.SaleAdd.GetCurrencyString()</span>
+                        <label>Tạm ứng:</label><span class="info">@Model.SalaryCalculator.Info.Paid.GetCurrencyString()</span>
                     </div>
                     <div>
-                        <label>Tạm ứng:</label><span class="info">@Model.Info.Paid.GetCurrencyString()</span>
+                        <label>Khác:</label><span class="info">@Model.SalaryCalculator.Info.Other.GetCurrencyString()</span>
                     </div>
                     <div>
-                        <label>Khác:</label><span class="info">@Model.Info.Other.GetCurrencyString()</span>
-                    </div>
-                    <div>
-                        <label>Ghi chú:</label><span class="info">@Model.Info.Note</span>
+                        <label>Ghi chú:</label><span class="info">@Model.SalaryCalculator.Info.Note</span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="w50">
             <div class="group">
-                <h3 class="head-line">Tổng kết lương tháng @Model.From.ToString("MM/yyyy") của @Model.EmployeeInfo.Name</h3>
+                <h3 class="head-line">Tổng kết lương tháng @Model.SalaryCalculator.From.ToString("MM/yyyy") của @Model.SalaryCalculator.EmployeeInfo.Name</h3>
                 <div id="content">
                     <div>
                         <span class="button print" onclick="Print('salary-print');">In</span>
@@ -79,43 +82,46 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="data">
-                                    <td><div>Lương căn bản</div></td>
-                                    <td><div text="right">@Model.BaseSalary.GetCurrencyString()</div></td>
-                                </tr>
+                                @if (Model.IsAdmin)
+                                {
+                                    <tr class="data">
+                                        <td><div>Lương căn bản</div></td>
+                                        <td><div text="right">@Model.SalaryCalculator.BaseSalary.GetCurrencyString()</div></td>
+                                    </tr>
+                                }
                                 <tr class="data">
                                     <td><div>Thưởng doanh số</div></td>
-                                    <td><div text="right">@Model.SaleSalary.GetCurrencyString()</div></td>
+                                    <td><div text="right">@Model.SalaryCalculator.SaleSalary.GetCurrencyString()</div></td>
                                 </tr>
                                 <tr class="data">
-                                    <td><div>@(Model.OffValue > 0 ? "Thưởng nghỉ" : "Phạt nghỉ")</div></td>
-                                    <td><div text="right">(@Model.OffCount ngày) @Model.OffValue.GetCurrencyString()</div></td>
+                                    <td><div>@(Model.SalaryCalculator.OffValue > 0 ? "Thưởng nghỉ" : "Phạt nghỉ")</div></td>
+                                    <td><div text="right">(@Model.SalaryCalculator.OffCount ngày) @Model.SalaryCalculator.OffValue.GetCurrencyString()</div></td>
                                 </tr>
                                 <tr class="data">
                                     <td><div>Tạm ứng</div></td>
-                                    <td><div text="right">@Model.Paid.GetCurrencyString()</div></td>
+                                    <td><div text="right">@Model.SalaryCalculator.Paid.GetCurrencyString()</div></td>
                                 </tr>
                                 <tr class="data">
                                     <td><div>Khác</div></td>
-                                    <td><div text="right">@Model.Other.GetCurrencyString()</div></td>
+                                    <td><div text="right">@Model.SalaryCalculator.Other.GetCurrencyString()</div></td>
                                 </tr>
                                 <tr class="data">
                                     <td><div>Phạt vi phạm nội quy</div></td>
-                                    <td><div text="right">@Model.FineTotal.GetCurrencyString()</div></td>
+                                    <td><div text="right">@Model.SalaryCalculator.FineTotal.GetCurrencyString()</div></td>
                                 </tr>
                                 <tr class="data">
                                     <td><div>Tổng cộng</div></td>
-                                    <td><div text="right">(@Model.Total.GetCurrencyString()) @Model.Total.Round().GetCurrencyString()</div></td>
+                                    <td><div text="right">(@Model.SalaryCalculator.Total.GetCurrencyString()) @Model.SalaryCalculator.Total.Round().GetCurrencyString()</div></td>
                                 </tr>
                                 <tr class="data">
                                     <td><div>Ghi chú</div></td>
-                                    <td><div>@Model.Note</div></td>
+                                    <td><div>@Model.SalaryCalculator.Note</div></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
                     @*<div>
-                            <span class="info">: @Model.Note</span>
+                            <span class="info">: @Model.SalaryCalculator.Note</span>
                         </div>*@
                 </div>
             </div>
@@ -133,7 +139,7 @@
                 @*<div id="offsets" class="tab-body">
                         <div>
                             <form action="@Url.Action("AddOffset", "Salary")" method="post" for="offsets-list" ptitle="Chấm công">
-                                <input type="hidden" name="id" value="@Model.EmployeeInfo.StoreID"/>
+                                <input type="hidden" name="id" value="@Model.SalaryCalculator.EmployeeInfo.StoreID"/>
                                 <div>
                                     <label>Doanh thu:</label><input class="input" type="number" name="offset" value="0" />
                                 </div>
@@ -146,18 +152,18 @@
                             </form>
                         </div>
                         <div id="offsets-list">
-                            @Html.Partial("Offsets", Model.Offsets)
+                            @Html.Partial("Offsets", Model.SalaryCalculator.Offsets)
                         </div>
                     </div>*@
                 <div id="employee-orders" class="tab-body hidden">
                     <div id="employee-orders-list">
-                        @Html.Partial("Orders", Model.Orders)
+                        @Html.Partial("Orders", Model.SalaryCalculator.Orders)
                     </div>
                 </div>
                 <div id="employee-fine-list" class="tab-body hidden">
                     <script>
                         AjaxRequest({
-                            url: '@Url.Action("GetFine", "Employee", new { id = Model.EmployeeInfo.ID })',
+                            url: '@Url.Action("GetFine", "Employee", new { id = Model.SalaryCalculator.EmployeeInfo.ID })',
                             success: function (data) {
                                 if (data.html) {
                                     var id = '#employee-fine-list';
@@ -172,7 +178,7 @@
                 <div id="employee-offs" class="tab-body">
                     <div>
                         <form action="@Url.Action("AddDayOff", "Salary")" method="post" for="employee-offs-list" ptitle="Chấm công">
-                            <input type="hidden" name="id" value="@Model.EmployeeInfo.ID" />
+                            <input type="hidden" name="id" value="@Model.SalaryCalculator.EmployeeInfo.ID" />
                             <div>
                                 <label>Ngày nghỉ:</label>
                                 <div class="inline">
@@ -193,7 +199,7 @@
                         </form>
                     </div>
                     <div id="employee-offs-list">
-                        @Html.Partial("OffDays", Model.OffDays)
+                        @Html.Partial("OffDays", Model.SalaryCalculator.OffDays)
                     </div>
                 </div>
             </div>

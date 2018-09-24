@@ -1,6 +1,7 @@
 ﻿using NPOI.HSSF.UserModel;
 using NPOI.HSSF.Util;
 using NPOI.SS.UserModel;
+using SKtimeManagement.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -39,29 +40,47 @@ namespace SKtimeManagement
         [HttpGet]
         public ActionResult ForEmployee(int id)
         {
-            var data = SalaryCalculator.Get(UserID, Employee.ID, new SalaryInfo(id), true);
-            if (Request.IsAjaxRequest())
-                return Json(new
+            using (var dataClass = new DataClassesDataContext())
+            {
+                var data = SalaryCalculator.Get(UserID, Employee.ID, new SalaryInfo(id), true);
+                var isAdmin = dataClass.CheckCurrentLoginInAdmin(UserID).SingleOrDefault().IsAdmin;
+                var model = new SalaryDetail()
                 {
-                    html = RenderPartialViewToString(Views.ForEmployeePartial, data)
-                }, JsonRequestBehavior.AllowGet);
-            return View(Views.ForEmployee, data);
+                    SalaryCalculator = data,
+                    IsAdmin = (bool)isAdmin
+                };
+                if (Request.IsAjaxRequest())
+                    return Json(new
+                    {
+                        html = RenderPartialViewToString(Views.ForEmployeePartial, model)
+                    }, JsonRequestBehavior.AllowGet);
+                return View(Views.ForEmployee, model);
+            }
         }
         [LoginFilter]
         [HttpPost]
         public ActionResult ForEmployee(SalaryInfo info)
         {
-            if (!info.Month.HasValue)
+            using (var dataClass = new DataClassesDataContext())
             {
-                info.Month = DateTime.Now.AddMonths(-1);
-            }
-            var data = SalaryCalculator.Get(UserID, Employee.ID, info, false);
-            if (Request.IsAjaxRequest())
-                return Json(new
+                if (!info.Month.HasValue)
                 {
-                    html = RenderPartialViewToString(Views.ForEmployeePartial, data)
-                }, JsonRequestBehavior.AllowGet);
-            return View(Views.ForEmployee, data);
+                    info.Month = DateTime.Now.AddMonths(-1);
+                }
+                var data = SalaryCalculator.Get(UserID, Employee.ID, info, false);
+                var isAdmin = dataClass.CheckCurrentLoginInAdmin(UserID).SingleOrDefault().IsAdmin;
+                var model = new SalaryDetail()
+                {
+                    SalaryCalculator = data,
+                    IsAdmin = (bool)isAdmin
+                };
+                if (Request.IsAjaxRequest())
+                    return Json(new
+                    {
+                        html = RenderPartialViewToString(Views.ForEmployeePartial, model)
+                    }, JsonRequestBehavior.AllowGet);
+                return View(Views.ForEmployee, model);
+            }
         }
         [LoginFilter]
         [HttpPost]
@@ -138,11 +157,20 @@ namespace SKtimeManagement
         [HttpGet]
         public ActionResult Detail(int id)
         {
-            var data = SalaryCalculator.Get(UserID, Employee.ID, SalaryCalculator.Get(id));
-            return Json(new
+            using (var dataClass = new DataClassesDataContext())
             {
-                html = RenderPartialViewToString(Views.Detail, data)
-            }, JsonRequestBehavior.AllowGet);
+                var data = SalaryCalculator.Get(UserID, Employee.ID, SalaryCalculator.Get(id));
+                var isAdmin = dataClass.CheckCurrentLoginInAdmin(UserID).SingleOrDefault().IsAdmin;
+                var model = new SalaryDetail()
+                {
+                    SalaryCalculator = data,
+                    IsAdmin = (bool)isAdmin
+                };
+                return Json(new
+                {
+                    html = RenderPartialViewToString(Views.Detail, model)
+                }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

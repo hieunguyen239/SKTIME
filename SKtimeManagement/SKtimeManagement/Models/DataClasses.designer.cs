@@ -471,6 +471,13 @@ namespace SKtimeManagement.Models
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), orderId, employeeId, businessId, warehouseId, orderCode, incomeCode, submitDate, totalTransactionPaid);
 			return ((int)(result.ReturnValue));
 		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.CheckCurrentLoginInAdmin")]
+		public ISingleResult<CheckCurrentLoginInAdminResult> CheckCurrentLoginInAdmin([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> loginId)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), loginId);
+			return ((ISingleResult<CheckCurrentLoginInAdminResult>)(result.ReturnValue));
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Bussiness")]
@@ -9782,6 +9789,32 @@ namespace SKtimeManagement.Models
 				if ((this._Paid != value))
 				{
 					this._Paid = value;
+				}
+			}
+		}
+	}
+	
+	public partial class CheckCurrentLoginInAdminResult
+	{
+		
+		private System.Nullable<bool> _IsAdmin;
+		
+		public CheckCurrentLoginInAdminResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsAdmin", DbType="Bit")]
+		public System.Nullable<bool> IsAdmin
+		{
+			get
+			{
+				return this._IsAdmin;
+			}
+			set
+			{
+				if ((this._IsAdmin != value))
+				{
+					this._IsAdmin = value;
 				}
 			}
 		}

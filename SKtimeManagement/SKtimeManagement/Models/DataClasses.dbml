@@ -491,4 +491,10 @@
     <Parameter Name="totalTransactionPaid" Type="System.Decimal" DbType="Decimal(18,0)" />
     <Return Type="System.Int32" />
   </Function>
+  <Function Name="dbo.CheckCurrentLoginInAdmin" Method="CheckCurrentLoginInAdmin">
+    <Parameter Name="loginId" Type="System.Int32" DbType="Int" />
+    <ElementType Name="CheckCurrentLoginInAdminResult">
+      <Column Name="IsAdmin" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+    </ElementType>
+  </Function>
 </Database>
