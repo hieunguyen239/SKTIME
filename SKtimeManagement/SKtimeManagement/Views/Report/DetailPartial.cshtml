@@ -79,12 +79,12 @@
                     var total = Model.PaidOrders.Sum(i => i.Paid);
                     var price = Model.PaidOrders.Sum(i => i.Total);
                     var discount = Model.PaidOrders.Sum(i => i.Discount);
-                    var income = Model.Incomes.Sum(i => i.Amount);
+                    var income = Model.Incomes.Where(i => !i.Reason.Contains("Đổi hàng cho hóa đơn số")).Sum(i => i.Amount);
                     var outcome = Model.Outcomes.Sum(i => i.Amount);
                     var salary = Model.Salaries.Sum(i => i.CalculatedTotal);
-                    var cash = Model.Incomes.Where(i => i.Type == InOutType.Cash).Sum(i => i.Amount) - Model.Outcomes.Where(i => i.Type == InOutType.Cash).Sum(i => i.Amount);
-                    var card = Model.Incomes.Where(i => i.Type == InOutType.Card).Sum(i => i.Amount) - Model.Outcomes.Where(i => i.Type == InOutType.Card).Sum(i => i.Amount);
-                    var transfer = Model.Incomes.Where(i => i.Type == InOutType.Transfer).Sum(i => i.Amount) - Model.Outcomes.Where(i => i.Type == InOutType.Transfer).Sum(i => i.Amount);
+                    var cash = Model.Incomes.Where(i => i.Type == InOutType.Cash && !i.Reason.Contains("Đổi hàng cho hóa đơn số")).Sum(i => i.Amount) - Model.Outcomes.Where(i => i.Type == InOutType.Cash).Sum(i => i.Amount);
+                    var card = Model.Incomes.Where(i => i.Type == InOutType.Card && !i.Reason.Contains("Đổi hàng cho hóa đơn số")).Sum(i => i.Amount) - Model.Outcomes.Where(i => i.Type == InOutType.Card).Sum(i => i.Amount);
+                    var transfer = Model.Incomes.Where(i => i.Type == InOutType.Transfer && !i.Reason.Contains("Đổi hàng cho hóa đơn số")).Sum(i => i.Amount) - Model.Outcomes.Where(i => i.Type == InOutType.Transfer).Sum(i => i.Amount);
                     if (Model.Transactions != null)
                     {
                         cash += Model.Transactions.Where(i => i.Method == PayMethod.Cash).Sum(i => i.Amount);
@@ -165,14 +165,14 @@
             {
                 var orders = Model.PaidOrders.Where(i => (Model.MainEmployeeID.HasValue ? i.EmployeeID == Model.MainEmployeeID : true) && i.WarehouseID == wh.ID);
                 var transactions = Model.Transactions.Where(i => (Model.MainEmployeeID.HasValue ? i.EmployeeID == Model.MainEmployeeID : true) && i.OrderID.HasValue && orders.FirstOrDefault(o => o.ID == i.OrderID.Value) != null);
-                var incomes = Model.Incomes.Where(i => (Model.MainEmployeeID.HasValue ? i.EmployeeID == Model.MainEmployeeID : true) && i.WarehouseID == wh.ID);
+                var incomes = Model.Incomes.Where(i => (Model.MainEmployeeID.HasValue ? i.EmployeeID == Model.MainEmployeeID : true) && i.WarehouseID == wh.ID && !i.Reason.Contains("Đổi hàng cho hóa đơn số"));
                 var outcomes = Model.Outcomes.Where(i => (Model.MainEmployeeID.HasValue ? i.EmployeeID == Model.MainEmployeeID : true) && i.WarehouseID == wh.ID);
                 var employees = Model.Employees.Where(i => i.WarehouseID == wh.ID);
                 var salaries = Model.Salaries.Where(i => employees.FirstOrDefault(e => e.ID == i.EmployeeID) != null);
                 total = orders.Sum(i => i.Paid);
                 price = orders.Sum(i => i.Total);
                 discount = orders.Sum(i => i.Discount);
-                income = incomes.Sum(i => i.Amount);
+                income = incomes.Where(i => !i.Reason.Contains("Đổi hàng cho hóa đơn số")).Sum(i => i.Amount);
                 outcome = outcomes.Sum(i => i.Amount);
                 salary = salaries.Sum(i => i.CalculatedTotal);
                 cash = transactions.Where(i => i.Method == PayMethod.Cash).Sum(i => i.Amount) + incomes.Where(i => i.Type == InOutType.Cash).Sum(i => i.Amount) - outcomes.Where(i => i.Type == InOutType.Cash).Sum(i => i.Amount);
