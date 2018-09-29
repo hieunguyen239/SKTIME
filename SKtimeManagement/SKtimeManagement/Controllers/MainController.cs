@@ -74,6 +74,9 @@ namespace SKtimeManagement
         {
             if (login.IsValid())
             {
+                // clear all sessions first
+                Session.Clear();
+
                 Session[SessionKey.Account] = login.ID;
                 Session[SessionKey.AccountInfo] = login;
                 Session[SessionKey.Employee] = login.EmployeeInfo;
@@ -92,7 +95,12 @@ namespace SKtimeManagement
         [HttpGet]
         public ActionResult Logout()
         {
-            Session.Remove(SessionKey.Account);
+            Session.Clear();
+            Session.Abandon();
+            Response.Cache.SetExpires(DateTime.Now);
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            Response.Cache.SetAllowResponseInBrowserHistory(false);
+            Response.Cache.SetNoStore();
             return RedirectToAction("Login");
         }
         [LoginFilter]
