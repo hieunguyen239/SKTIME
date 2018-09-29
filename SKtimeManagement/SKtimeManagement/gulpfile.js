@@ -47,4 +47,6 @@ gulp.task('default', function () {
     gulp.watch(config.src.styles.home, ['style-home']);
 
     gulp.watch(config.src.scripts.base, ['script-base']);
-});
+});   
+
+//test
